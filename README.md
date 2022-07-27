@@ -51,8 +51,8 @@ Returns the information about the current user that is logged in.
 
 * Require Authentication: true
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: /user
   * Body: none
 
 * Successful Response
@@ -77,8 +77,8 @@ information.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: /users/info
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -143,8 +143,8 @@ user's information.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: POST
+  * URL: /user/new
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -215,8 +215,8 @@ Returns all the groups.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: /groups
   * Body: none
 
 * Successful Response
@@ -252,8 +252,8 @@ Returns all the groups.
 
 * Require Authentication: true
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: /groups?currentUserId=#
   * Body: none
 
 * Successful Response
@@ -289,8 +289,8 @@ Returns the details of a group specified by its id.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: /group?id=#
   * Body: none
 
 * Successful Response
@@ -357,8 +357,8 @@ Creates and returns a new group.
 
 * Require Authentication: true
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: POST
+  * URL: /group/new
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -423,8 +423,8 @@ Updates and returns an existing group.
 * Require Authentication: true
 * Require proper authorization: Group must belong to the current user
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: PUT
+  * URL: /group/edit
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -502,8 +502,8 @@ Deletes an existing group.
 * Require Authentication: true
 * Require proper authorization: Group must belong to the current user
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: DELETE
+  * URL: /group?id=#
   * Body: none
 
 * Successful Response
@@ -540,8 +540,8 @@ Returns the members of a group specified by its id.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: /member?groupId=#
   * Body: none
 
 * Successful Response: If you ARE the organizer or a co-host of the group. Shows
@@ -631,8 +631,8 @@ Request a new membership for a group specified by id.
 
 * Require Authentication: true
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: /member/new?groupId=#
   * Headers:
     * Content-Type: application/json
   * Body: none
@@ -703,8 +703,8 @@ Change the status of a membership for a group specified by id.
   * To change the status from "member" to "co-host":
     * Current User must already be the organizer
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: PUT
+  * URL: /group?id=#
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -797,8 +797,8 @@ Delete a membership to a group specified by id.
 * Require proper authorization: Current User must be the host of the group, or
   the user whose membership is being deleted
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: DELETE
+  * URL: /group
   * Headers:
     * Content-Type: application/json
   * Body:
