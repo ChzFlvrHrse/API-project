@@ -253,7 +253,7 @@ Returns all the groups.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: /groups/:userId
+  * URL: /groups/:organizerId
   * Body: none
 
 * Successful Response
@@ -704,7 +704,7 @@ Change the status of a membership for a group specified by id.
     * Current User must already be the organizer
 * Request
   * Method: PUT
-  * URL: /group/:id/membership
+  * URL: /membership/:memberId
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -798,7 +798,7 @@ Delete a membership to a group specified by id.
   the user whose membership is being deleted
 * Request
   * Method: DELETE
-  * URL: /group/:id/membership
+  * URL: /membership/:memberId
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -1447,7 +1447,7 @@ Returns the attendees of an event specified by its id.
 * Require Authentication: false
 * Request
   * Method: GET
-  * URL: /attendees/:id
+  * URL: /attendees/:eventId
   * Body: none
 
 * Successful Response: If you ARE the organizer of the group or a member of the
@@ -1541,7 +1541,7 @@ Request attendance for an event specified by id.
 * Require Authorization: Current User must be a member of the group
 * Request
   * Method: GET
-  * URL: /attendees/:id/request
+  * URL: /attendees/:eventid
   * Headers:
     * Content-Type: application/json
   * Body: none
@@ -1609,7 +1609,7 @@ Change the status of an attendance for an event specified by id.
   have a membership to the group with the status of "co-host"
 * Request
   * Method: PUT
-  * URL: /attendees/:id
+  * URL: /attendees/:eventId
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -1684,7 +1684,7 @@ Delete an attendance to an event specified by id.
   the user whose attendance is being deleted
 * Request
   * Method: DELETE
-  * URL: /attendees/:id
+  * URL: /attendees/:eventId
   * Headers:
     * Content-Type: application/json
   * Body:
