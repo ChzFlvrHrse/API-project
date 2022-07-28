@@ -2,7 +2,8 @@
 
 ## Database Schema Design
 
-`<insert database schema design here>`
+![Meetup Schema](./authenticate-me/meetup-schema.png)
+
 
 ## API Documentation
 
