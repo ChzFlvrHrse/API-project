@@ -18,7 +18,8 @@ module.exports = {
         onDelete: 'CASCADE'
       },
       imageableType: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       url: {
         type: Sequelize.STRING,
