@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
 });
 
 router.post('/:groupId/images', async (req, res) => {
-  const groupId = req.params.groupId;
+  const { groupId } = req.params;
   const { url } = req.body;
 
   const groupById = await Group.findByPk(groupId);
@@ -67,5 +67,6 @@ router.put('/:groupId', async (res, req) => {
     res.json(updateById)
   }
 });
+
 
 module.exports = router
