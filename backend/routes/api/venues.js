@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { User, Group, Image, Venue } = require('../../db/models');
+const { Venue } = require('../../db/models');
 
 router.put('/:venueId', async (req, res) => {
   const { venueId } = req.params
