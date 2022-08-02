@@ -9,8 +9,9 @@ router.get('/', async (req, res) => {
   })
 
   if (allEvents) {
-    res.json(allEvents)
+    res.json({Events: allEvents})
   }
-})
+});
+
 
 module.exports = router;

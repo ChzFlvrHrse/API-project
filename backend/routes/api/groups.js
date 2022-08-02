@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { User, Group, Image, Venue } = require('../../db/models');
+const { User, Group, Image, Venue, Event } = require('../../db/models');
 
 router.get('/', async (req, res) => {
   const groups = await Group.findAll();
@@ -190,5 +190,21 @@ router.post('/:groupId/venues', async (req, res) => {
   }
 });
 
+router.get('/:groupId/events', async (req, res) => {
+  const { groupId } = req.params
+
+  const byEventId = await Event.findAll({
+    include: [{model: Group, attributes: ['id', 'name', 'city', 'state'] }, {model: Venue, attributes: ['id', 'city', 'state']}]
+  });
+
+  if (byEventId) {
+    res.json({Events: byEventId})
+  } else {
+    res.json({
+      message: "Group couldn't be found",
+      statusCode: 404
+    })
+  }
+});
 
 module.exports = router
