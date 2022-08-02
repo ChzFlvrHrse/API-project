@@ -1,16 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const { restoreUser } = require('../../utils/auth');
 
 const { User, Group, Image } = require('../../db/models');
-const group = require('../../db/models/group');
 
 router.get('/', async (req, res) => {
   const groups = await Group.findAll();
   res.json(groups)
 });
 
-router.get('/current', restoreUser, async (req, res) => {
+router.get('/current', async (req, res) => {
   const organizerId = req.user.dataValues.id;
 
   const organizedGroups = await Group.findAll({
@@ -49,6 +47,7 @@ router.post('/:groupId/images', async (req, res) => {
 });
 
 router.put('/:groupId', async (res, req) => {
+  console.log(req.params)
   const { groupId } = req.params;
   const { name, about, type, private, city, state } = req.body;
 
