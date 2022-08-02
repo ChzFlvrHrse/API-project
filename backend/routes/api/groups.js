@@ -218,7 +218,7 @@ router.post('/:groupId/events', async (req, res) => {
 
   const byGroupId = await Group.findByPk(groupId);
 
-  const newEvent = Event.create({groupId: Number(groupId), venueId, name, type, capacity, price, description, startDate, endDate});
+  const newEvent = await Event.create({groupId: Number(groupId), venueId, name, type, capacity, price, description, startDate, endDate});
 
   if (!byGroupId) {
     res.json({
@@ -245,14 +245,24 @@ router.post('/:groupId/events', async (req, res) => {
   }
 });
 
+// router.get('/:groupId/members', async (req, res) => {
+//   const { groupId } = req.params;
+
+//   const allGroupMembers = await User.findAll({
+//     include: [{model: Membership, where: { groupId }}],
+//     // group: ['User.id']
+//   });
+
+//   res.json({ Members: allGroupMembers });
+// });
+
 router.get('/:groupId/members', async (req, res) => {
-  const { groupById } = req.params;
+  const { groupId } = req.params;
 
-  const allGroupMembers = await User.findAll({
-    include: { model: Group }
+  const allMembers = await User.findAll({
+    include: Membership
   });
-
-  res.json(allGroupMembers);
+  res.json(allMembers)
 })
 
 module.exports = router

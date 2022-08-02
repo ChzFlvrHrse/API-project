@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       ),
       Membership.belongsTo(
         models.Group,
-        { foreignKey: 'groupId', onDelete: true, hooks: true }
+        { foreignKey: 'groupId', onDelete: 'CASCADE', hooks: true }
       )
     }
   }
@@ -29,18 +29,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     userId: {
       type: DataTypes.INTEGER,
-      references: {
-        model: 'Users',
-        key: 'id'
-      },
       onDelete: 'CASCADE'
     },
     groupId: {
       type: DataTypes.INTEGER,
-      references: {
-        model: 'Groups',
-        key: 'id'
-      },
       onDelete: 'CASCADE'
     },
     status: {

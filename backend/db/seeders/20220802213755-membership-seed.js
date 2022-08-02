@@ -1,23 +1,28 @@
 'use strict';
-
-const { query } = require("express");
+const bcrypt = require("bcryptjs");
 
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    await queryInterface.bulkInsert("Memberships", [
+  up: async (queryInterface, Sequelize) => {
+    return queryInterface.bulkInsert('Memberships', [
       {
-        status: 'co-host'
+        userId: 1,
+        groupId: 1,
+        status: 'co-host',
       },
       {
-        status: 'member'
+        userId: 2,
+        groupId: 1,
+        status: 'member',
       },
       {
-        status: 'pending'
+        userId: 3,
+        groupId: 2,
+        status: 'pending',
       }
-    ])
+    ], {});
   },
 
-  async down (queryInterface, Sequelize) {
-    await queryInterface.bulkDelete("Memberships")
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.bulkDelete('Memberships')
   }
 };
