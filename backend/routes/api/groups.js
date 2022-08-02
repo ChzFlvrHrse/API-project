@@ -219,7 +219,7 @@ router.post('/:groupId/events', async (req, res) => {
 
   const byGroupId = await Group.findByPk(groupId);
 
-  const newEvent = await Event.create({groupId: Number(groupId), venueId, name, type, capacity, price, description, startDate, endDate});
+  const newEvent = Event.create({groupId: Number(groupId), venueId, name, type, capacity, price, description, startDate, endDate});
 
   if (!byGroupId) {
     res.json({
@@ -244,6 +244,6 @@ router.post('/:groupId/events', async (req, res) => {
         }
     })
   }
-})
+});
 
 module.exports = router
