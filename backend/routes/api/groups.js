@@ -5,7 +5,14 @@ const { User, Group, Image, Venue } = require('../../db/models');
 
 router.get('/', async (req, res) => {
   const groups = await Group.findAll();
-  res.json(groups)
+  if (groups) {
+    res.json(groups)
+  } else {
+    res.json({
+      message: "Group couldn't be found",
+      statusCode: 404
+    })
+  }
 });
 
 router.get('/current', async (req, res) => {
