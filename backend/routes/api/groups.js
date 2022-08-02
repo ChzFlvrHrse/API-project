@@ -1,3 +1,4 @@
+const { query } = require('express');
 const express = require('express');
 const router = express.Router();
 
@@ -210,5 +211,39 @@ router.get('/:groupId/events', async (req, res) => {
     })
   }
 });
+
+router.post('/:groupId/events', async (req, res) => {
+  const { groupId } = req.params;
+  const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
+  console.log(req.body)
+
+  const byGroupId = await Group.findByPk(groupId);
+
+  const newEvent = await Event.create({groupId: Number(groupId), venueId, name, type, capacity, price, description, startDate, endDate});
+
+  if (!byGroupId) {
+    res.json({
+      message: "Group couldn't be found",
+      statusCode: 404
+    })
+  } if (newEvent) {
+      res.json(newEvent);
+  } else {
+    res.json({
+      message: "Validation error",
+        statusCode: 400,
+        errors: {
+          venueId: "Venue does not exist",
+          name: "Name must be at least 5 characters",
+          type: "Type must be online or In person",
+          capacity: "Capacity must be an integer",
+          price: "Price is invalid",
+          description: "Description is required",
+          startDate: "Start date must be in the future",
+          endDate: "End date is less than start date"
+        }
+    })
+  }
+})
 
 module.exports = router

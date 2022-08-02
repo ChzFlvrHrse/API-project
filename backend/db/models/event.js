@@ -50,7 +50,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        len: [5, 500]
+      }
     },
     description: {
       type: DataTypes.STRING,
@@ -58,7 +61,16 @@ module.exports = (sequelize, DataTypes) => {
     },
     type: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        validData(value) {
+          if (value !== "Online") {
+            if (value !== "In person") {
+              throw new Error("Type must be Online or In person")
+            }
+          }
+        }
+      }
     },
     capacity: {
       type: DataTypes.INTEGER,
@@ -77,8 +89,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     numAttending: {
-      type : DataTypes.INTEGER,
-      allowNull: false
+      type : DataTypes.INTEGER
     },
     previewImage: {
       type: DataTypes.STRING

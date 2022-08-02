@@ -54,8 +54,7 @@ module.exports = {
         allowNull: false
       },
       numAttending: {
-        type : Sequelize.INTEGER,
-        allowNull: false
+        type : Sequelize.INTEGER
       },
       previewImage: {
         type: Sequelize.STRING
