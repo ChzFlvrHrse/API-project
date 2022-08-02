@@ -3,42 +3,47 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Group extends Model {
+  class Event extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Group.belongsTo(
-        models.User,
-        { foreignKey: 'organizerId', onDelete: 'CASCADE', hooks: true }
-      ),
-      Group.hasMany(
+      Event.hasMany(
         models.Image,
         { foreignKey: 'imageableId', onDelete: 'CASCADE', hooks: true }
       ),
-      Group.hasMany(
-        models.Venue,
+      Event.belongsTo(
+        models.Group,
         { foreignKey: 'groupId', onDelete: 'CASCADE', hooks: true }
       ),
-      Group.hasMany(
+      Event.belongsTo(
         models.Venue,
-        { foreignKey: 'groupId', onDelete: 'CASCADE', hooks: true }
+        { foreignKey: 'venueId', onDelete: 'CASCADE', hooks: true }
       )
     }
   }
-  Group.init({
+  Event.init({
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    organizerId: {
+    groupId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Groups',
+        key: 'id'
+      },
+      onDelete: "CASCADE"
+    },
+    venueId: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'Users',
+        model: 'Venues',
         key: 'id'
       },
       onDelete: 'CASCADE'
@@ -47,29 +52,37 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    about: {
-      type: DataTypes.STRING,
-      allowNull: false
+    description: {
+      type: DataTypes.STRING
     },
     type: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    private: {
-      type: DataTypes.BOOLEAN,
+    capacity: {
+      type: DataTypes.INTEGER
+    },
+    price: {
+      type: DataTypes.INTEGER
+    },
+    startDate: {
+      type: DataTypes.DATE,
       allowNull: false
     },
-    city: {
-      type: DataTypes.STRING,
+    endDate: {
+      type: DataTypes.DATE,
       allowNull: false
     },
-    state: {
-      type: DataTypes.STRING,
+    numAttending: {
+      type : DataTypes.INTEGER,
       allowNull: false
+    },
+    previewImage: {
+      type: DataTypes.STRING
     }
   }, {
     sequelize,
-    modelName: 'Group'
+    modelName: 'Event',
   });
-  return Group;
+  return Event;
 };

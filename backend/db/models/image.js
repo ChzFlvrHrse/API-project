@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
       Image.belongsTo(
         models.Group,
         { foreignKey: 'imageableId', onDelete: 'CASCADE', hooks: true }
+      ),
+      Image.belongsTo(
+        models.Event,
+        { foreignKey: 'imageableId', onDelete: 'CASCADE', hooks: true }
       )
     }
   }
