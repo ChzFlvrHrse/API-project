@@ -193,11 +193,15 @@ router.post('/:groupId/venues', async (req, res) => {
 router.get('/:groupId/events', async (req, res) => {
   const { groupId } = req.params
 
-  const byEventId = await Event.findAll({
-    include: [{model: Group, attributes: ['id', 'name', 'city', 'state'] }, {model: Venue, attributes: ['id', 'city', 'state']}]
-  });
+  const byGroupId = await Group.findByPk(groupId)
 
-  if (byEventId) {
+  const byEventId = await Event.findAll({
+    where: { groupId },
+    attributes: {exclude: ['description', 'capacity', 'price']},
+    include: [{model: Group, attributes: ['id', 'name', 'city', 'state'] }, {model: Venue, attributes: ['id', 'city', 'state']}]
+  })
+
+  if (byGroupId) {
     res.json({Events: byEventId})
   } else {
     res.json({

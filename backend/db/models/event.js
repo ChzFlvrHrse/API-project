@@ -53,17 +53,20 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     description: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
     type: {
       type: DataTypes.STRING,
       allowNull: false
     },
     capacity: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
     price: {
-      type: DataTypes.INTEGER
+      type: DataTypes.DECIMAL,
+      allowNull: false
     },
     startDate: {
       type: DataTypes.DATE,
