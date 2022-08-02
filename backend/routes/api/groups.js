@@ -1,8 +1,7 @@
-const { query } = require('express');
 const express = require('express');
 const router = express.Router();
 
-const { User, Group, Image, Venue, Event } = require('../../db/models');
+const { User, Group, Image, Venue, Event, Membership } = require('../../db/models');
 
 router.get('/', async (req, res) => {
   const groups = await Group.findAll();
@@ -249,7 +248,11 @@ router.post('/:groupId/events', async (req, res) => {
 router.get('/:groupId/members', async (req, res) => {
   const { groupById } = req.params;
 
-  const allGroupMembers = await Group.findAll({})
+  const allGroupMembers = await User.findAll({
+    include: { model: Group }
+  });
+
+  res.json(allGroupMembers);
 })
 
 module.exports = router
