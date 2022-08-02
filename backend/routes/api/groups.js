@@ -22,7 +22,7 @@ router.get('/current', async (req, res) => {
     include: User,
     where: { organizerId }
   });
-  res.json({ Groups: organizedGroups});
+  res.json({ Groups: organizedGroups });
 });
 
 router.get('/:groupId', async (req, res) => {
@@ -30,16 +30,39 @@ router.get('/:groupId', async (req, res) => {
 
   const groupById = await Group.findByPk(groupId);
 
-  res.json(groupById)
+  if (groupById) {
+    res.json(groupById)
+  } else {
+    res.json({
+      message: "Group couldn't be found",
+      statusCode: 404
+    })
+  }
 });
 
 router.post('/', async (req, res) => {
   const { name, about, type, private, city, state } = req.body;
   const userId = req.user.dataValues.id
 
-  const newGroup = await Group.create({organizerId: userId, name, about, type, private, city, state});
 
-  res.json(newGroup)
+  const newGroup = await Group.create({ organizerId: userId, name, about, type, private, city, state });
+
+
+  if (newGroup) {
+    res.json(newGroup)
+  } else {
+    res.json({
+      message: "Validation error",
+      statusCode: 400,
+      errors: {
+        name: "Name must be 60 characters or less",
+        about: "About must be 50 characters or more",
+        type: "Type must be 'Online' or 'In person'",
+        city: "City is required",
+        state: "State is required"
+      }
+    })
+  }
 });
 
 router.post('/:groupId/images', async (req, res) => {
@@ -50,7 +73,14 @@ router.post('/:groupId/images', async (req, res) => {
 
   const newImage = await Image.create({ imageableId: Number(groupId), url });
 
-  res.json(newImage)
+  if (groupById) {
+    res.json(newImage)
+  } else {
+    res.json({
+      message: "Group couldn't be found",
+      statusCode: 404
+    })
+  }
 });
 
 router.put('/:groupId', async (req, res) => {
@@ -60,17 +90,35 @@ router.put('/:groupId', async (req, res) => {
 
   const updateById = await Group.findByPk(groupId);
 
-  if (updateById) {
-    updateById.set({
-      name,
-      about,
-      type,
-      private,
-      city,
-      state
-    });
-    await updateById.save();
-    res.json(updateById)
+  const groupUpdate = updateById.set({
+    name,
+    about,
+    type,
+    private,
+    city,
+    state
+  });
+
+  if (!updateById) {
+    res.json({
+      message: "Group couldn't be found",
+      statusCode: 404
+    })
+  } else if (groupUpdate) {
+    await groupUpdate.save();
+    res.json(groupUpdate)
+  } else {
+    res.json({
+      message: "Validation error",
+      statusCode: 400,
+      errors: {
+        name: "Name must be 60 characters or less",
+        about: "About must be 50 characters or more",
+        type: "Type must be 'Online' or 'In person'",
+        city: "City is required",
+        state: "State is required"
+      }
+    })
   }
 });
 
@@ -85,6 +133,11 @@ router.delete('/:groupId', async (req, res) => {
       message: "Successfully deleted",
       statusCode: 200
     })
+  } else {
+    res.json({
+      message: "Group couldn't be found",
+      statusCode: 404
+    })
   }
 });
 
@@ -98,11 +151,11 @@ router.get('/:groupId/venues', async (req, res) => {
   if (byGroupId) {
     res.json({ Venues: byGroupId });
   } else {
-      res.status(404);
-      res.json({
-        message: "Group couldn't be found",
-        statusCode: 404
-      })
+    res.status(404);
+    res.json({
+      message: "Group couldn't be found",
+      statusCode: 404
+    })
   }
 });
 
@@ -112,22 +165,27 @@ router.post('/:groupId/venues', async (req, res) => {
 
   const byGroupId = await Group.findByPk(groupId);
   // console.log(byGroupId)
+  const newVenue = await Venue.create({ groupId: Number(groupId), address, city, state, lat, lng });
 
-  if (byGroupId) {
-    const newVenue = await Venue.create({ groupId: Number(groupId), address, city, state, lat, lng });
-    res.json(newVenue);
+  if (!byGroupId) {
+    res.json({
+      message: "Group couldn't be found",
+      statusCode: 404
+    })
+  } else if (newVenue) {
+    res.json(newVenue)
   } else {
     res.status(400),
     res.json({
-      message: "Validation error",
-      statusCode: 400,
-      errors: {
-        address: "Street address is required",
-        city: "City is required",
-        state: "State is required",
-        lat: "Latitude is not valid",
-        lng: "Longitude is not valid"
-      }
+        message: "Validation error",
+        statusCode: 400,
+        errors: {
+          address: "Street address is required",
+          city: "City is required",
+          state: "State is required",
+          lat: "Latitude is not valid",
+          lng: "Longitude is not valid"
+        }
     })
   }
 });
