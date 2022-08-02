@@ -56,16 +56,19 @@ router.put('/:eventId', async (req, res) => {
   const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
 
   const byEventId = await Event.findByPk(eventId);
-  const byVenueId =
+  const byVenueId = await Venue.findByPk(eventId);
 
   if (!byEventId) {
     res.json({
       message: "Event couldn't be found",
       statusCode: 404
     })
-  } else if () {
-
-  } else if (! await byEventId.set({ groupId: Number(eventId), venueId, name, type, capacity, price, description, startDate, endDate })) {
+  } else if (!byVenueId) {
+    res.json({
+      message: "Venue couldn't be found",
+      statusCode: 404
+    })
+  } else if (!byEventId.set({ groupId: Number(eventId), venueId, name, type, capacity, price, description, startDate, endDate })) {
     res.json({
       message: "Validation error",
       statusCode: 400,
@@ -83,6 +86,24 @@ router.put('/:eventId', async (req, res) => {
   } else {
     await byEventId.set({ groupId: Number(eventId), venueId, name, type, capacity, price, description, startDate, endDate });
     res.json(byEventId);
+  }
+});
+
+router.delete('/:eventId', async (req, res) => {
+  const { eventId } = req.params;
+
+  const deleteEvent = await Event.findByPk(eventId);
+
+  if (deleteEvent) {
+    await deleteEvent.destroy();
+    res.json({
+      message: "Successfully deleted"
+    })
+  } else {
+    res.json({
+      message: "Event couldn't be found",
+      statusCode: 404
+    })
   }
 })
 
