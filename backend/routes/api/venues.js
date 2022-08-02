@@ -6,21 +6,17 @@ const { User, Group, Image, Venue } = require('../../db/models');
 router.put('/:venueId', async (req, res) => {
   const { venueId } = req.params
   const { address, city, state, lat, lng } = req.body
-  const userId = 
 
   const venueById = await Venue.findByPk(venueId);
 
-  const updateVenue = venueById.set({ groupId: Number(venueId), address, city, state, lat, lng })
+  // const updateVenue = venueById.set({ address, city, state, lat, lng })
 
   if (!venueById) {
     res.json({
       message: "Venue couldn't be found",
       statusCode: 404
     })
-  } else if (updateVenue) {
-    await updateVenue.save();
-    res.json(updateVenue)
-  } else {
+  } else if (!venueById.set({ address, city, state, lat, lng })) {
     res.json({
       message: "Validation error",
       statusCode: 400,
@@ -32,6 +28,10 @@ router.put('/:venueId', async (req, res) => {
         lng: "Longitude is not valid"
       }
     })
+  } else {
+    venueById.set({ address, city, state, lat, lng });
+    await venueById.save();
+    res.json(venueById);
   }
 })
 
