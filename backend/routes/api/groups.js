@@ -246,4 +246,10 @@ router.post('/:groupId/events', async (req, res) => {
   }
 });
 
+router.get('/:groupId/members', async (req, res) => {
+  const { groupById } = req.params;
+
+  const allGroupMembers = await Group.findAll({})
+})
+
 module.exports = router
