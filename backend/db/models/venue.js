@@ -3,57 +3,37 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Group extends Model {
+  class Venue extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Group.belongsTo(
-        models.User,
-        { foreignKey: 'organizerId', onDelete: 'CASCADE', hooks: true }
-      ),
-      Group.hasMany(
-        models.Image,
-        { foreignKey: 'imageableId', onDelete: 'CASCADE', hooks: true }
-      ),
-      Group.hasMany(
-        models.Venue,
+      Venue.belongsTo(
+        models.Group,
         { foreignKey: 'groupId', onDelete: 'CASCADE', hooks: true }
       )
     }
   }
-  Group.init({
+  Venue.init({
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    organizerId: {
+    groupId: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       references: {
-        model: 'Users',
+        model: 'Groups',
         key: 'id'
       },
       onDelete: 'CASCADE'
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    about: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    type: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    private: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false
+    address: {
+      type: DataTypes.STRING
     },
     city: {
       type: DataTypes.STRING,
@@ -61,11 +41,19 @@ module.exports = (sequelize, DataTypes) => {
     },
     state: {
       type: DataTypes.STRING,
+      allowNull: null
+    },
+    lat: {
+      type: DataTypes.DECIMAL,
+      allow: null
+    },
+    lng: {
+      type: DataTypes.DECIMAL,
       allowNull: false
     }
   }, {
     sequelize,
-    modelName: 'Group'
+    modelName: 'Venue',
   });
-  return Group;
+  return Venue;
 };
