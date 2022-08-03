@@ -176,7 +176,7 @@ router.post('/:groupId/venues', async (req, res) => {
     res.json(newVenue)
   } else {
     res.status(400),
-    res.json({
+      res.json({
         message: "Validation error",
         statusCode: 400,
         errors: {
@@ -186,7 +186,7 @@ router.post('/:groupId/venues', async (req, res) => {
           lat: "Latitude is not valid",
           lng: "Longitude is not valid"
         }
-    })
+      })
   }
 });
 
@@ -197,12 +197,12 @@ router.get('/:groupId/events', async (req, res) => {
 
   const byEventId = await Event.findAll({
     where: { groupId },
-    attributes: {exclude: ['description', 'capacity', 'price']},
-    include: [{model: Group, attributes: ['id', 'name', 'city', 'state'] }, {model: Venue, attributes: ['id', 'city', 'state']}]
+    attributes: { exclude: ['description', 'capacity', 'price'] },
+    include: [{ model: Group, attributes: ['id', 'name', 'city', 'state'] }, { model: Venue, attributes: ['id', 'city', 'state'] }]
   })
 
   if (byGroupId) {
-    res.json({Events: byEventId})
+    res.json({ Events: byEventId })
   } else {
     res.json({
       message: "Group couldn't be found",
@@ -218,7 +218,7 @@ router.post('/:groupId/events', async (req, res) => {
 
   const byGroupId = await Group.findByPk(groupId);
 
-  const newEvent = await Event.create({groupId: Number(groupId), venueId, name, type, capacity, price, description, startDate, endDate});
+  const newEvent = await Event.create({ groupId: Number(groupId), venueId, name, type, capacity, price, description, startDate, endDate });
 
   if (!byGroupId) {
     res.json({
@@ -226,35 +226,73 @@ router.post('/:groupId/events', async (req, res) => {
       statusCode: 404
     })
   } if (newEvent) {
-      res.json(newEvent);
+    res.json(newEvent);
   } else {
     res.json({
       message: "Validation error",
-        statusCode: 400,
-        errors: {
-          venueId: "Venue does not exist",
-          name: "Name must be at least 5 characters",
-          type: "Type must be online or In person",
-          capacity: "Capacity must be an integer",
-          price: "Price is invalid",
-          description: "Description is required",
-          startDate: "Start date must be in the future",
-          endDate: "End date is less than start date"
-        }
+      statusCode: 400,
+      errors: {
+        venueId: "Venue does not exist",
+        name: "Name must be at least 5 characters",
+        type: "Type must be online or In person",
+        capacity: "Capacity must be an integer",
+        price: "Price is invalid",
+        description: "Description is required",
+        startDate: "Start date must be in the future",
+        endDate: "End date is less than start date"
+      }
     })
   }
 });
 
 router.get('/:groupId/members', async (req, res) => {
   const { groupId } = req.params;
+  const { user } = req
+  const userId = user.dataValues.id
 
   const findGroup = await Group.findByPk(groupId)
-  const allGroupMembers = await User.findAll({
-    include: [{ model: Membership, attributes: ['status'], where: { groupId } }]
-  });
+
 
   if (findGroup) {
-    res.json({ Members: allGroupMembers });
+
+    const allGroupMembers = await User.findAll({
+      attributes: { exclude: 'id' },
+      include: [{ model: Membership, attributes: ['status'], where: { groupId } }]
+    });
+
+    let coHost;
+    for (let co of allGroupMembers) {
+      if (co.Memberships[0].status === 'co-host') {
+        if (co.id === userId) {
+          coHost = true;
+        }
+      }
+    }
+
+    if (userId !== findGroup.dataValues.organizerId && !coHost) {
+      const allGroupMembers = await User.findAll({
+        attributes: { exclude: ['id', 'email'] },
+        include: [{ model: Membership, attributes: ['status'], where: { groupId } }]
+      });
+
+      let membershipStatusCheck = [];
+
+      for (let member of allGroupMembers) {
+        if (member.Memberships[0].status !== 'pending') {
+          membershipStatusCheck.push(member)
+        }
+      }
+
+      res.json({ Members: membershipStatusCheck });
+    } else {
+
+      const allGroupMembers = await User.findAll({
+        attributes: { exclude: ['id', 'email'] },
+        include: [{ model: Membership, attributes: ['status'], where: { groupId } }]
+      });
+
+      res.json({ Members: allGroupMembers });
+    }
   } else {
     res.json({
       message: "Group couldn't be found",
@@ -263,17 +301,25 @@ router.get('/:groupId/members', async (req, res) => {
   }
 });
 
-router.get('/:groupId/membership', async (req, res) => {
+router.post('/:groupId/membership', async (req, res) => {
   const { user } = req
   const userId = user.dataValues.id;
 
   const { groupId } = req.params;
 
   const groupById = await Group.findByPk(groupId)
+  const member = await Membership.findOne({where: {userId}})
 
-  if (groupById){
-    const membershipReq = await Membership.create({groupId, userId, status: 'pending'});
-    res.json(membershipReq)
+  if (groupById) {
+    if (member) {
+      res.json({
+        message: "Membership has already been requested or granted",
+        statusCode: 400
+      })
+    } else {
+      const membershipReq = await Membership.create({ groupId, userId, status: 'pending' });
+      res.json(membershipReq)
+    }
   } else {
     res.json({
       message: "Group couldn't be found",
@@ -281,5 +327,15 @@ router.get('/:groupId/membership', async (req, res) => {
     })
   }
 });
+
+router.put('/:groupId/membership', async (req, res) => {
+  const { groupId } = req.params;
+  const { user } = req;
+  const userId = user.dataValues.id
+
+  const updateMembership = await Membership.findOne({where: {groupId}});
+
+
+})
 
 module.exports = router
