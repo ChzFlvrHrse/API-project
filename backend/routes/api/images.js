@@ -20,7 +20,7 @@ router.delete('/:imageId', async (req, res) => {
       })
     } else {
       res.json({
-        "message": "Only the owner of this phote can delete it",
+        "message": "Only the owner of this photo can delete it",
         "statusCode": 400
       })
     }
@@ -30,6 +30,6 @@ router.delete('/:imageId', async (req, res) => {
       "statusCode": 404
     })
   }
-})
+});
 
 module.exports = router;
