@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { Group, Image, Venue, Event } = require('../../db/models');
+const { Group, Image, Venue, Event, User, Attendance } = require('../../db/models');
 
 router.get('/', async (req, res) => {
   const allEvents = await Event.findAll({
@@ -107,6 +107,46 @@ router.delete('/:eventId', async (req, res) => {
   }
 });
 
+router.get('/:eventId/attendees', async (req, res) => {
+  const { eventId } = req.params;
+  const { user } = req;
+  const currUserId = user.dataValues.id;
 
+  const findEvent = await Event.findByPk(eventId);
+  const findGroup = await Group.findByPk(currUserId)
+
+  const Attendees = await User.findAll({
+    include: [{ model: Attendance, where: { eventId }, attributes: ['status'] }]
+  });
+
+  if (findEvent) {
+    let coHost;
+    for (let att of Attendees) {
+      if (att.Attendances[0].status === 'co-host') {
+        if (att.id === currUserId) {
+          coHost = true;
+        }
+      }
+    }
+    if (findGroup.organizerId === currUserId || coHost) {
+      res.json({ Attendees })
+    } else {
+      let noPend = [];
+
+      for (let att of Attendance) {
+        if (att.Attendances[0].status !== 'pending') {
+          noPend.push(att)
+        }
+      };
+
+      res.json({ noPend })
+    }
+  } else {
+    res.json({
+      "message": "Event couldn't be found",
+      "statusCode": 404
+    })
+  }
+});
 
 module.exports = router;
