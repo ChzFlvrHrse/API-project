@@ -2,26 +2,26 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('Memberships', [
+    return queryInterface.bulkInsert('Attendances', [
       {
         userId: 1,
-        groupId: 1,
-        status: 'co-host',
-      },
-      {
-        userId: 2,
-        groupId: 1,
+        eventId: 1,
         status: 'member',
       },
       {
+        userId: 2,
+        eventId: 1,
+        status: 'waitlist',
+      },
+      {
         userId: 3,
-        groupId: 2,
+        eventId: 2,
         status: 'pending',
       }
     ], {});
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('Memberships')
+    await queryInterface.bulkDelete('Attendances')
   }
 };
