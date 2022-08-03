@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { User, Group, Image, Venue, Event, Membership } = require('../../db/models');
+const { up } = require('../../db/seeders/20220802213755-membership-seed');
 
 router.get('/', async (req, res) => {
   const groups = await Group.findAll();
@@ -308,7 +309,7 @@ router.post('/:groupId/membership', async (req, res) => {
   const { groupId } = req.params;
 
   const groupById = await Group.findByPk(groupId)
-  const member = await Membership.findOne({where: {userId}})
+  const member = await Membership.findOne({ where: { userId } })
 
   if (groupById) {
     if (member) {
@@ -328,14 +329,58 @@ router.post('/:groupId/membership', async (req, res) => {
   }
 });
 
-router.put('/:groupId/membership', async (req, res) => {
-  const { groupId } = req.params;
-  const { user } = req;
-  const userId = user.dataValues.id
+// router.put('/:groupId/membership', async (req, res) => {
+//   const { groupId } = req.params;
+//   const { user } = req;
+//   const currUserId = user.dataValues.id;
 
-  const updateMembership = await Membership.findOne({where: {groupId}});
+//   const { userId, status } = req.body;
 
+//   const updateMembership = await Membership.findOne({ where: { groupId } });
 
-})
+//   const findGroup = await Group.findByPk(groupId)
+//   const groupMembers = await User.findAll({
+//     include: [{ model: Membership, where: { groupId } }]
+//   });
+
+//   if (updateMembership) {
+
+//     if (status === 'pending') {
+//       res.json({
+//         message: "Validation Error",
+//         statusCode: 404,
+//         error: {
+//           "userId": "Cannot change a membership to 'pending'"
+//         }
+//       })
+//     }
+
+//     let membershipStatus;
+//     for (let member of groupMembers) {
+//       if (member.Memberships[0].userId === currUserId) {
+//         if (member.Memberships[0].status === 'co-host' || member.Memberships[0].status === 'organizer') {
+//           membershipStatus = member.Memberships[0].status;
+//         }
+//       }
+//     }
+//     if (status === 'member' && (membershipStatus === 'co-host' || membershipStatus === 'organizer')) {
+//       updateMembership.create({userId: currUserId, status: 'member'});
+//       res.json(updateMembership);
+//     } else if (status === 'co-host' && membershipStatus === 'organizer') {
+//       updateMembership.create({userId: currUserId, status: 'co-host'});
+//       res.json(updateMembership);
+//     }
+//   } else if (!updateMembership) {
+//     res.json({
+//       message: "Membership between the user and the group does not exist",
+//       statusCode: 404
+//     })
+//   } else if (!findGroup) {
+//     res.json({
+//       message: "Group couldn't be found",
+//       statusCode: 404
+//     })
+//   }
+// });
 
 module.exports = router
