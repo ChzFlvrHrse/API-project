@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 
 const { User, Group, Image, Venue, Event, Membership } = require('../../db/models');
-const { up } = require('../../db/seeders/20220802213755-membership-seed');
 
 router.get('/', async (req, res) => {
   const groups = await Group.findAll();
