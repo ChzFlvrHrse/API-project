@@ -105,6 +105,7 @@ router.delete('/:eventId', async (req, res) => {
       statusCode: 404
     })
   }
-})
+});
+
 
 module.exports = router;

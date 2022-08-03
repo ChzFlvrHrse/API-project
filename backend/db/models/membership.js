@@ -29,14 +29,17 @@ module.exports = (sequelize, DataTypes) => {
     },
     userId: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       onDelete: 'CASCADE'
     },
     groupId: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       onDelete: 'CASCADE'
     },
     status: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     }
   }, {
     sequelize,

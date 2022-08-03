@@ -10,6 +10,7 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: 'Users'
         },
@@ -17,6 +18,7 @@ module.exports = {
       },
       groupId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: 'Groups'
         },
@@ -24,7 +26,7 @@ module.exports = {
       },
       status: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
