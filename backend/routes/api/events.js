@@ -211,11 +211,49 @@ router.put('/:eventId/attendees', async (req, res) => {
         "statusCode": 404
       })
     } else {
-      const newStatus = await Attendance.findOne({where: {userId}});
-      newStatus.set({eventId: Number(eventId), userId, status});
+      const newStatus = await Attendance.findOne({ where: { userId } });
+      newStatus.set({ eventId: Number(eventId), userId, status });
       await newStatus.save()
 
       res.json(newStatus)
+    }
+  } else {
+    res.json({
+      "message": "Event couldn't be found",
+      "statusCode": 404
+    })
+  }
+});
+
+router.delete('/:eventId/attendees', async (req, res) => {
+  const { eventId } = req.params;
+  const { user } = req
+  const currUserId = user.dataValues.id;
+
+  const findEvent = await Event.findByPk(eventId);
+  const findAtt = await Attendance.findOne({
+    where: { userId: currUserId }
+  });
+  const findGroup = await Group.findOne({ where: { organizerId: currUserId } });
+
+  if (findEvent) {
+    if (findAtt) {
+      if (findGroup.organizerId === currUserId || findAtt.id === currUserId) {
+        await findAtt.destroy();
+        res.json({
+          "message": "Successfully deleted attendance from event"
+        })
+      } else {
+        res.json({
+          "message": "Only the event organizer or membership owner can perform this action",
+          "statusCode": 400
+        })
+      }
+    } else {
+      res.json({
+        "message": "Attendance does not exist for this User",
+        "statusCode": 404
+      })
     }
   } else {
     res.json({
