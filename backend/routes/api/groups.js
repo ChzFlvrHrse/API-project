@@ -245,24 +245,41 @@ router.post('/:groupId/events', async (req, res) => {
   }
 });
 
-// router.get('/:groupId/members', async (req, res) => {
-//   const { groupId } = req.params;
-
-//   const allGroupMembers = await User.findAll({
-//     include: [{model: Membership, where: { groupId }}],
-//     // group: ['User.id']
-//   });
-
-//   res.json({ Members: allGroupMembers });
-// });
-
 router.get('/:groupId/members', async (req, res) => {
   const { groupId } = req.params;
 
-  const allMembers = await User.findAll({
-    include: Membership
+  const findGroup = await Group.findByPk(groupId)
+  const allGroupMembers = await User.findAll({
+    include: [{ model: Membership, attributes: ['status'], where: { groupId } }]
   });
-  res.json(allMembers)
-})
+
+  if (findGroup) {
+    res.json({ Members: allGroupMembers });
+  } else {
+    res.json({
+      message: "Group couldn't be found",
+      statusCode: 404
+    })
+  }
+});
+
+router.get('/:groupId/membership', async (req, res) => {
+  const { user } = req
+  const userId = user.dataValues.id;
+
+  const { groupId } = req.params;
+
+  const groupById = await Group.findByPk(groupId)
+
+  if (groupById){
+    const membershipReq = await Membership.create({groupId, userId, status: 'pending'});
+    res.json(membershipReq)
+  } else {
+    res.json({
+      message: "Group couldn't be found",
+      statusCode: 404
+    })
+  }
+});
 
 module.exports = router

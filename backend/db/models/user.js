@@ -49,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
       ),
       User.hasMany(
         models.Membership,
-        { foreignKey: 'groupId' }
+        { foreignKey: 'userId' }
       )
     }
   }
