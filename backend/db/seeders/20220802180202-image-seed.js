@@ -7,6 +7,11 @@ module.exports = {
         groupId: 1,
         imageableType: "Polaroid",
         url: 'image url'
+      },
+      {
+        eventId: 1,
+        imageableType: "Polaroid",
+        url: "image url"
       }
     ])
   },
