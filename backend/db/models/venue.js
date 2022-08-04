@@ -33,7 +33,8 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE'
     },
     address: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
     city: {
       type: DataTypes.STRING,
@@ -45,11 +46,29 @@ module.exports = (sequelize, DataTypes) => {
     },
     lat: {
       type: DataTypes.DECIMAL,
-      allow: null
+      allow: null,
+      validate: {
+        validLat(value){
+          if (value < -180 && value > 180) {
+            throw new Error("Latitude is not valid")
+          }
+        }
+        // min: -180,
+        // max: 180
+      }
     },
     lng: {
       type: DataTypes.DECIMAL,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        validLng(value){
+          if (value < -90 && value > 180) {
+            throw new Error("Longitude is not valid")
+          }
+        }
+        // min: -90,
+        // max: 90
+      }
     }
   }, {
     sequelize,

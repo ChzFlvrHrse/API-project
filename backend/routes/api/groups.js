@@ -172,8 +172,8 @@ router.get('/:groupId/venues', async (req, res) => {
   const userMember = await User.findAll({
     include: [{model: Membership, where: { groupId }, attributes: ['status']}]
   })
-  
-  const coHost;
+
+  let coHost;
   for (let co of userMember) {
     if (co.id === currUserId && co.Memberships[0].status === 'co-host' ) {
       coHost = true;
@@ -195,34 +195,44 @@ router.get('/:groupId/venues', async (req, res) => {
 router.post('/:groupId/venues', async (req, res) => {
   const { groupId } = req.params
   const { address, city, state, lat, lng } = req.body;
+  const { user } = req;
+  const currUserId = user.dataValues.id;
 
   const byGroupId = await Group.findByPk(groupId);
-  // console.log(byGroupId)
-  const newVenue = await Venue.create({ groupId: Number(groupId), address, city, state, lat, lng });
+  const userMember = await User.findAll({
+    include: [{model: Membership, where: {groupId}}]
+  })
 
+  let coHost;
+  for (let co of userMember) {
+    if (co.id === currUserId && co.Memberships[0].status === 'co-host') {
+      coHost = true;
+    }
+  }
 
-
-  // if (!byGroupId) {
-  //   res.json({
-  //     message: "Group couldn't be found",
-  //     statusCode: 404
-  //   })
-  // } else if (newVenue) {
-  //   res.json(newVenue)
-  // } else {
-  //   res.status(400),
-  //     res.json({
-  //       message: "Validation error",
-  //       statusCode: 400,
-  //       errors: {
-  //         address: "Street address is required",
-  //         city: "City is required",
-  //         state: "State is required",
-  //         lat: "Latitude is not valid",
-  //         lng: "Longitude is not valid"
-  //       }
-  //     })
-  // }
+  if (byGroupId && (byGroupId.organizerId === currUserId || coHost)) {
+    const newVenue = await Venue.create({ groupId: Number(groupId), address, city, state, lat, lng });
+    res.json(newVenue);
+  } else if (!byGroupId) {
+    res.status(404);
+    res.json({
+      message: "Group couldn't be found",
+      statusCode: 404
+    })
+  } else {
+      res.status(400),
+      res.json({
+        message: "Validation error",
+        statusCode: 400,
+        errors: {
+          address: "Street address is required",
+          city: "City is required",
+          state: "State is required",
+          lat: "Latitude is not valid",
+          lng: "Longitude is not valid"
+        }
+      })
+  }
 });
 
 router.get('/:groupId/events', async (req, res) => {
