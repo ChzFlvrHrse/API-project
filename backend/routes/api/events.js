@@ -252,39 +252,46 @@ router.post('/:eventId/attendees', async (req, res) => {
 router.put('/:eventId/attendees', async (req, res) => {
   const { eventId } = req.params;
   const { userId, status } = req.body;
+  const currUserId = req.user.dataValues.id;
 
   const findEvent = await Event.findByPk(eventId);
-  const userEvent = await User.findAll({
-    include: [{ model: Attendance, where: { eventId } }]
-  });
-
-
-  let isAtt;
-  for (let att of userEvent) {
-    if (att.id === userId) {
-      isAtt = true;
-    }
-  }
 
   if (findEvent) {
+    const groupId = findEvent.groupId;
+    const byGroupId = await Group.findByPk(groupId);
+
+    const userEvent = await User.findAll({
+      include: [{ model: Attendance, where: { eventId } }]
+    });
+
+    let isAtt;
+    for (let att of userEvent) {
+      if (att.id === userId && att.Attendances[0].status === 'co-host') {
+        isAtt = true;
+      }
+    }
+
     if (status === 'pending') {
+      res.status(400)
       res.json({
         "message": "Cannot change an attendance status to pending",
         "statusCode": 400
       })
-    } else if (!isAtt) {
-      res.json({
-        "message": "Attendance between the user and the event does not exist",
-        "statusCode": 404
-      })
-    } else {
+    } else if (byGroupId.organizerId === currUserId || isAtt) {
       const newStatus = await Attendance.findOne({ where: { userId } });
       newStatus.set({ eventId: Number(eventId), userId, status });
       await newStatus.save()
 
       res.json(newStatus)
+    } else {
+      res.status(404)
+      res.json({
+        "message": "Attendance between the user and the event does not exist",
+        "statusCode": 404
+      })
     }
   } else {
+    res.status(404)
     res.json({
       "message": "Event couldn't be found",
       "statusCode": 404
