@@ -277,7 +277,7 @@ router.post('/:groupId/events', async (req, res) => {
       coHost = true;
     }
   }
-
+  console.log(venueId, name, type, capacity, price, description, startDate, endDate)
   if (byGroupId && (byGroupId.organizerId === currUserId || coHost)) {
     const newEvent = await Event.create({ groupId: Number(groupId), venueId, name, type, capacity, price, description, startDate, endDate });
     res.json(newEvent)
@@ -472,7 +472,8 @@ router.put('/:groupId/members', async (req, res) => {
 
 router.delete('/:groupId/members', async (req, res) => {
   const { groupId } = req.params;
-  const currUserId = req.user.dataValues.id;
+  const { id } = req.user
+  // console.log(req)
   const { userId } = req.body
 
   const byUserId = await User.findByPk(userId);
@@ -501,12 +502,12 @@ router.delete('/:groupId/members', async (req, res) => {
 
     let myMembership;
     for (let my of groupMembers) {
-      if (my.id === currUserId) {
+      if (my.id === id) {
         myMembership = true;
       }
     }
 
-    if (byGroupId.organizerId === currUserId || myMembership) {
+    if (byGroupId.organizerId === id || myMembership) {
       await findMember.destroy();
       res.json({
         message: "Successfully deleted membership from group"

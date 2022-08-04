@@ -12,29 +12,20 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Image.belongsTo(
         models.Group,
-        { foreignKey: 'imageableId', onDelete: 'CASCADE', hooks: true }
+        { foreignKey: 'groupId', onDelete: 'CASCADE', hooks: true }
       ),
       Image.belongsTo(
         models.Event,
-        { foreignKey: 'imageableId', onDelete: 'CASCADE', hooks: true }
+        { foreignKey: 'eventId', onDelete: 'CASCADE', hooks: true }
       )
     }
   }
   Image.init({
-    id: {
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
+    groupId: {
       type: DataTypes.INTEGER
     },
-    imageableId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'Groups',
-        key: 'id'
-      },
-      onDelete: 'CASCADE'
+    eventId: {
+      type: DataTypes.INTEGER
     },
     imageableType: {
       type: DataTypes.STRING

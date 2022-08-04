@@ -1,4 +1,5 @@
 'use strict';
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Images', {
@@ -8,12 +9,17 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      imageableId: {
+      groupId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         references: {
           model: 'Groups',
-          key: 'id'
+        },
+        onDelete: 'CASCADE'
+      },
+      eventId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Events'
         },
         onDelete: 'CASCADE'
       },

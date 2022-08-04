@@ -12,7 +12,10 @@ router.put('/:venueId', async (req, res) => {
   const venueById = await Venue.findByPk(venueId);
 
   if (venueById) {
-    if ((groupById.organizerId === currUserId || coHost)) {
+    const groupId = venueById.groupId
+    const groupById = await Group.findByPk(groupId)
+
+    if (groupById.organizerId === currUserId || coHost) {
       const userMember = await User.findAll({
         include: [{ model: Membership, where: { groupId } }]
       })

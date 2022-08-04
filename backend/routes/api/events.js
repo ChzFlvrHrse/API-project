@@ -42,23 +42,25 @@ router.post('/:eventId/images', async (req, res) => {
 
   const byEventId = await Event.findByPk(eventId);
 
-  const groupId = byEventId.groupId
-  const byGroupId = await Group.findByPk(groupId)
+  if (byEventId) {
+    const groupId = byEventId.groupId
+    const byGroupId = await Group.findByPk(groupId)
+    
+    const allGroupMembers = await User.findAll({
+      include: [{ model: Membership, attributes: ['status'], where: { groupId } }]
+    });
 
-  const allGroupMembers = await User.findAll({
-    include: [{ model: Membership, attributes: ['status'], where: { groupId } }]
-  });
-
-  let attendee;
-  for (let att of allGroupMembers) {
-    if (att.id === currUserId && att.Memberships[0].status !== 'pending') {
-      attendee = true;
+    let attendee;
+    for (let att of allGroupMembers) {
+      if (att.id === currUserId && att.Memberships[0].status !== 'pending') {
+        attendee = true;
+      }
     }
-  }
 
-  if (byEventId && (byGroupId.organizerId === currUserId || attendee)) {
-    const newImage = await Image.create({ imageableId: Number(eventId), url })
-    res.json(newImage)
+    if (byGroupId.organizerId === currUserId || attendee) {
+      const newImage = await Image.create({ imageableId: Number(eventId), url })
+      res.json(newImage);
+    }
   } else {
     res.status(404)
     res.json({

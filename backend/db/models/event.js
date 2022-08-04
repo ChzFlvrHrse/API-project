@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Event.hasMany(
         models.Image,
-        { foreignKey: 'imageableId', onDelete: 'CASCADE', hooks: true }
+        { foreignKey: 'eventId' }
       ),
       Event.belongsTo(
         models.Group,
@@ -42,16 +42,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Groups',
-        key: 'id'
+        model: 'Groups'
       },
       onDelete: "CASCADE"
     },
     venueId: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'Venues',
-        key: 'id'
+        model: 'Venues'
       },
       onDelete: 'CASCADE'
     },
