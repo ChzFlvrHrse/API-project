@@ -10,7 +10,8 @@ module.exports = {
         type: "In Person",
         private: true,
         city: "New York",
-        state: "NY"
+        state: "NY",
+        numMembers: 10
       },
       {
         organizerId: 2,
@@ -19,16 +20,18 @@ module.exports = {
         type: "In Person",
         private: true,
         city: "New Jersey",
-        state: "NJ"
+        state: "NJ",
+        numMembers: 4
       },
       {
         organizerId: 3,
-        name: "Nighttime basketball game",
+        name: "Night time basketball game",
         about: "Play a game of basketball",
         type: "In person",
         private: true,
         city: "St.Louis",
-        state: "MO"
+        state: "MO",
+        numMembers: 8
       }
     ])
   },

@@ -89,6 +89,9 @@ module.exports = (sequelize, DataTypes) => {
     state: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    numMembers:{
+      type: DataTypes.INTEGER
     }
   }, {
     sequelize,

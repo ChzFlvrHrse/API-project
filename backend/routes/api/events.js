@@ -45,7 +45,7 @@ router.post('/:eventId/images', async (req, res) => {
   if (byEventId) {
     const groupId = byEventId.groupId
     const byGroupId = await Group.findByPk(groupId)
-    
+
     const allGroupMembers = await User.findAll({
       include: [{ model: Membership, attributes: ['status'], where: { groupId } }]
     });
@@ -58,7 +58,7 @@ router.post('/:eventId/images', async (req, res) => {
     }
 
     if (byGroupId.organizerId === currUserId || attendee) {
-      const newImage = await Image.create({ imageableId: Number(eventId), url })
+      const newImage = await Image.create({ eventId: Number(eventId), url })
       res.json(newImage);
     }
   } else {
@@ -233,7 +233,7 @@ router.post('/:eventId/attendees', async (req, res) => {
 
   if (findEvent) {
     if (!userEvent) {
-      const newAttendee = await Attendance.create({ eventId, userId, status: 'pending' });
+      const newAttendee = await Attendance.create({ eventId: Number(eventId), userId, status: 'pending' });
       res.json(newAttendee)
     } else if (userEvent.Attendances[0].status === 'pending') {
       res.status(400)
@@ -265,6 +265,10 @@ router.put('/:eventId/attendees', async (req, res) => {
   const findEvent = await Event.findByPk(eventId);
 
   if (findEvent) {
+
+  }
+
+  if (findEvent) {
     const groupId = findEvent.groupId;
     const byGroupId = await Group.findByPk(groupId);
 
@@ -274,7 +278,8 @@ router.put('/:eventId/attendees', async (req, res) => {
 
     let isAtt;
     for (let att of userEvent) {
-      if (att.id === userId && att.Attendances[0].status === 'co-host') {
+      // console.log(att.id)
+      if (att.id === currUserId && att.Attendances[0].status === 'co-host') {
         isAtt = true;
       }
     }
@@ -305,6 +310,7 @@ router.put('/:eventId/attendees', async (req, res) => {
       "statusCode": 404
     })
   }
+  res.json(userEvent)
 });
 
 router.delete('/:eventId/attendees', async (req, res) => {

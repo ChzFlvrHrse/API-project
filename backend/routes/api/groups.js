@@ -31,7 +31,7 @@ router.get('/:groupId', async (req, res) => {
 
   const groupById = await Group.findByPk(groupId, {
     include: [
-      { model: Image, attributes: ['id', 'imageableId', 'url'] },
+      { model: Image, attributes: ['id', 'groupId', 'url'] },
       { model: User, attributes: ['id', 'firstName', 'lastName'] },
       { model: Venue, attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng'] }
     ]
@@ -86,7 +86,7 @@ router.post('/:groupId/images', async (req, res) => {
 
   if (groupById) {
     if (groupById.organizerId === currUserId) {
-      const newImage = await Image.create({ imageableId: Number(groupId), url });
+      const newImage = await Image.create({ groupId: Number(groupId), url });
       res.json(newImage)
     } else {
       res.json({
@@ -429,7 +429,7 @@ router.put('/:groupId/members', async (req, res) => {
       findMember.set({ groupId: Number(groupId), userId, status })
       await findMember.save();
       res.json(findMember)
-    } else if (status === "co-host" && byGroupId.organizerId === currUserId) {
+    } else if (status === "co-host" || byGroupId.organizerId === currUserId) {
       findMember.set({ groupId: Number(groupId), userId, status })
       await findMember.save();
       res.json(findMember)
