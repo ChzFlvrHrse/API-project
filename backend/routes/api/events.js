@@ -235,7 +235,7 @@ router.post('/:eventId/attendees', async (req, res) => {
         "message": "Attendance has already been requested",
         "statusCode": 400
       })
-    } else if (userEvent.Attendances[0].status !== 'pending') {
+    } else {
       res.json({
         "message": "User is already an attendee of the event",
         "statusCode": 400
