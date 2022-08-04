@@ -27,6 +27,7 @@ router.get('/:eventId', async (req, res) => {
   if (byEventId) {
     res.json(byEventId)
   } else {
+    res.status(404)
     res.json({
       message: "Event couldn't be found",
       statusCode: 404
@@ -59,6 +60,7 @@ router.post('/:eventId/images', async (req, res) => {
     const newImage = await Image.create({ imageableId: Number(eventId), url })
     res.json(newImage)
   } else {
+    res.status(404)
     res.json({
       message: "Event couldn't be found",
       statusCode: 404
@@ -209,6 +211,7 @@ router.get('/:eventId/attendees', async (req, res) => {
       res.json({ noPend })
     }
   } else {
+    res.status(404)
     res.json({
       "message": "Event couldn't be found",
       "statusCode": 404
@@ -231,17 +234,20 @@ router.post('/:eventId/attendees', async (req, res) => {
       const newAttendee = await Attendance.create({ eventId, userId, status: 'pending' });
       res.json(newAttendee)
     } else if (userEvent.Attendances[0].status === 'pending') {
+      res.status(400)
       res.json({
         "message": "Attendance has already been requested",
         "statusCode": 400
       })
     } else {
+      res.status(400)
       res.json({
         "message": "User is already an attendee of the event",
         "statusCode": 400
       })
     }
   } else {
+    res.status(404)
     res.json({
       "message": "Event couldn't be found",
       "statusCode": 404
@@ -318,18 +324,21 @@ router.delete('/:eventId/attendees', async (req, res) => {
           "message": "Successfully deleted attendance from event"
         })
       } else {
+        res.status(400)
         res.json({
           "message": "Only the event organizer or membership owner can perform this action",
           "statusCode": 400
         })
       }
     } else {
+      res.status(404)
       res.json({
         "message": "Attendance does not exist for this User",
         "statusCode": 404
       })
     }
   } else {
+    res.status(404)
     res.json({
       "message": "Event couldn't be found",
       "statusCode": 404

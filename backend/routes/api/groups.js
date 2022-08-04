@@ -8,6 +8,7 @@ router.get('/', async (req, res) => {
   if (groups) {
     res.json(groups)
   } else {
+    res.status(404)
     res.json({
       message: "Group couldn't be found",
       statusCode: 404
@@ -39,6 +40,7 @@ router.get('/:groupId', async (req, res) => {
   if (groupById) {
     res.json(groupById)
   } else {
+    res.status(404)
     res.json({
       message: "Group couldn't be found",
       statusCode: 404
@@ -58,6 +60,7 @@ router.post('/', async (req, res) => {
   if (newGroup) {
     res.json(newGroup)
   } else {
+    res.status(400)
     res.json({
       message: "Validation error",
       statusCode: 400,
@@ -91,6 +94,7 @@ router.post('/:groupId/images', async (req, res) => {
       })
     }
   } else {
+    res.status(404)
     res.json({
       message: "Group couldn't be found",
       statusCode: 404
@@ -153,6 +157,7 @@ router.delete('/:groupId', async (req, res) => {
       statusCode: 200
     })
   } else {
+    res.status(404)
     res.json({
       message: "Group couldn't be found",
       statusCode: 404
@@ -346,6 +351,7 @@ router.get('/:groupId/members', async (req, res) => {
       res.json({ Members: allGroupMembers });
     }
   } else {
+    res.status(404)
     res.json({
       message: "Group couldn't be found",
       statusCode: 404
@@ -382,6 +388,7 @@ router.post('/:groupId/members', async (req, res) => {
       res.json(membershipReq)
     }
   } else {
+    res.status(404)
     res.json({
       message: "Group couldn't be found",
       statusCode: 404

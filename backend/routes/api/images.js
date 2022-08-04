@@ -19,12 +19,14 @@ router.delete('/:imageId', async (req, res) => {
         "statusCode": 200
       })
     } else {
+      res.status(400)
       res.json({
         "message": "Only the owner of this photo can delete it",
         "statusCode": 400
       })
     }
   } else {
+    res.status(404)
     res.json({
       "message": "Image couldn't be found",
       "statusCode": 404
