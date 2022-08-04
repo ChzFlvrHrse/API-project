@@ -1,4 +1,7 @@
 'use strict';
+
+const { Validator } = require('sequelize')
+
 const {
   Model
 } = require('sequelize');
@@ -68,10 +71,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         validData(value) {
-          if (value !== "Online") {
-            if (value !== "In person") {
-              throw new Error("Type must be Online or In person")
-            }
+          if (value !== "Online" && value !== "In person") {
+            throw new Error("Type must be Online or In person")
           }
         }
       }
@@ -82,11 +83,17 @@ module.exports = (sequelize, DataTypes) => {
     },
     price: {
       type: DataTypes.DECIMAL,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        min: 0
+      }
     },
     startDate: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: false,
+      // validate: {
+
+      // }
     },
     endDate: {
       type: DataTypes.DATE,

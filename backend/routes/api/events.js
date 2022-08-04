@@ -71,21 +71,50 @@ router.post('/:eventId/images', async (req, res) => {
 router.put('/:eventId', async (req, res) => {
   const { eventId } = req.params;
   const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
+  const currUserId = req.user.dataValues.id
 
   const byEventId = await Event.findByPk(eventId);
-  const byVenueId = await Venue.findByPk(eventId);
+  const byVenueId = await Venue.findByPk(venueId);
 
-  if (!byEventId) {
-    res.json({
-      message: "Event couldn't be found",
-      statusCode: 404
-    })
-  } else if (!byVenueId) {
+
+  if (!byVenueId) {
+    res.status(404);
     res.json({
       message: "Venue couldn't be found",
       statusCode: 404
     })
-  } else if (!byEventId.set({ groupId: Number(eventId), venueId, name, type, capacity, price, description, startDate, endDate })) {
+  } else if (!byEventId) {
+    res.status(404)
+    res.json({
+      message: "Event couldn't be found",
+      statusCode: 404
+    })
+  } else if (byEventId) {
+    const groupId = byEventId.groupId;
+    const byGroupId = await Group.findByPk(groupId);
+
+    const userMember = await User.findAll({
+      include: [{ model: Membership, where: { groupId } }]
+    })
+
+    let coHost;
+    for (let co of userMember) {
+      if (co.id === currUserId && co.Memberships[0].status === 'co-host') {
+        coHost = true;
+      }
+    }
+
+    if (byGroupId.organizerId === currUserId || coHost) {
+      const updateEvent = byEventId.set({ groupId: Number(eventId), venueId, name, type, capacity, price, description, startDate, endDate });
+      await updateEvent.save();
+
+      const updatedEvent = await Event.findByPk(eventId, {
+        attributes: { exclude: ['numAttending', 'previewImage'] }
+      });
+      res.json(updatedEvent);
+    }
+  } else {
+    res.status(400)
     res.json({
       message: "Validation error",
       statusCode: 400,
@@ -100,10 +129,9 @@ router.put('/:eventId', async (req, res) => {
         endDate: "End date is less than start date"
       }
     })
-  } else {
-    await byEventId.set({ groupId: Number(eventId), venueId, name, type, capacity, price, description, startDate, endDate });
-    res.json(byEventId);
   }
+
+  res.json(byEventId)
 });
 
 router.delete('/:eventId', async (req, res) => {
