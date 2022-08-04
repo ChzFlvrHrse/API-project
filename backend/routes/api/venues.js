@@ -11,23 +11,28 @@ router.put('/:venueId', async (req, res) => {
 
   const venueById = await Venue.findByPk(venueId);
 
-  if (venueById && (groupById.organizerId === currUserId || coHost)) {
-    const groupId = venueById.groupId;
-    const groupById = await Group.findOne({ where: { id: groupId } })
-
-    const userMember = await User.findAll({
-      include: [{ model: Membership, where: { groupId } }]
-    })
-    let coHost;
-    for (let co of userMember) {
-      if (co.id === currUserId && co.Memberships[0].status === 'co-host') {
-        coHost = true;
+  if (venueById) {
+    if ((groupById.organizerId === currUserId || coHost)) {
+      const userMember = await User.findAll({
+        include: [{ model: Membership, where: { groupId } }]
+      })
+      let coHost;
+      for (let co of userMember) {
+        if (co.id === currUserId && co.Memberships[0].status === 'co-host') {
+          coHost = true;
+        }
       }
-    }
 
-    const updateVenue = venueById.set({ address, city, state, lat, lng })
-    await updateVenue.save();
-    res.json(updateVenue)
+      const updateVenue = venueById.set({ address, city, state, lat, lng })
+      await updateVenue.save();
+      res.json(updateVenue)
+    } else {
+      res.status(400)
+      res.json({
+        message: "Only the organizer or co-host can perform this action",
+        satusCode: 400
+      })
+    }
   } else if (!venueById) {
     res.status(404);
     res.json({
