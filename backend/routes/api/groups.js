@@ -426,7 +426,7 @@ router.put('/:groupId/members', async (req, res) => {
       findMember.set({ groupId: Number(groupId), userId, status })
       await findMember.save();
       res.json(findMember)
-    } else if (status === 'pending'){
+    } else if (status === 'pending') {
       res.status(400);
       res.json({
         message: "Validation Error",
@@ -461,61 +461,57 @@ router.put('/:groupId/members', async (req, res) => {
       }
     })
   }
-  // res.json(allGroupMembers)
 })
 
 router.delete('/:groupId/members', async (req, res) => {
   const { groupId } = req.params;
-  const { user } = req;
-  const currUserId = user.dataValues.id;
-
+  const currUserId = req.user.dataValues.id;
   const { userId } = req.body
 
-  const findUser = await User.findByPk(userId);
-  const findGroup = await Group.findByPk(groupId)
-  const findMember = await Membership.findOne({ where: { userId: currUserId } });
-  const groupMembers = await User.findAll({
-    include: [{ model: Membership, where: { groupId } }]
-  });
+  const byUserId = await User.findByPk(userId);
+  const byGroupId = await Group.findByPk(groupId)
+  const findMember = await Membership.findOne({ where: { userId } });
 
-  if (findUser) {
-    if (findGroup) {
-      if (findMember) {
-        for (let member of groupMembers) {
-          if (member.Memberships[0].status === 'organizer' || member.Memberships[0].id === currUserId) {
-            await findMember.destroy();
-            res.json({
-              "message": "Successfully deleted membership from group"
-            })
-          } else {
-            res.json({
-              message: "Only the organizer or membership owner can perform this action",
-              statusCode: 400
-            })
-          }
-        }
-
-      } else {
-        res.json({
-          "message": "Membership does not exist for this User",
-          "statusCode": 404
-        })
+  if (!byUserId) {
+    res.status(400);
+    res.json({
+      message: "Validation Error",
+      statusCode: 400,
+      errors: {
+        memberId: "User couldn't be found"
       }
-    } else {
+    })
+  } else if (!byGroupId) {
+    res.status(404);
+    res.json({
+      message: "Group couldn't be found",
+      statusCode: 404
+    })
+  } else if (findMember) {
+    const groupMembers = await User.findAll({
+      include: [{ model: Membership, where: { groupId } }]
+    });
+
+    let myMembership;
+    for (let my of groupMembers) {
+      if (my.id === currUserId) {
+        myMembership = true;
+      }
+    }
+
+    if (byGroupId.organizerId === currUserId || myMembership) {
+      await findMember.destroy();
       res.json({
-        "message": "Group couldn't be found",
-        "statusCode": 404
+        message: "Successfully deleted membership from group"
       })
     }
   } else {
+    res.status(404);
     res.json({
-      "message": "Validation Error",
-      "statusCode": 400,
-      "errors": {
-        "memberId": "User couldn't be found"
-      }
+      message: "Membership does not exist for this User",
+      statusCode: 404
     })
   }
-});
+})
 
 module.exports = router
