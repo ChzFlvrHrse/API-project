@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { Group, Image, Venue, Event, User, Attendance } = require('../../db/models');
+const { Group, Image, Venue, Event, User, Attendance, Membership } = require('../../db/models');
 
 router.get('/', async (req, res) => {
   const allEvents = await Event.findAll({
@@ -37,18 +37,35 @@ router.get('/:eventId', async (req, res) => {
 router.post('/:eventId/images', async (req, res) => {
   const { eventId } = req.params
   const { url } = req.body;
+  const currUserId = req.user.dataValues.id;
 
   const byEventId = await Event.findByPk(eventId);
 
-  if (!byEventId) {
+  const groupId = byEventId.groupId
+  const byGroupId = await Group.findByPk(groupId)
+
+  const allGroupMembers = await User.findAll({
+    attributes: { exclude: 'id' },
+    include: [{ model: Membership, attributes: ['status'], where: { groupId } }]
+  });
+
+  let attendee;
+  for (let att of allGroupMembers) {
+    if (att.id === currUserId && att.Memberships[0].status !== 'pending') {
+      attendee = true;
+    }
+  }
+
+  if (byEventId && (byGroupId.organizerId === currUserId || attendee)) {
+    const newImage = await Image.create({ imageableId: Number(eventId), url })
+    res.json(newImage)
+  } else {
     res.json({
       message: "Event couldn't be found",
       statusCode: 404
-    })
-  } else {
-    const newImage = await Image.create({ imageableId: Number(eventId), url })
-    res.json(newImage)
+    });
   }
+  res.json(byEventId)
 });
 
 router.put('/:eventId', async (req, res) => {

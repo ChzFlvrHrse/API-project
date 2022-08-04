@@ -165,10 +165,10 @@ router.get('/:groupId/venues', async (req, res) => {
   const { user } = req;
   const currUserId = user.dataValues.id
 
-  const byGroupId = await Venue.findAll({
+  const venueById = await Venue.findAll({
     where: { groupId }
   });
-  const userGroup = await Group.findByPk(groupId)
+  const groupById = await Group.findByPk(groupId)
   const userMember = await User.findAll({
     include: [{model: Membership, where: { groupId }, attributes: ['status']}]
   })
@@ -180,8 +180,8 @@ router.get('/:groupId/venues', async (req, res) => {
     }
   }
 
-  if (userGroup && (userGroup.organizerId === currUserId || coHost)) {
-    res.json({ Venues: byGroupId });
+  if (groupById && (groupById.organizerId === currUserId || coHost)) {
+    res.json({ Venues: venueById });
   } else {
     res.status(404);
     res.json({
@@ -189,7 +189,6 @@ router.get('/:groupId/venues', async (req, res) => {
       statusCode: 404
     })
   }
-  res.json(userMember)
 });
 
 router.post('/:groupId/venues', async (req, res) => {
@@ -249,6 +248,7 @@ router.get('/:groupId/events', async (req, res) => {
   if (byGroupId) {
     res.json({ Events: byEventId })
   } else {
+    res.status(404)
     res.json({
       message: "Group couldn't be found",
       statusCode: 404
@@ -259,20 +259,31 @@ router.get('/:groupId/events', async (req, res) => {
 router.post('/:groupId/events', async (req, res) => {
   const { groupId } = req.params;
   const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
-  console.log(req.body)
+  const currUserId = req.user.dataValues.id;
 
   const byGroupId = await Group.findByPk(groupId);
+  const userMember = await User.findAll({
+    include: [{model: Membership, where: {groupId}}]
+  })
 
-  const newEvent = await Event.create({ groupId: Number(groupId), venueId, name, type, capacity, price, description, startDate, endDate });
+  let coHost;
+  for (let co of userMember) {
+    if (co.id === currUserId && co.Memberships[0].status === 'co-host') {
+      coHost = true;
+    }
+  }
 
-  if (!byGroupId) {
-    res.json({
+  if (byGroupId && (byGroupId.organizerId === currUserId || coHost)) {
+    const newEvent = await Event.create({ groupId: Number(groupId), venueId, name, type, capacity, price, description, startDate, endDate });
+    res.json(newEvent)
+  } else if (!byGroupId) {
+      res.status(404)
+      res.json({
       message: "Group couldn't be found",
       statusCode: 404
     })
-  } if (newEvent) {
-    res.json(newEvent);
   } else {
+    res.status(400)
     res.json({
       message: "Validation error",
       statusCode: 400,
