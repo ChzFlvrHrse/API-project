@@ -1,22 +1,41 @@
 const express = require('express');
 const router = express.Router();
 
-const { Venue } = require('../../db/models');
+const { Venue, User, Membership, Group } = require('../../db/models');
 
 router.put('/:venueId', async (req, res) => {
   const { venueId } = req.params
   const { address, city, state, lat, lng } = req.body
+  const { user } = req;
+  const currUserId = user.dataValues.id;
 
   const venueById = await Venue.findByPk(venueId);
 
-  // const updateVenue = venueById.set({ address, city, state, lat, lng })
+  if (venueById && (groupById.organizerId === currUserId || coHost)) {
+    const groupId = venueById.groupId;
+    const groupById = await Group.findOne({ where: { id: groupId } })
 
-  if (!venueById) {
+    const userMember = await User.findAll({
+      include: [{ model: Membership, where: { groupId } }]
+    })
+    let coHost;
+    for (let co of userMember) {
+      if (co.id === currUserId && co.Memberships[0].status === 'co-host') {
+        coHost = true;
+      }
+    }
+
+    const updateVenue = venueById.set({ address, city, state, lat, lng })
+    await updateVenue.save();
+    res.json(updateVenue)
+  } else if (!venueById) {
+    res.status(404);
     res.json({
       message: "Venue couldn't be found",
       statusCode: 404
     })
-  } else if (!venueById.set({ address, city, state, lat, lng })) {
+  } else {
+    res.status(400)
     res.json({
       message: "Validation error",
       statusCode: 400,
@@ -28,10 +47,6 @@ router.put('/:venueId', async (req, res) => {
         lng: "Longitude is not valid"
       }
     })
-  } else {
-    venueById.set({ address, city, state, lat, lng });
-    await venueById.save();
-    res.json(venueById);
   }
 })
 
