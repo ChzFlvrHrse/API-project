@@ -45,7 +45,6 @@ router.post('/:eventId/images', async (req, res) => {
   const byGroupId = await Group.findByPk(groupId)
 
   const allGroupMembers = await User.findAll({
-    attributes: { exclude: 'id' },
     include: [{ model: Membership, attributes: ['status'], where: { groupId } }]
   });
 
