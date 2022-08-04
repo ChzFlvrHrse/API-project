@@ -51,10 +51,10 @@ router.get('/:groupId', async (req, res) => {
 router.post('/', async (req, res) => {
   const { name, about, type, private, city, state } = req.body;
   const { user } = req;
-  const userId = user.dataValues.id;
+  const currUserId = user.dataValues.id;
 
 
-  const newGroup = await Group.create({ organizerId: userId, name, about, type, private, city, state });
+  const newGroup = await Group.create({ memberId: currUserId, name, about, type, private, city, state });
 
 
   if (newGroup) {
@@ -106,11 +106,11 @@ router.put('/:groupId', async (req, res) => {
   const { groupId } = req.params;
   const { name, about, type, private, city, state } = req.body;
   const { user } = req;
-  const userId = user.dataValues.id
+  const currUserId = user.dataValues.id
 
   const groupById = await Group.findByPk(groupId);
 
-  if (groupById && groupById.organizerId === userId) {
+  if (groupById && groupById.organizerId === currUserId) {
     const groupUpdate = groupById.set({
       name,
       about,
@@ -146,11 +146,11 @@ router.put('/:groupId', async (req, res) => {
 router.delete('/:groupId', async (req, res) => {
   const { groupId } = req.params
   const { user } = req;
-  const userId = user.dataValues.id
+  const currUserId = user.dataValues.id
 
   const deleteGroup = await Group.findByPk(groupId);
 
-  if (deleteGroup && deleteGroup.organizerId === userId) {
+  if (deleteGroup && deleteGroup.organizerId === currUserId) {
     await deleteGroup.destroy()
     res.json({
       message: "Successfully deleted",
@@ -308,7 +308,7 @@ router.post('/:groupId/events', async (req, res) => {
 
 router.get('/:groupId/members', async (req, res) => {
   const { groupId } = req.params;
-  const userId = req.user.dataValues.id
+  const currUserId = req.user.dataValues.id
 
   const findGroup = await Group.findByPk(groupId)
 
@@ -321,12 +321,12 @@ router.get('/:groupId/members', async (req, res) => {
 
     let coHost;
     for (let co of allGroupMembers) {
-      if (co.id === userId && co.Memberships[0].status === 'co-host') {
+      if (co.id === currUserId && co.Memberships[0].status === 'co-host') {
         coHost = true
       }
     }
 
-    if (userId !== findGroup.dataValues.organizerId && !coHost) {
+    if (currUserId !== findGroup.dataValues.organizerId && !coHost) {
       const allGroupMembers = await User.findAll({
         attributes: { exclude: ['id', 'email'] },
         include: [{ model: Membership, attributes: ['status'], where: { groupId } }]
@@ -361,12 +361,12 @@ router.get('/:groupId/members', async (req, res) => {
 
 router.post('/:groupId/members', async (req, res) => {
   const { user } = req
-  const userId = user.dataValues.id;
+  const currUserId = user.dataValues.id;
 
   const { groupId } = req.params;
 
   const groupById = await Group.findByPk(groupId)
-  const member = await Membership.findOne({ where: { userId } })
+  const member = await Membership.findOne({ where: { memberId: currUserId } })
 
   if (groupById) {
     if (member) {
@@ -384,7 +384,7 @@ router.post('/:groupId/members', async (req, res) => {
         })
       }
     } else {
-      const membershipReq = await Membership.create({ groupId: Number(groupId), userId, status: 'pending' });
+      const membershipReq = await Membership.create({ groupId: Number(groupId), memberId, status: 'pending' });
       res.json(membershipReq)
     }
   } else {
@@ -401,11 +401,11 @@ router.put('/:groupId/members', async (req, res) => {
   const { groupId } = req.params;
   const currUserId = req.user.dataValues.id;
 
-  const { userId, status } = req.body;
+  const { memberId, status } = req.body;
 
-  const findMember = await Membership.findOne({ where: { userId } })
+  const findMember = await Membership.findOne({ where: { memberId } })
   const byGroupId = await Group.findByPk(groupId)
-  const byUserId = await User.findByPk(userId)
+  const byUserId = await User.findByPk(memberId)
 
   if (!byGroupId) {
     res.status(404);
@@ -426,11 +426,11 @@ router.put('/:groupId/members', async (req, res) => {
     }
 
     if (status === "member" && (byGroupId.organizer === currUserId || coHost)) {
-      findMember.set({ groupId: Number(groupId), userId, status })
+      findMember.set({ groupId: Number(groupId), memberId, status })
       await findMember.save();
       res.json(findMember)
     } else if (status === "co-host" || byGroupId.organizerId === currUserId) {
-      findMember.set({ groupId: Number(groupId), userId, status })
+      findMember.set({ groupId: Number(groupId), memberId, status })
       await findMember.save();
       res.json(findMember)
     } else if (status === 'pending') {
@@ -474,11 +474,11 @@ router.delete('/:groupId/members', async (req, res) => {
   const { groupId } = req.params;
   const { id } = req.user
   // console.log(req)
-  const { userId } = req.body
+  const { memberId } = req.body
 
-  const byUserId = await User.findByPk(userId);
+  const byUserId = await User.findByPk(memberId);
   const byGroupId = await Group.findByPk(groupId)
-  const findMember = await Membership.findOne({ where: { userId } });
+  const findMember = await Membership.findOne({ where: { memberId } });
 
   if (!byUserId) {
     res.status(400);
