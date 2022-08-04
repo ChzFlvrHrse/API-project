@@ -136,15 +136,38 @@ router.put('/:eventId', async (req, res) => {
 
 router.delete('/:eventId', async (req, res) => {
   const { eventId } = req.params;
+  const currUserId = req.user.dataValues.id
 
   const deleteEvent = await Event.findByPk(eventId);
 
   if (deleteEvent) {
-    await deleteEvent.destroy();
-    res.json({
-      message: "Successfully deleted"
+    const groupId = deleteEvent.groupId;
+    const byGroupId = await Group.findByPk(groupId);
+
+    const userMember = await User.findAll({
+      include: [{ model: Membership, where: { groupId } }]
     })
+
+    let coHost;
+    for (let co of userMember) {
+      if (co.id === currUserId && co.Memberships[0].status === 'co-host') {
+        coHost = true;
+      }
+    }
+
+    if (byGroupId.organizerId === currUserId || coHost) {
+      await deleteEvent.destroy();
+      res.json({
+        message: "Successfully deleted"
+      })
+    } else {
+      res.status(400);
+      res.json({
+        message: "Only the organizer or co-host can perform this action"
+      })
+    }
   } else {
+    res.status(404)
     res.json({
       message: "Event couldn't be found",
       statusCode: 404
