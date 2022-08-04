@@ -28,7 +28,13 @@ router.get('/current', async (req, res) => {
 router.get('/:groupId', async (req, res) => {
   const { groupId } = req.params;
 
-  const groupById = await Group.findByPk(groupId);
+  const groupById = await Group.findByPk(groupId, {
+    include: [
+      {model: Image, attributes: ['id', 'imageableId', 'url']},
+      {model: User, attributes: ['id', 'firstName', 'lastName']},
+      {model: Venue, attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng']}
+    ]
+  });
 
   if (groupById) {
     res.json(groupById)
@@ -68,13 +74,21 @@ router.post('/', async (req, res) => {
 router.post('/:groupId/images', async (req, res) => {
   const { groupId } = req.params;
   const { url } = req.body;
+  const { user } = req;
+  const currUserId = user.dataValues.id;
 
   const groupById = await Group.findByPk(groupId);
 
-  const newImage = await Image.create({ imageableId: Number(groupId), url });
 
   if (groupById) {
-    res.json(newImage)
+    if (groupById.organizerId === currUserId) {
+      const newImage = await Image.create({ imageableId: Number(groupId), url });
+      res.json(newImage)
+    } else {
+      res.json({
+        message: "Only the group organizer can add photos"
+      })
+    }
   } else {
     res.json({
       message: "Group couldn't be found",
