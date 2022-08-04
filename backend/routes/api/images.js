@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { Image } = require('../../db/models');
+const { Image, Group } = require('../../db/models');
 
 
 router.delete('/:imageId', async (req, res) => {
@@ -11,8 +11,11 @@ router.delete('/:imageId', async (req, res) => {
 
   const findImage = await Image.findByPk(imageId);
 
+
   if (findImage) {
-    if (findImage.imageableId === currUserId) {
+    const groupId = findImage.groupId
+    const byGroupId = await Group.findByPk(groupId)
+    if (byGroupId.organizerId === currUserId) {
       await findImage.destroy();
       res.json({
         "message": "Successfully deleted",
@@ -21,7 +24,7 @@ router.delete('/:imageId', async (req, res) => {
     } else {
       res.status(400)
       res.json({
-        "message": "Only the owner of this photo can delete it",
+        "message": "Only the organizer can delete it",
         "statusCode": 400
       })
     }
@@ -32,6 +35,7 @@ router.delete('/:imageId', async (req, res) => {
       "statusCode": 404
     })
   }
+  res.json(byGroupId);
 });
 
 module.exports = router;
