@@ -30,9 +30,9 @@ router.get('/:groupId', async (req, res) => {
 
   const groupById = await Group.findByPk(groupId, {
     include: [
-      {model: Image, attributes: ['id', 'imageableId', 'url']},
-      {model: User, attributes: ['id', 'firstName', 'lastName']},
-      {model: Venue, attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng']}
+      { model: Image, attributes: ['id', 'imageableId', 'url'] },
+      { model: User, attributes: ['id', 'firstName', 'lastName'] },
+      { model: Venue, attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng'] }
     ]
   });
 
@@ -48,7 +48,8 @@ router.get('/:groupId', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const { name, about, type, private, city, state } = req.body;
-  const userId = req.user.dataValues.id
+  const { user } = req;
+  const userId = user.dataValues.id;
 
 
   const newGroup = await Group.create({ organizerId: userId, name, about, type, private, city, state });
@@ -98,30 +99,32 @@ router.post('/:groupId/images', async (req, res) => {
 });
 
 router.put('/:groupId', async (req, res) => {
-  console.log(req.params)
   const { groupId } = req.params;
   const { name, about, type, private, city, state } = req.body;
+  const { user } = req;
+  const userId = user.dataValues.id
 
-  const updateById = await Group.findByPk(groupId);
+  const groupById = await Group.findByPk(groupId);
 
-  const groupUpdate = updateById.set({
-    name,
-    about,
-    type,
-    private,
-    city,
-    state
-  });
-
-  if (!updateById) {
-    res.json({
-      message: "Group couldn't be found",
-      statusCode: 404
+  if (groupById && groupById.organizerId === userId) {
+    const groupUpdate = groupById.set({
+      name,
+      about,
+      type,
+      private,
+      city,
+      state
     })
-  } else if (groupUpdate) {
     await groupUpdate.save();
     res.json(groupUpdate)
+  } else if (!groupById){
+      res.status(400);
+      res.json({
+        message: "Group couldn't be found",
+        statusCode: 400
+      })
   } else {
+    res.status(400)
     res.json({
       message: "Validation error",
       statusCode: 400,
@@ -138,10 +141,12 @@ router.put('/:groupId', async (req, res) => {
 
 router.delete('/:groupId', async (req, res) => {
   const { groupId } = req.params
+  const { user } = req;
+  const userId = user.dataValues.id
 
   const deleteGroup = await Group.findByPk(groupId);
 
-  if (deleteGroup) {
+  if (deleteGroup && deleteGroup.organizerId === userId) {
     await deleteGroup.destroy()
     res.json({
       message: "Successfully deleted",
@@ -157,12 +162,25 @@ router.delete('/:groupId', async (req, res) => {
 
 router.get('/:groupId/venues', async (req, res) => {
   const { groupId } = req.params;
+  const { user } = req;
+  const currUserId = user.dataValues.id
 
   const byGroupId = await Venue.findAll({
     where: { groupId }
   });
+  const userGroup = await Group.findByPk(groupId)
+  const userMember = await User.findAll({
+    include: [{model: Membership, where: { groupId }, attributes: ['status']}]
+  })
+  
+  const coHost;
+  for (let co of userMember) {
+    if (co.id === currUserId && co.Memberships[0].status === 'co-host' ) {
+      coHost = true;
+    }
+  }
 
-  if (byGroupId) {
+  if (userGroup && (userGroup.organizerId === currUserId || coHost)) {
     res.json({ Venues: byGroupId });
   } else {
     res.status(404);
@@ -171,6 +189,7 @@ router.get('/:groupId/venues', async (req, res) => {
       statusCode: 404
     })
   }
+  res.json(userMember)
 });
 
 router.post('/:groupId/venues', async (req, res) => {
@@ -181,27 +200,29 @@ router.post('/:groupId/venues', async (req, res) => {
   // console.log(byGroupId)
   const newVenue = await Venue.create({ groupId: Number(groupId), address, city, state, lat, lng });
 
-  if (!byGroupId) {
-    res.json({
-      message: "Group couldn't be found",
-      statusCode: 404
-    })
-  } else if (newVenue) {
-    res.json(newVenue)
-  } else {
-    res.status(400),
-      res.json({
-        message: "Validation error",
-        statusCode: 400,
-        errors: {
-          address: "Street address is required",
-          city: "City is required",
-          state: "State is required",
-          lat: "Latitude is not valid",
-          lng: "Longitude is not valid"
-        }
-      })
-  }
+
+
+  // if (!byGroupId) {
+  //   res.json({
+  //     message: "Group couldn't be found",
+  //     statusCode: 404
+  //   })
+  // } else if (newVenue) {
+  //   res.json(newVenue)
+  // } else {
+  //   res.status(400),
+  //     res.json({
+  //       message: "Validation error",
+  //       statusCode: 400,
+  //       errors: {
+  //         address: "Street address is required",
+  //         city: "City is required",
+  //         state: "State is required",
+  //         lat: "Latitude is not valid",
+  //         lng: "Longitude is not valid"
+  //       }
+  //     })
+  // }
 });
 
 router.get('/:groupId/events', async (req, res) => {
@@ -405,9 +426,9 @@ router.delete('/:groupId/members', async (req, res) => {
 
   const findUser = await User.findByPk(userId);
   const findGroup = await Group.findByPk(groupId)
-  const findMember = await Membership.findOne({where: {userId: currUserId}});
+  const findMember = await Membership.findOne({ where: { userId: currUserId } });
   const groupMembers = await User.findAll({
-    include: [{model: Membership, where: {groupId}}]
+    include: [{ model: Membership, where: { groupId } }]
   });
 
   if (findUser) {
