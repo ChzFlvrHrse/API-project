@@ -310,7 +310,7 @@ router.put('/:eventId/attendance', async (req, res) => {
     const groupId = findEvent.groupId;
     const byGroupId = await Group.findByPk(groupId);
 
-    const findMember = await Membership.findOne({ where: { groupId, memberId: userId, status: 'co-host' } });
+    const findMember = await Membership.findOne({ where: { groupId, memberId: currUserId, status: 'co-host' } });
     const memberAtt = await Attendance.findOne({ where: { userId, eventId } });
 
     if (!memberAtt) {
@@ -354,12 +354,15 @@ router.delete('/:eventId/attendance', async (req, res) => {
   const currUserId = user.dataValues.id;
 
   const findEvent = await Event.findByPk(eventId);
-  const findAtt = await Attendance.findOne({
-    where: { userId: currUserId }
-  });
-  const findGroup = await Group.findOne({ where: { organizerId: currUserId } });
 
   if (findEvent) {
+    const groupId = findEvent.groupId
+
+    const findAtt = await Attendance.findOne({
+      where: { userId: currUserId, groupId }
+    });
+    const findGroup = await Group.findOne({ where: { organizerId: currUserId } });
+
     if (findAtt) {
       if (findGroup.organizerId === currUserId || findAtt.id === currUserId) {
         await findAtt.destroy();
