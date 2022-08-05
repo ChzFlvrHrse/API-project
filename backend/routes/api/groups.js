@@ -451,12 +451,14 @@ router.put('/:groupId/members', async (req, res) => {
   } else if ( status === 'member' && (byGroupId.organizerId === currUserId || findMember)) {
     const updateMember = await Membership.findOne({where: { memberId }})
     updateMember.set({groupId: Number(groupId), memberId, status})
+    await updateMember.save();
 
     const updated = await Membership.findOne({where: {memberId}, attributes: {exclude: ['eventId']}});
     res.json(updated)
   } else if ( status === 'co-host' && byGroupId.organizerId) {
     const updateMember = await Membership.findOne({where: { memberId }})
     updateMember.set({groupId: Number(groupId), memberId, status})
+    await updateMember.save();
 
     const updated = await Membership.findOne({where: {memberId}, attributes: {exclude: ['eventId']}});
     res.json(updated)
