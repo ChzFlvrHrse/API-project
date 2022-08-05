@@ -369,7 +369,7 @@ router.delete('/:eventId/attendance', async (req, res) => {
     const findGroup = await Group.findOne({ where: { organizerId: currUserId } });
 
     const findAtt = await Attendance.findOne({
-      where: {userId: currUserId, eventId}
+      where: {userId , eventId}
     })
 
     if (findAtt) {
