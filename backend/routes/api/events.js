@@ -356,10 +356,10 @@ router.delete('/:eventId/attendance', async (req, res) => {
   const findEvent = await Event.findByPk(eventId);
 
   if (findEvent) {
-    const groupId = findEvent.groupId
+    // const groupId = findEvent.groupId
 
     const findAtt = await Attendance.findOne({
-      where: { userId: currUserId, groupId }
+      where: { userId: currUserId, eventId }
     });
     const findGroup = await Group.findOne({ where: { organizerId: currUserId } });
 
