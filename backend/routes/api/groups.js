@@ -4,7 +4,9 @@ const router = express.Router();
 const { User, Group, Image, Venue, Event, Membership } = require('../../db/models');
 
 router.get('/', async (req, res) => {
-  const groups = await Group.findAll();
+  const groups = await Group.findAll({
+    include: [{model: Image, attributes: ['id', 'groupId', 'url']}]
+  });
   if (groups) {
     res.json(groups)
   } else {
@@ -53,9 +55,7 @@ router.post('/', async (req, res) => {
   const { user } = req;
   const currUserId = user.dataValues.id;
 
-
-  const newGroup = await Group.create({ memberId: currUserId, name, about, type, private, city, state });
-
+  const newGroup = await Group.create({ organizerId: currUserId, name, about, type, private, city, state });
 
   if (newGroup) {
     res.json(newGroup)
@@ -89,8 +89,10 @@ router.post('/:groupId/images', async (req, res) => {
       const newImage = await Image.create({ groupId: Number(groupId), url });
       res.json(newImage)
     } else {
+      res.status(400)
       res.json({
-        message: "Only the group organizer can add photos"
+        message: "Only the group organizer can add photos",
+        statusCode: 400
       })
     }
   } else {
@@ -120,7 +122,11 @@ router.put('/:groupId', async (req, res) => {
       state
     })
     await groupUpdate.save();
-    res.json(groupUpdate)
+    const updatedGroup = await Group.scope('dates').findByPk(groupId, {
+      attributes: {exclude: ['numMembers']}
+    })
+
+    res.json(updatedGroup)
   } else if (!groupById) {
     res.status(400);
     res.json({
@@ -176,7 +182,7 @@ router.get('/:groupId/venues', async (req, res) => {
   const groupById = await Group.findByPk(groupId)
   const userMember = await User.findAll({
     include: [{ model: Membership, where: { groupId }, attributes: ['status'] }]
-  })
+  });
 
   let coHost;
   for (let co of userMember) {
@@ -186,6 +192,8 @@ router.get('/:groupId/venues', async (req, res) => {
   }
 
   if (groupById && (groupById.organizerId === currUserId || coHost)) {
+    // const theVenues = await Venue.findAll
+
     res.json({ Venues: venueById });
   } else {
     res.status(404);
@@ -216,6 +224,8 @@ router.post('/:groupId/venues', async (req, res) => {
 
   if (byGroupId && (byGroupId.organizerId === currUserId || coHost)) {
     const newVenue = await Venue.create({ groupId: Number(groupId), address, city, state, lat, lng });
+
+    
     res.json(newVenue);
   } else if (!byGroupId) {
     res.status(404);

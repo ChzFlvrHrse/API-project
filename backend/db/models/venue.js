@@ -62,7 +62,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         validLng(value){
-          if (value < -90 && value > 180) {
+          if (value < -90 && value > 90) {
             throw new Error("Longitude is not valid")
           }
         }
@@ -73,6 +73,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Venue',
+    defaultScope: {
+      attributes: {
+        exclude: ['createdAt', 'updatedAt']
+      }
+    }
   });
   return Venue;
 };

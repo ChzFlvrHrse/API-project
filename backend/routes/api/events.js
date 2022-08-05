@@ -5,8 +5,11 @@ const { Group, Image, Venue, Event, User, Attendance, Membership } = require('..
 
 router.get('/', async (req, res) => {
   const allEvents = await Event.findAll({
-    attributes: { exclude: ['description', 'capacity', 'price'] },
-    include: [{ model: Group, attributes: ['id', 'name', 'city', 'state'] }, { model: Venue, attributes: ['id', 'city', 'state'] }]
+    attributes: { exclude: ['description', 'capacity', 'price', 'previewImage'] },
+    include: [
+      { model: Image, attributes: { exclude: ['groupId', 'imageableType', 'createdAt', 'updatedAt'] } },
+      { model: Group, attributes: ['id', 'name', 'city', 'state'] },
+      { model: Venue, attributes: ['id', 'city', 'state'] }]
   })
 
   if (allEvents) {
@@ -19,9 +22,9 @@ router.get('/:eventId', async (req, res) => {
 
   const byEventId = await Event.findByPk(eventId, {
     include: [
+      { model: Image, attributes: { exclude: ['groupId'] } },
       { model: Group, attributes: { exclude: ['organizerId', 'about', 'type'] } },
-      { model: Venue, attributes: { exclude: ['groupId'] } },
-      { model: Image, attributes: { exclude: ['imageableType'] } }]
+      { model: Venue, attributes: { exclude: ['groupId'] } }]
   })
 
   if (byEventId) {

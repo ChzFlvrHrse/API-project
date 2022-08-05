@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Membership.belongsTo(
         models.User,
-        { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true }
+        { foreignKey: 'memberId', onDelete: 'CASCADE', hooks: true }
       ),
       Membership.belongsTo(
         models.Group,
