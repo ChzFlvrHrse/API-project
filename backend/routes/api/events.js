@@ -232,7 +232,7 @@ router.post('/:eventId/attendance', async (req, res) => {
     if (findMember) {
       const memberAtt = await Attendance.findOne({ where: { userId: currUserId, eventId } })
       if (!memberAtt) {
-        const attReq = await Attendance.create({ eventId: Number(eventId), userId: currUserId, status: 'pending' });
+        const attReq = await Attendance.create({ eventId: Number(eventId), userId, status: 'pending' });
         res.json(attReq)
       } else if (memberAtt.status === 'pending') {
         res.status(400);
@@ -276,7 +276,7 @@ router.put('/:eventId/attendance', async (req, res) => {
     const byGroupId = await Group.findByPk(groupId);
 
     const findMember = await Membership.findOne({ where: { groupId, memberId: currUserId, status: 'co-host' } });
-    const memberAtt = await Attendance.findOne({ where: { userId } });
+    const memberAtt = await Attendance.findOne({ where: { userId, eventId } });
 
     if (!memberAtt) {
       res.status(404);
@@ -290,7 +290,11 @@ router.put('/:eventId/attendance', async (req, res) => {
         message: "Cannot change an attendance status to pending",
         statusCode: 400
       })
-    } else if (byGroupId.organizerId === currUserId || findMember) {
+    } else if (status === 'member' && (byGroupId.organizerId === currUserId || findMember)) {
+      memberAtt.set({ eventId: Number(eventId), userId, status });
+      await memberAtt.save()
+      res.json(memberAtt)
+    } else if (ststus === 'co-host' && byGroupId.organizerId === currUserId) {
       memberAtt.set({ eventId: Number(eventId), userId, status });
       await memberAtt.save()
       res.json(memberAtt)
