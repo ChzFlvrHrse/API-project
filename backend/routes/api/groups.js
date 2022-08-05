@@ -477,7 +477,7 @@ router.put('/:groupId/members', async (req, res) => {
 router.delete('/:groupId/members', async (req, res) => {
   const { groupId } = req.params;
   const { id } = req.user
-  // console.log(req)
+
   const { memberId } = req.body
 
   const byUserId = await User.findByPk(memberId);
@@ -500,18 +500,18 @@ router.delete('/:groupId/members', async (req, res) => {
       statusCode: 404
     })
   } else if (findMember) {
-    const groupMembers = await User.findAll({
-      include: [{ model: Membership, where: { groupId } }]
+    const groupMember = await User.findOne({
+      include: [{ model: Membership, where: { groupId, memberId } }]
     });
 
-    let myMembership;
-    for (let my of groupMembers) {
-      if (my.id === id) {
-        myMembership = true;
-      }
-    }
+    // let myMembership;
+    // for (let my of groupMembers) {
+    //   if (my.id === id) {
+    //     myMembership = true;
+    //   }
+    // }
 
-    if (byGroupId.organizerId === id || myMembership) {
+    if (byGroupId.organizerId === id || groupMember.memberId === currUserId) {
       await findMember.destroy();
       res.json({
         message: "Successfully deleted membership from group"
