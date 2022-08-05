@@ -225,7 +225,7 @@ router.post('/:groupId/venues', async (req, res) => {
   if (byGroupId && (byGroupId.organizerId === currUserId || coHost)) {
     const newVenue = await Venue.create({ groupId: Number(groupId), address, city, state, lat, lng });
 
-    
+
     res.json(newVenue);
   } else if (!byGroupId) {
     res.status(404);
@@ -257,7 +257,10 @@ router.get('/:groupId/events', async (req, res) => {
   const byEventId = await Event.findAll({
     where: { groupId },
     attributes: { exclude: ['description', 'capacity', 'price'] },
-    include: [{ model: Group, attributes: ['id', 'name', 'city', 'state'] }, { model: Venue, attributes: ['id', 'city', 'state'] }]
+    include: [
+      { model: Image, attributes: { exclude: ['groupId', 'imageableType', 'createdAt', 'updatedAt'] } },
+      { model: Group, attributes: ['id', 'name', 'city', 'state'] },
+      { model: Venue, attributes: ['id', 'city', 'state'] }]
   })
 
   if (byGroupId) {
@@ -287,7 +290,7 @@ router.post('/:groupId/events', async (req, res) => {
       coHost = true;
     }
   }
-  console.log(venueId, name, type, capacity, price, description, startDate, endDate)
+  
   if (byGroupId && (byGroupId.organizerId === currUserId || coHost)) {
     const newEvent = await Event.create({ groupId: Number(groupId), venueId, name, type, capacity, price, description, startDate, endDate });
     res.json(newEvent)

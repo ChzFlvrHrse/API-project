@@ -21,14 +21,15 @@ router.get('/:eventId', async (req, res) => {
   const { eventId } = req.params;
 
   const byEventId = await Event.findByPk(eventId, {
+    attributes: { exclude: ['previewImage'] },
     include: [
-      { model: Image, attributes: { exclude: ['groupId'] } },
-      { model: Group, attributes: { exclude: ['organizerId', 'about', 'type'] } },
-      { model: Venue, attributes: { exclude: ['groupId'] } }]
+      { model: Group, attributes: { exclude: ['organizerId', 'about', 'type', 'createdAt', 'updatedAt', 'numMembers'] } },
+      { model: Venue, attributes: { exclude: ['groupId', 'createdAt', 'updatedAt'] } },
+      { model: Image, attributes: { exclude: ['groupId', 'imageableType', 'createdAt', 'updatedAt'] } }]
   })
 
   if (byEventId) {
-    res.json(byEventId)
+    res.json({Events: byEventId})
   } else {
     res.status(404)
     res.json({
@@ -71,7 +72,6 @@ router.post('/:eventId/images', async (req, res) => {
       statusCode: 404
     });
   }
-  res.json(byEventId)
 });
 
 router.put('/:eventId', async (req, res) => {
@@ -136,8 +136,6 @@ router.put('/:eventId', async (req, res) => {
       }
     })
   }
-
-  res.json(byEventId)
 });
 
 router.delete('/:eventId', async (req, res) => {
