@@ -373,12 +373,13 @@ router.get('/:groupId/members', async (req, res) => {
 });
 
 router.post('/:groupId/members', async (req, res) => {
-  const { user } = req
-  const currUserId = user.dataValues.id;
+  // const { user } = req
+  // const currUserId = user.dataValues.id;
 
   const { groupId } = req.params;
   const { memberId, status } = req.body;
 
+  // const byUserId = await User.findOne({where: {id: currUserId}})
   const groupById = await Group.findByPk(groupId)
   const member = await Membership.findOne({ where: { groupId, memberId } })
 
@@ -398,7 +399,7 @@ router.post('/:groupId/members', async (req, res) => {
         })
       }
     } else {
-      const membershipReq = await Membership.create({ groupId: Number(groupId), memberId: Number(memberId), status: 'pending' });
+      const membershipReq = await Membership.create({ groupId: Number(groupId), memberId, status });
       res.json(membershipReq)
     }
   } else {

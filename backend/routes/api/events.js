@@ -262,8 +262,8 @@ router.post('/:eventId/attendance', async (req, res) => {
 
   if (findEvent) {
     const groupId = findEvent.groupId;
-    const findMember = await Membership.findOne({ where: { memberId: currUserId, groupId } })
-
+    const findMember = await Membership.findOne({ where: { groupId, memberId: userId } })
+    // console.log(findMember);
     if (findMember) {
       const memberAtt = await Attendance.findOne({ where: { userId: currUserId, eventId } })
       if (!memberAtt) {
@@ -310,7 +310,7 @@ router.put('/:eventId/attendance', async (req, res) => {
     const groupId = findEvent.groupId;
     const byGroupId = await Group.findByPk(groupId);
 
-    const findMember = await Membership.findOne({ where: { groupId, memberId: currUserId, status: 'co-host' } });
+    const findMember = await Membership.findOne({ where: { groupId, memberId: userId, status: 'co-host' } });
     const memberAtt = await Attendance.findOne({ where: { userId, eventId } });
 
     if (!memberAtt) {
@@ -329,7 +329,7 @@ router.put('/:eventId/attendance', async (req, res) => {
       memberAtt.set({ eventId: Number(eventId), userId, status });
       await memberAtt.save()
       res.json(memberAtt)
-    } else if (ststus === 'co-host' && byGroupId.organizerId === currUserId) {
+    } else if (status === 'co-host' && byGroupId.organizerId === currUserId) {
       memberAtt.set({ eventId: Number(eventId), userId, status });
       await memberAtt.save()
       res.json(memberAtt)
