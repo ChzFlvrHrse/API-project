@@ -29,7 +29,7 @@ router.get('/:eventId', async (req, res) => {
   })
 
   if (byEventId) {
-    res.json({Events: byEventId})
+    res.json({ Events: byEventId })
   } else {
     res.status(404)
     res.json({
@@ -184,34 +184,28 @@ router.get('/:eventId/attendees', async (req, res) => {
   const { user } = req;
   const currUserId = user.dataValues.id;
 
-  const findEvent = await Event.findByPk(eventId);
-  const findGroup = await Group.findByPk(currUserId)
+  const byEventId = await Event.findByPk(eventId);
 
-  const Attendees = await User.findAll({
-    include: [{ model: Attendance, where: { eventId }, attributes: ['status'] }]
-  });
+  const findMember = await Membership.findOne({ where: { memberId: currUserId, status: 'co-host' } })
 
-  if (findEvent) {
-    let coHost;
-    for (let att of Attendees) {
-      if (att.Attendances[0].status === 'co-host') {
-        if (att.id === currUserId) {
-          coHost = true;
-        }
-      }
-    }
-    if (findGroup.organizerId === currUserId || coHost) {
-      res.json({ Attendees })
+  if (byEventId) {
+    const groupId = byEventId.groupId;
+    const byGroupId = await Group.findByPk(groupId)
+
+    if (byGroupId.organizerId === currUserId || findMember) {
+      res.json({ Attendees: attendees })
     } else {
+      const attendees = await User.findAll({
+        include: [{ model: Attendance, where: { eventId }, attributes: ['status'] }]
+      });
       let noPend = [];
 
-      for (let att of Attendance) {
+      for (let att of attendees) {
         if (att.Attendances[0].status !== 'pending') {
           noPend.push(att)
         }
       };
-
-      res.json({ noPend })
+      res.json({ Attendees: noPend })
     }
   } else {
     res.status(404)
@@ -225,35 +219,42 @@ router.get('/:eventId/attendees', async (req, res) => {
 router.post('/:eventId/attendance', async (req, res) => {
   const { eventId } = req.params;
   const { user } = req;
-  const userId = user.dataValues.id;
+  const currUserId = user.dataValues.id;
 
   const findEvent = await Event.findByPk(eventId);
-  const userEvent = await User.findByPk(userId, {
-    include: [{ model: Attendance, attributes: ['status'], where: { eventId } }]
-  })
 
   if (findEvent) {
-    if (!userEvent) {
-      const newAttendee = await Attendance.create({ eventId: Number(eventId), userId, status: 'pending' });
-      res.json(newAttendee)
-    } else if (userEvent.Attendances[0].status === 'pending') {
-      res.status(400)
-      res.json({
-        "message": "Attendance has already been requested",
-        "statusCode": 400
-      })
+    const groupId = findEvent.groupId;
+    const findMember = await Membership.findOne({ where: { memberId: currUserId, groupId } })
+
+    if (findMember) {
+      const memberAtt = await Attendance.findOne({ where: { userId: currUserId } })
+      if (!memberAtt) {
+        const attReq = await Attendance.create({ eventId: Number(eventId), userId: currUserId, status: 'pending' });
+        res.json(attReq)
+      } else if (memberAtt.status === 'pending') {
+        res.status(400);
+        res.json({
+          message: "Attendance has already been requested",
+          statusCode: 400
+        })
+      } else if (memberAtt.status === 'member') {
+        res.status(400)
+        res.json({
+          "message": "User is already an attendee of the event",
+          "statusCode": 400
+        })
+      }
     } else {
-      res.status(400)
       res.json({
-        "message": "User is already an attendee of the event",
-        "statusCode": 400
+        message: "Not a member"
       })
     }
   } else {
     res.status(404)
     res.json({
-      "message": "Event couldn't be found",
-      "statusCode": 404
+      message: "Event couldn't be found",
+      statusCode: 404
     })
   }
 });
