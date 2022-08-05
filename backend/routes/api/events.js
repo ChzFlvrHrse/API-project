@@ -221,7 +221,7 @@ router.get('/:eventId/attendees', async (req, res) => {
   }
 });
 
-router.post('/:eventId/attendees', async (req, res) => {
+router.post('/:eventId/attendance', async (req, res) => {
   const { eventId } = req.params;
   const { user } = req;
   const userId = user.dataValues.id;
@@ -257,7 +257,7 @@ router.post('/:eventId/attendees', async (req, res) => {
   }
 });
 
-router.put('/:eventId/attendees', async (req, res) => {
+router.put('/:eventId/attendance', async (req, res) => {
   const { eventId } = req.params;
   const { userId, status } = req.body;
   const currUserId = req.user.dataValues.id;
@@ -313,7 +313,7 @@ router.put('/:eventId/attendees', async (req, res) => {
   res.json(userEvent)
 });
 
-router.delete('/:eventId/attendees', async (req, res) => {
+router.delete('/:eventId/attendance', async (req, res) => {
   const { eventId } = req.params;
   const { user } = req
   const currUserId = user.dataValues.id;
