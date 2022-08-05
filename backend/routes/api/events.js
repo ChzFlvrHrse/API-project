@@ -363,13 +363,17 @@ router.delete('/:eventId/attendance', async (req, res) => {
 
   if (findEvent) {
 
-    const findAtt = await Attendance.findOne({
+    const findCo = await Attendance.findOne({
       where: { userId: currUserId, eventId, status: 'co-host' }
     });
     const findGroup = await Group.findOne({ where: { organizerId: currUserId } });
 
+    const findAtt = await Attendance.findOne({
+      where: {userId: currUserId, eventId}
+    })
+
     if (findAtt) {
-      if (findGroup.organizerId === currUserId || findAtt) {
+      if (findGroup.organizerId === currUserId || findCo) {
         await findAtt.destroy();
         res.json({
           "message": "Successfully deleted attendance from event"
