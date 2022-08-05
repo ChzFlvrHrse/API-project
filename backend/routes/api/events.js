@@ -354,6 +354,7 @@ router.put('/:eventId/attendance', async (req, res) => {
 
 router.delete('/:eventId/attendance', async (req, res) => {
   const { eventId } = req.params;
+  const { userId } = req.body
   const { user } = req
   const currUserId = user.dataValues.id;
 
@@ -368,7 +369,7 @@ router.delete('/:eventId/attendance', async (req, res) => {
     const findGroup = await Group.findOne({ where: { organizerId: currUserId } });
 
     if (findAtt) {
-      if (findGroup.organizerId === currUserId || findAtt.id === currUserId) {
+      if (findGroup.organizerId === currUserId || findAtt.id === userId) {
         await findAtt.destroy();
         res.json({
           "message": "Successfully deleted attendance from event"
