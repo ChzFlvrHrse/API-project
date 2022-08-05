@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 
 const { User, Group, Image, Venue, Event, Membership } = require('../../db/models');
-const group = require('../../db/models/group');
 
 router.get('/', async (req, res) => {
   const groups = await Group.findAll({
@@ -378,9 +377,10 @@ router.post('/:groupId/members', async (req, res) => {
   const currUserId = user.dataValues.id;
 
   const { groupId } = req.params;
+  const { memberId, status } = req.body;
 
   const groupById = await Group.findByPk(groupId)
-  const member = await Membership.findOne({ where: { groupId, memberId: currUserId } })
+  const member = await Membership.findOne({ where: { groupId, memberId } })
 
   if (groupById) {
     if (member) {
@@ -398,7 +398,7 @@ router.post('/:groupId/members', async (req, res) => {
         })
       }
     } else {
-      const membershipReq = await Membership.create({ groupId: Number(groupId), memberId: currUserId, status: 'pending' });
+      const membershipReq = await Membership.create({ groupId: Number(groupId), memberId: Number(memberId), status: 'pending' });
       res.json(membershipReq)
     }
   } else {

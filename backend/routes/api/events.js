@@ -219,6 +219,7 @@ router.get('/:eventId/attendees', async (req, res) => {
 
 router.post('/:eventId/attendance', async (req, res) => {
   const { eventId } = req.params;
+  const { userId, status } = req.body
   const { user } = req;
   const currUserId = user.dataValues.id;
 
@@ -226,7 +227,7 @@ router.post('/:eventId/attendance', async (req, res) => {
 
   if (findEvent) {
     const groupId = findEvent.groupId;
-    const findMember = await Membership.findOne({ where: { memberId: currUserId, groupId } })
+    const findMember = await Membership.findOne({ where: { memberId: userId, groupId } })
 
     if (findMember) {
       const memberAtt = await Attendance.findOne({ where: { userId: currUserId, eventId } })
@@ -247,8 +248,10 @@ router.post('/:eventId/attendance', async (req, res) => {
         })
       }
     } else {
+      res.status(400)
       res.json({
-        message: "Not a member"
+        message: "This user is not a member of the group and cannot request attendance to events",
+        statusCode: 400
       })
     }
   } else {
