@@ -380,7 +380,7 @@ router.post('/:groupId/members', async (req, res) => {
   const { groupId } = req.params;
 
   const groupById = await Group.findByPk(groupId)
-  const member = await Membership.findOne({ where: { memberId: currUserId } })
+  const member = await Membership.findOne({ where: { groupId, memberId: currUserId } })
 
   if (groupById) {
     if (member) {
@@ -408,7 +408,6 @@ router.post('/:groupId/members', async (req, res) => {
       statusCode: 404
     })
   }
-  res.json(member)
 });
 
 router.put('/:groupId/members', async (req, res) => {

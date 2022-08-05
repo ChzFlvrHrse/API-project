@@ -191,13 +191,14 @@ router.get('/:eventId/attendees', async (req, res) => {
   if (byEventId) {
     const groupId = byEventId.groupId;
     const byGroupId = await Group.findByPk(groupId)
+    const attendees = await User.findAll({
+      include: [{ model: Attendance, where: { eventId }, attributes: ['status'] }]
+    });
 
     if (byGroupId.organizerId === currUserId || findMember) {
       res.json({ Attendees: attendees })
     } else {
-      const attendees = await User.findAll({
-        include: [{ model: Attendance, where: { eventId }, attributes: ['status'] }]
-      });
+
       let noPend = [];
 
       for (let att of attendees) {
@@ -262,57 +263,47 @@ router.post('/:eventId/attendance', async (req, res) => {
 router.put('/:eventId/attendance', async (req, res) => {
   const { eventId } = req.params;
   const { userId, status } = req.body;
-  const currUserId = req.user.dataValues.id;
+  const { user } = req;
+  const currUserId = user.dataValues.id;
 
   const findEvent = await Event.findByPk(eventId);
-
-  if (findEvent) {
-
-  }
 
   if (findEvent) {
     const groupId = findEvent.groupId;
     const byGroupId = await Group.findByPk(groupId);
 
-    const userEvent = await User.findAll({
-      include: [{ model: Attendance, where: { eventId } }]
-    });
+    const findMember = await Membership.findOne({ where: { groupId, memberId: currUserId, status: 'co-host' } });
+    const memberAtt = await Attendance.findOne({ where: { userId } });
 
-    let isAtt;
-    for (let att of userEvent) {
-      // console.log(att.id)
-      if (att.id === currUserId && att.Attendances[0].status === 'co-host') {
-        isAtt = true;
-      }
-    }
-
-    if (status === 'pending') {
+    if (!memberAtt) {
+      res.status(404);
+      res.json({
+        message: "Attendance between the user and the event does not exists",
+        statusCode: 404
+      })
+    } else if (status === 'pending') {
       res.status(400)
       res.json({
-        "message": "Cannot change an attendance status to pending",
-        "statusCode": 400
+        message: "Cannot change an attendance status to pending",
+        statusCode: 400
       })
-    } else if (byGroupId.organizerId === currUserId || isAtt) {
-      const newStatus = await Attendance.findOne({ where: { userId } });
-      newStatus.set({ eventId: Number(eventId), userId, status });
-      await newStatus.save()
-
-      res.json(newStatus)
+    } else if (byGroupId.organizerId === currUserId || findMember) {
+      memberAtt.set({ eventId: Number(eventId), userId, status });
+      await memberAtt.save()
+      res.json(memberAtt)
     } else {
-      res.status(404)
+      res.status(400);
       res.json({
-        "message": "Attendance between the user and the event does not exist",
-        "statusCode": 404
+        message: "Not authorized to perform this action"
       })
     }
   } else {
     res.status(404)
     res.json({
-      "message": "Event couldn't be found",
-      "statusCode": 404
+      message: "Event couldn't be found",
+      statusCode: 404
     })
   }
-  res.json(userEvent)
 });
 
 router.delete('/:eventId/attendance', async (req, res) => {
