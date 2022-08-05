@@ -148,7 +148,7 @@ router.put('/:eventId', async (req, res) => {
     }
 
     if (byGroupId.organizerId === currUserId || coHost) {
-      const updateEvent = byEventId.set({ groupId: Number(eventId), venueId, name, type, capacity, price, description, startDate, endDate });
+      const updateEvent = byEventId.set({ groupId, venueId, name, type, capacity, price, description, startDate, endDate });
       await updateEvent.save();
 
       const updatedEvent = await Event.findByPk(eventId, {
