@@ -89,7 +89,7 @@ router.post('/:groupId/images', async (req, res) => {
       await Image.create({ groupId: Number(groupId), url });
       const findImage = await Image.findOne({
         where: {groupId},
-        attributes: ['id', ['eventId', 'imageableId'], 'url']
+        attributes: ['id', ['groupId', 'imageableId'], 'url']
       })
 
       res.json(findImage)
