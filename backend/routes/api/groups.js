@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { User, Group, Image, Venue, Event, Membership } = require('../../db/models');
+const group = require('../../db/models/group');
 
 router.get('/', async (req, res) => {
   const groups = await Group.findAll({
@@ -290,7 +291,7 @@ router.post('/:groupId/events', async (req, res) => {
       coHost = true;
     }
   }
-  
+
   if (byGroupId && (byGroupId.organizerId === currUserId || coHost)) {
     const newEvent = await Event.create({ groupId: Number(groupId), venueId, name, type, capacity, price, description, startDate, endDate });
     res.json(newEvent)
@@ -339,7 +340,7 @@ router.get('/:groupId/members', async (req, res) => {
       }
     }
 
-    if (currUserId !== findGroup.dataValues.organizerId && !coHost) {
+    if (currUserId !== findGroup.organizerId && !coHost) {
       const allGroupMembers = await User.findAll({
         attributes: { exclude: ['id', 'email'] },
         include: [{ model: Membership, attributes: ['status'], where: { groupId } }]
@@ -397,7 +398,7 @@ router.post('/:groupId/members', async (req, res) => {
         })
       }
     } else {
-      const membershipReq = await Membership.create({ groupId: Number(groupId), memberId, status: 'pending' });
+      const membershipReq = await Membership.create({ groupId: Number(groupId), memberId: currUserId, status: 'pending' });
       res.json(membershipReq)
     }
   } else {
@@ -416,61 +417,44 @@ router.put('/:groupId/members', async (req, res) => {
 
   const { memberId, status } = req.body;
 
-  const findMember = await Membership.findOne({ where: { memberId } })
+  const findMember = await Membership.findOne({ where: { memberId, status: 'co-host' } })
   const byGroupId = await Group.findByPk(groupId)
-  const byUserId = await User.findByPk(memberId)
+  const byUserId = await User.findByPk(currUserId)
 
-  if (!byGroupId) {
-    res.status(404);
-    res.json({
-      message: "Group couldn't be found",
-      statusCode: 404
-    })
-  } else if (findMember) {
-    const allGroupMembers = await User.findAll({
-      include: [{ model: Membership, attributes: ['status'], where: { groupId } }]
-    });
-
-    let coHost;
-    for (let co of allGroupMembers) {
-      if (co.id === currUserId && co.Memberships[0].status === 'co-host') {
-        coHost = true
-      }
-    }
-
-    if (status === "member" && (byGroupId.organizer === currUserId || coHost)) {
-      findMember.set({ groupId: Number(groupId), memberId, status })
-      await findMember.save();
-      res.json(findMember)
-    } else if (status === "co-host" || byGroupId.organizerId === currUserId) {
-      findMember.set({ groupId: Number(groupId), memberId, status })
-      await findMember.save();
-      res.json(findMember)
-    } else if (status === 'pending') {
-      res.status(400);
-      res.json({
-        message: "Validation Error",
-        statusCode: 400,
-        errors: {
-          memberId: "Cannot change a membership status to 'pending'"
-        }
-      })
-    } else {
-      res.status(400);
-      res.json({
-        message: "You are not authorized to make this change",
-        statusCode: 400
-      })
-    }
-  } else if (!byUserId) {
+  if (!byUserId) {
     res.status(400);
     res.json({
       message: "Validation Error",
       statusCode: 400,
+      errors: "User could not be found"
+    })
+  } else if (!byGroupId) {
+    res.status(404);
+    res.json({
+      message: "Group couldn't be found",
+      stausCode: 404
+    })
+  } else if (status === 'pending') {
+    res.status(400);
+    res.json({
+      message: "Validaton Error",
+      statusCode: 400,
       errors: {
-        memberId: "User couldn't be found"
+        memberId: "Cannot change a membership status to pending"
       }
     })
+  } else if ( status === 'member' && (byGroupId.organizerId === currUserId || findMember)) {
+    const updateMember = await Membership.findOne({where: { memberId }})
+    updateMember.set({groupId: Number(groupId), memberId, status})
+
+    const updated = await Membership.findOne({where: {memberId}, attributes: {exclude: ['eventId']}});
+    res.json(updated)
+  } else if ( status === 'co-host' && byGroupId.organizerId) {
+    const updateMember = await Membership.findOne({where: { memberId }})
+    updateMember.set({groupId: Number(groupId), memberId, status})
+
+    const updated = await Membership.findOne({where: {memberId}, attributes: {exclude: ['eventId']}});
+    res.json(updated)
   } else {
     res.status(404);
     res.json({
