@@ -355,6 +355,7 @@ router.put('/:eventId/attendance', async (req, res) => {
 router.delete('/:eventId/attendance', async (req, res) => {
   const { eventId } = req.params;
   const { userId } = req.body
+
   const { user } = req
   const currUserId = user.dataValues.id;
 
@@ -364,7 +365,7 @@ router.delete('/:eventId/attendance', async (req, res) => {
     // const groupId = findEvent.groupId
 
     const findAtt = await Attendance.findOne({
-      where: { userId: currUserId, eventId }
+      where: { userId, eventId }
     });
     const findGroup = await Group.findOne({ where: { organizerId: currUserId } });
 
