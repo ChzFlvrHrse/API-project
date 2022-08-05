@@ -227,7 +227,7 @@ router.post('/:eventId/attendance', async (req, res) => {
 
   if (findEvent) {
     const groupId = findEvent.groupId;
-    const findMember = await Membership.findOne({ where: { memberId: userId, groupId } })
+    const findMember = await Membership.findOne({ where: { memberId: currUserId, groupId } })
 
     if (findMember) {
       const memberAtt = await Attendance.findOne({ where: { userId: currUserId, eventId } })
