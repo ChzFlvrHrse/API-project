@@ -187,18 +187,18 @@ router.delete('/:eventId', async (req, res) => {
     const groupId = deleteEvent.groupId;
     const byGroupId = await Group.findByPk(groupId);
 
-    const userMember = await User.findAll({
-      include: [{ model: Membership, where: { groupId } }]
+    const userMember = await User.findOne({
+      include: [{ model: Membership, where: { groupId, memberId: currUserId, status: 'co-host' } }]
     })
 
-    let coHost;
-    for (let co of userMember) {
-      if (co.id === currUserId && co.Memberships[0].status === 'co-host') {
-        coHost = true;
-      }
-    }
+    // let coHost;
+    // for (let co of userMember) {
+    //   if (co.id === currUserId && co.Memberships[0].status === 'co-host') {
+    //     coHost = true;
+    //   }
+    // }
 
-    if (byGroupId.organizerId === currUserId || coHost) {
+    if (byGroupId.organizerId === currUserId || userMember) {
       await deleteEvent.destroy();
       res.json({
         message: "Successfully deleted"
