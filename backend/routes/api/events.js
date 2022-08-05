@@ -186,11 +186,11 @@ router.get('/:eventId/attendees', async (req, res) => {
 
   const byEventId = await Event.findByPk(eventId);
 
-  const findMember = await Membership.findOne({ where: { memberId: currUserId, status: 'co-host' } })
-
   if (byEventId) {
     const groupId = byEventId.groupId;
     const byGroupId = await Group.findByPk(groupId)
+    const findMember = await Membership.findOne({ where: { memberId: currUserId, groupId, status: 'co-host' } })
+
     const attendees = await User.findAll({
       include: [{ model: Attendance, where: { eventId }, attributes: ['status'] }]
     });
@@ -229,7 +229,7 @@ router.post('/:eventId/attendance', async (req, res) => {
     const findMember = await Membership.findOne({ where: { memberId: currUserId, groupId } })
 
     if (findMember) {
-      const memberAtt = await Attendance.findOne({ where: { userId: currUserId } })
+      const memberAtt = await Attendance.findOne({ where: { userId: currUserId, eventId } })
       if (!memberAtt) {
         const attReq = await Attendance.create({ eventId: Number(eventId), userId: currUserId, status: 'pending' });
         res.json(attReq)
