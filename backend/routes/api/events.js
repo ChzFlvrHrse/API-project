@@ -114,7 +114,9 @@ router.post('/:eventId/images', async (req, res) => {
 router.put('/:eventId', async (req, res) => {
   const { eventId } = req.params;
   const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
-  const currUserId = req.user.dataValues.id
+
+  const { user } = req;
+  const currUserId = user.dataValues.id
 
   const byEventId = await Event.findByPk(eventId);
   const byVenueId = await Venue.findByPk(venueId);
