@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
   if (Number.isNaN(page) || !page) page = 1;
   if (Number.isNaN(size) || !size) size = 20;
 
-  if ((page < 0 || page > 10) || (size < 0 || size > 20)) {
+  if ((page < 1 || page > 10) || (size < 0 || size > 20)) {
     res.status(400);
     res.json({
       message: "Validation Error",
