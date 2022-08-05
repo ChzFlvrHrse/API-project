@@ -404,7 +404,7 @@ router.post('/:groupId/members', async (req, res) => {
         })
       }
     } else {
-      const membershipReq = await Membership.create({ groupId: Number(groupId), memberId, status });
+      const membershipReq = await Membership.create({ groupId, memberId, status });
       res.json(membershipReq)
     }
   } else {
