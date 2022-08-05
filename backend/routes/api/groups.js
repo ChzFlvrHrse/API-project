@@ -86,8 +86,13 @@ router.post('/:groupId/images', async (req, res) => {
 
   if (groupById) {
     if (groupById.organizerId === currUserId) {
-      const newImage = await Image.create({ groupId: Number(groupId), url });
-      res.json(newImage)
+      await Image.create({ groupId: Number(groupId), url });
+      const findImage = await Image.findOne({
+        where: {groupId},
+        attributes: ['id', ['eventId', 'imageableId'], ['url']]
+      })
+
+      res.json(findImage)
     } else {
       res.status(400)
       res.json({
