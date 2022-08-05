@@ -476,7 +476,7 @@ router.put('/:groupId/members', async (req, res) => {
 
 router.delete('/:groupId/members', async (req, res) => {
   const { groupId } = req.params;
-  const { id } = req.user
+  const { id } = req.user.dataValues
 
   const { memberId } = req.body
 
@@ -511,7 +511,7 @@ router.delete('/:groupId/members', async (req, res) => {
     //   }
     // }
 
-    if (byGroupId.organizerId === id || groupMember.memberId === currUserId) {
+    if (byGroupId.organizerId === id || groupMember.memberId === id) {
       await findMember.destroy();
       res.json({
         message: "Successfully deleted membership from group"
