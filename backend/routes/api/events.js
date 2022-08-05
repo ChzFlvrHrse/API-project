@@ -4,12 +4,47 @@ const router = express.Router();
 const { Group, Image, Venue, Event, User, Attendance, Membership } = require('../../db/models');
 
 router.get('/', async (req, res) => {
+  let { page, size, name, type, startDate } = req.query;
+
+  let where = {}
+
+  if (name) {
+    where.name = name;
+  }
+  if (type) {
+    where.type = type
+  }
+  if (type) {
+    where.startDate = startDate
+  }
+
+  page = parseInt(page);
+  size = parseInt(size);
+
+  if (Number.isNaN(page)) page = 0;
+  if (Number.isNaN(size)) size = 20;
+
+  if ((page < 0 || page > 10) || (size < 0 || size > 20)) {
+    res.status(400);
+    res.json({
+      message: "Validation Error",
+      statusCode: 400,
+      errors: {
+        page: "Page must be greater than or equal to 0",
+        size: "Size must be greater than or equal to 0",
+      }
+    })
+  }
+
   const allEvents = await Event.findAll({
     attributes: { exclude: ['description', 'capacity', 'price', 'previewImage'] },
+    where: {...where},
     include: [
       { model: Image, attributes: { exclude: ['groupId', 'imageableType', 'createdAt', 'updatedAt'] } },
       { model: Group, attributes: ['id', 'name', 'city', 'state'] },
-      { model: Venue, attributes: ['id', 'city', 'state'] }]
+      { model: Venue, attributes: ['id', 'city', 'state'] }],
+      limit: size,
+      offset: size * (page - 1)
   })
 
   if (allEvents) {
