@@ -383,11 +383,12 @@ router.post('/:groupId/members', async (req, res) => {
 
   const { groupId } = req.params;
   const { memberId, status } = req.body;
+  // console.log(memberId)
 
   // const byUserId = await User.findOne({where: {id: currUserId}})
   const groupById = await Group.findByPk(groupId)
   const member = await Membership.findOne({ where: { groupId, memberId } })
-
+  console.log(member)
   if (groupById) {
     if (member) {
       if (member.status === 'pending') {
