@@ -99,8 +99,13 @@ router.post('/:eventId/images', async (req, res) => {
     }
 
     if (byGroupId.organizerId === currUserId || attendee) {
-      const newImage = await Image.create({ eventId: Number(eventId), url })
-      res.json(newImage);
+      await Image.create({ eventId: Number(eventId), url })
+      const theImage = await Image.findOne({
+        where: {eventId, url},
+        attributes: ['id', ['eventId', 'imageableId'], 'url']
+      })
+
+      res.json(theImage);
     }
   } else {
     res.status(404)
@@ -363,8 +368,8 @@ router.delete('/:eventId/attendance', async (req, res) => {
 
   if (findEvent) {
 
-    const findCo = await Attendance.findOne({
-      where: { userId: currUserId, eventId, status: 'co-host' }
+    const findUser = await Attendance.findOne({
+      where: { userId: currUserId, eventId }
     });
     const findGroup = await Group.findOne({ where: { organizerId: currUserId } });
 
@@ -373,7 +378,7 @@ router.delete('/:eventId/attendance', async (req, res) => {
     })
 
     if (findAtt) {
-      if (findGroup.organizerId === currUserId || findCo) {
+      if (findGroup.organizerId === currUserId || findUser.userId === currUserId) {
         await findAtt.destroy();
         res.json({
           "message": "Successfully deleted attendance from event"

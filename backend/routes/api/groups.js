@@ -451,14 +451,14 @@ router.put('/:groupId/members', async (req, res) => {
     })
   } else if ( status === 'member' && (byGroupId.organizerId === currUserId || findMember)) {
     const updateMember = await Membership.findOne({where: { memberId }})
-    updateMember.set({groupId: Number(groupId), memberId, status})
+    updateMember.set({groupId: Number(groupId), memberId, status: 'member'})
     await updateMember.save();
 
     const updated = await Membership.findOne({where: {memberId}, attributes: {exclude: ['eventId']}});
     res.json(updated)
   } else if ( status === 'co-host' && byGroupId.organizerId) {
     const updateMember = await Membership.findOne({where: { memberId }})
-    updateMember.set({groupId: Number(groupId), memberId, status})
+    updateMember.set({groupId: Number(groupId), memberId, status: 'co-host'})
     await updateMember.save();
 
     const updated = await Membership.findOne({where: {memberId}, attributes: {exclude: ['eventId']}});
@@ -483,7 +483,7 @@ router.delete('/:groupId/members', async (req, res) => {
 
   const byUserId = await User.findByPk(memberId);
   const byGroupId = await Group.findByPk(groupId)
-  const findMember = await Membership.findOne({ where: { memberId } });
+  const findMember = await Membership.findOne({ where: { memberId, groupId } });
 
   if (!byUserId) {
     res.status(400);
@@ -501,9 +501,8 @@ router.delete('/:groupId/members', async (req, res) => {
       statusCode: 404
     })
   } else if (findMember) {
-    const groupMember = await User.findOne({
-      include: [{ model: Membership, where: { groupId, memberId } }]
-    });
+    const groupMember = await Membership.findOne({where: {memberId, groupId}})
+
 
     // let myMembership;
     // for (let my of groupMembers) {
@@ -513,6 +512,7 @@ router.delete('/:groupId/members', async (req, res) => {
     // }
 
     if (byGroupId.organizerId === id || groupMember.memberId === id) {
+      // const deleteMembership = await Membership.findOne({where: {memberId, groupId}})
       await groupMember.destroy();
       res.json({
         message: "Successfully deleted membership from group"
