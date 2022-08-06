@@ -462,18 +462,18 @@ router.put('/:groupId/members', async (req, res) => {
     })
   } else if (thisMember) {
     if (status === 'member' && (byGroupId.organizerId === currUserId || findMember)) {
-      const updateMember = await Membership.findOne({ where: { memberId } })
-      updateMember.set({ groupId: Number(groupId), memberId, status: "member" })
-      await updateMember.save();
+      // const updateMember = await Membership.findOne({ where: { memberId } })
+      thisMember.set({ groupId: Number(groupId), memberId, status: "member" })
+      await thisMember.save();
 
-      const updated = await Membership.findOne({ where: { memberId }, attributes: { exclude: ['createdAt', 'updatedAt'] } });
+      const updated = await Membership.findOne({ where: { memberId, groupId }, attributes: { exclude: ['createdAt', 'updatedAt'] } });
       res.json(updated)
     } else if (status === 'co-host' && byGroupId.organizerId) {
-      const updateMember = await Membership.findOne({ where: { memberId } })
-      updateMember.set({ groupId: Number(groupId), memberId, status: "co-host" })
-      await updateMember.save();
+      // const updateMember = await Membership.findOne({ where: { memberId, groupId } })
+      thisMember.set({ groupId: Number(groupId), memberId, status: "co-host" })
+      await thisMember.save();
 
-      const updated = await Membership.findOne({ where: { memberId }, attributes: { exclude: ['createdAt', 'updatedAt'] } });
+      const updated = await Membership.findOne({ where: { memberId, groupId }, attributes: { exclude: ['createdAt', 'updatedAt'] } });
       res.json(updated)
     }
   } else {
