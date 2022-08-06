@@ -297,7 +297,7 @@ router.post('/:groupId/events', async (req, res) => {
   }
 
   if (byGroupId && (byGroupId.organizerId === currUserId || coHost)) {
-    const newEvent = await Event.create({ groupId: Number(groupId), venueId, name, type, capacity, price, description, startDate, endDate });
+    await Event.create({ groupId: Number(groupId), venueId, name, type, capacity, price, description, startDate, endDate });
 
     const theEvent = await Event.findOne({
       where: {venueId, groupId, name, capacity},
@@ -410,8 +410,13 @@ router.post('/:groupId/members', async (req, res) => {
         })
       }
     } else {
-      const membershipReq = await Membership.create({ groupId, memberId, status });
-      res.json(membershipReq)
+      await Membership.create({ groupId, memberId, status });
+
+      const request = await Membership.findOne({
+        where: {groupId, memberId},
+        attributes: ['groupId', 'memberId', 'status']
+      })
+      res.json(request)
     }
   } else {
     res.status(404)
@@ -459,14 +464,14 @@ router.put('/:groupId/members', async (req, res) => {
     updateMember.set({groupId: Number(groupId), memberId, status: 'member'})
     await updateMember.save();
 
-    const updated = await Membership.findOne({where: {memberId}, attributes: {exclude: ['eventId']}});
+    const updated = await Membership.findOne({where: {memberId}, attributes: {exclude: ['createdAt', 'updatedAt']}});
     res.json(updated)
   } else if ( status === 'co-host' && byGroupId.organizerId) {
     const updateMember = await Membership.findOne({where: { memberId }})
     updateMember.set({groupId: Number(groupId), memberId, status: 'co-host'})
     await updateMember.save();
 
-    const updated = await Membership.findOne({where: {memberId}, attributes: {exclude: ['eventId']}});
+    const updated = await Membership.findOne({where: {memberId}, attributes: {exclude: ['createdAt', 'updatedAt']}});
     res.json(updated)
   } else {
     res.status(404);

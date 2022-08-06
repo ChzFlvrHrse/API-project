@@ -274,9 +274,15 @@ router.post('/:eventId/attendance', async (req, res) => {
     const findMember = await Membership.findOne({ where: { groupId, memberId: userId } })
     // console.log(findMember);
     if (findMember) {
-      const memberAtt = await Attendance.findOne({ where: { userId: currUserId, eventId } })
+      const memberAtt = await Attendance.findOne({ where: { userId, eventId } })
+
       if (!memberAtt) {
-        const attReq = await Attendance.create({ eventId: Number(eventId), userId, status: 'pending' });
+        await Attendance.create({ eventId: Number(eventId), userId, status: 'pending' });
+
+        const attReq = await Attendance.findOne({
+          where: {eventId, user},
+          attributes: ['eventId', 'userId', 'status']
+        })
         res.json(attReq)
       } else if (memberAtt.status === 'pending') {
         res.status(400);
