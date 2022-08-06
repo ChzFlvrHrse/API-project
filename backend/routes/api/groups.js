@@ -7,7 +7,7 @@ router.get('/', async (req, res) => {
   const groups = await Group.findAll({
     include: [{model: Image, attributes: ['id', 'groupId', 'url']}]
   });
-  if (groups) {
+  if ({Groups: groups}) {
     res.json(groups)
   } else {
     res.status(404)
