@@ -280,7 +280,7 @@ router.post('/:eventId/attendance', async (req, res) => {
         await Attendance.create({ eventId: Number(eventId), userId, status: 'pending' });
 
         const attReq = await Attendance.findOne({
-          where: {eventId, user},
+          where: {eventId, userId},
           attributes: ['eventId', 'userId', 'status']
         })
         res.json(attReq)
