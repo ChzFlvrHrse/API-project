@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Group.belongsTo(
         models.User,
-        { foreignKey: 'organizerId', onDelete: 'CASCADE', hooks: true }
+        { foreignKey: 'organizerId' }
       ),
       Group.hasMany(
         models.Image,
@@ -41,9 +41,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     organizerId: {
       type: DataTypes.INTEGER,
-      references: {
-        model: 'Users'
-      },
       onDelete: 'CASCADE'
     },
     name: {
