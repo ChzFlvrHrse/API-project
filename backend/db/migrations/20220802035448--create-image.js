@@ -13,15 +13,13 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
           model: 'Groups',
-        },
-        onDelete: 'CASCADE'
+        }
       },
       eventId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Events'
-        },
-        onDelete: 'CASCADE'
+        }
       },
       imageableType: {
         type: Sequelize.STRING

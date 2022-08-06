@@ -49,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
       ),
       User.hasMany(
         models.Membership,
-        { foreignKey: 'memberId' }
+        { foreignKey: 'memberId', onDelete: 'CASCADE', hooks: true }
       ),
       User.hasMany(
         models.Attendance,

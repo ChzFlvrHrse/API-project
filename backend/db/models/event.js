@@ -15,11 +15,11 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Event.hasMany(
         models.Image,
-        { foreignKey: 'eventId' }
+        { foreignKey: 'eventId', onDelete: 'CASCADE', hooks: true }
       ),
       Event.belongsTo(
         models.Group,
-        { foreignKey: 'groupId', onDelete: 'CASCADE', hooks: true }
+        { foreignKey: 'groupId' }
       ),
       Event.belongsTo(
         models.Venue,
