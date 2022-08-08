@@ -264,15 +264,15 @@ router.get('/:eventId/attendees', async (req, res) => {
 router.post('/:eventId/attendance', async (req, res) => {
   const { eventId } = req.params;
   const { userId, status } = req.body
-  const { user } = req;
-  const currUserId = user.dataValues.id;
+  // const { user } = req;
+  // const currUserId = user.dataValues.id;
 
   const findEvent = await Event.findByPk(eventId);
 
   if (findEvent) {
     const groupId = findEvent.groupId;
     const findMember = await Membership.findOne({ where: { groupId, memberId: userId } })
-    // console.log(findMember);
+
     if (findMember) {
       const memberAtt = await Attendance.findOne({ where: { userId, eventId } })
 
