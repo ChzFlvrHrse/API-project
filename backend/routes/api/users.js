@@ -32,10 +32,8 @@ router.post('/', validateSignup, async (req, res) => {
 
     await setTokenCookie(res, user);
 
-    const newUser = await User.findOne({where: {username}})
-
     return res.json({
-      newUser
+      user
     });
 });
 
