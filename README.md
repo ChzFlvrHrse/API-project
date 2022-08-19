@@ -2,7 +2,7 @@
 
 ## Database Schema Design
 
-![meetup-database-schema](../assets/meetup_dbdiagram.png)
+![meetup-database-schema](https://appacademy-open-assets.s3.us-west-1.amazonaws.com/Modular-Curriculum/content/week-12/meetup-db-schema.png)
 
 ## API Documentation
 
