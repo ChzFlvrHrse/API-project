@@ -15,4 +15,8 @@ export async function csrfFetch(url, options = {}) {
   if (res.status >= 400) throw res;
 
   return res;
-}
+};
+
+export function restoreCSRF() {
+  return csrfFetch('/api/csrf/restore');
+};
