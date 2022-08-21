@@ -22,8 +22,6 @@ export const login = (user) => async dispatch => {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      firstName,
-      lastName,
       credential,
       password
     })
