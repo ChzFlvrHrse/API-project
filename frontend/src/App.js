@@ -5,6 +5,8 @@ import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
+import SubNav from "./components/Events";
+import EventRoll from "./components/EventRoll";
 import Events from "./components/Events";
 
 function App() {
@@ -17,6 +19,7 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
+      <SubNav />
       {isLoaded && (
         <Switch>
           <Route path="/login">
@@ -25,9 +28,14 @@ function App() {
           <Route path="/signup">
             <SignupFormPage />
           </Route>
+          <Route path="/events/:id">
+            <EventRoll />
+          </Route>
+          <Route exact path="/events">
+            <Events />
+          </Route>
         </Switch>
       )}
-      <Events />
     </>
   );
 }

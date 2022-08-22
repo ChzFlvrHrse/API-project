@@ -13,7 +13,7 @@ export const getEventsThunk = () => async dispatch => {
   const response = await csrfFetch('/api/events');
 
   if (response.ok) {
-    const events = response.json();
+    const events = await response.json();
     dispatch(getAllEvents(events));
     return events;
   }
@@ -22,11 +22,11 @@ export const getEventsThunk = () => async dispatch => {
 const initialState = {};
 
 const eventsReducer = (state = initialState, action) => {
+  let newState;
   switch (action.type) {
     case READ:
-      let newState = action.events;
-      state = {...newState};
-      return state;
+      newState = {...action.events};
+      return newState;
     default:
       return state
   }
