@@ -19,7 +19,7 @@ function Events() {
   return (
     <div>
       {events.map(event => (
-        <EventRoll event={event} />
+        <EventRoll event={event} key={event.id}/>
       ))}
     </div>
   )

@@ -24,12 +24,12 @@ function Navigation({ isLoaded }){
   return (
     <ul>
       <li>
-        <NavLink exact to="/">Home</NavLink>
+        <NavLink exact to="/">MetUp</NavLink>
         {isLoaded && sessionLinks}
       </li>
-      <li>
+      {/* <li>
         <NavLink to='/events/new'>Create Event</NavLink>
-      </li>
+      </li> */}
     </ul>
   );
 }

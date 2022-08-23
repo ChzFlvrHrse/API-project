@@ -35,9 +35,9 @@ export const newEventThunk = (event, groupId) => async dispatch => {
   });
 
   if (response.ok) {
-    const newEvent = await response.json();
-    dispatch(newEvent(newEvent))
-    return newEvent
+    const createdEvent = await response.json();
+    dispatch(newEvent(createdEvent))
+    return createdEvent
   }
 }
 
@@ -51,7 +51,8 @@ const eventsReducer = (state = initialState, action) => {
       return newState;
     case NEW_EVENT:
       let newEvent = {...action.event}
-      newState = { ...state, ...newEvent}
+      newState = { ...state, newEvent}
+      return newState
     default:
       return state
   }

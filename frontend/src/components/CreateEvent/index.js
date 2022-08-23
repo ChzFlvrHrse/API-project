@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { newEventThunk } from "../../store/events";
 
@@ -7,6 +7,7 @@ function CreateEvent() {
   const { groupId } = useParams();
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
+  const history = useHistory()
 
   const [venueId, setVenueId] = useState(2);
   const [name, setName] = useState('');
@@ -39,6 +40,8 @@ function CreateEvent() {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
 
+    let errors = []
+
     const newEvent = {
       name,
       type,
@@ -47,10 +50,19 @@ function CreateEvent() {
       description,
       startDate,
       endDate,
-      venueId
+      venueId,
+      user: sessionUser
     }
 
-    await dispatch(newEventThunk(newEvent, groupId))
+    console.log('here is your new event', newEvent)
+
+    const createdEvent = await dispatch(newEventThunk(newEvent, groupId))
+    if(createdEvent.errors) {
+      const errList = Object.values(createdEvent.errors)
+      const flatten = [...errList]
+      flatten.map(e => errors.push(e.msg))
+      setErrorValidations(errors)
+    } else { history.push(`/events/${createdEvent.id}`)}
   }
 
   return (
@@ -60,6 +72,11 @@ function CreateEvent() {
       <form
         onSubmit={handleOnSubmit}
       >
+        <div >
+                    {errorValidation.map((error, ind) => (
+                        <div key={ind}>{error}</div>
+                    ))}
+                </div>
         <label>
           Name:
           <input
@@ -83,8 +100,8 @@ function CreateEvent() {
             onChange={event => setType(event.target.value)}
             value={type}
           >
-            <options>Online</options>
-            <options>In Person</options>
+            <option>Online</option>
+            <option>In Person</option>
           </select>
         </label>
         <label>
@@ -128,6 +145,7 @@ function CreateEvent() {
           >
           </input>
         </label>
+        <button type='submit'>Create Event</button>
       </form>
     </div>
   )

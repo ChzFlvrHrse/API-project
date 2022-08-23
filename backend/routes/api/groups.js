@@ -281,8 +281,8 @@ router.get('/:groupId/events', async (req, res) => {
 
 router.post('/:groupId/events', async (req, res) => {
   const { groupId } = req.params;
-  const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
-  const currUserId = req.user.dataValues.id;
+  const { venueId, name, type, capacity, price, description, startDate, endDate, user } = req.body;
+  const currUserId = user.id;
 
   const byGroupId = await Group.findByPk(groupId);
   const userMember = await User.findAll({
