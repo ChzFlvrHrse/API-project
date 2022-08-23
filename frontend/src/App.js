@@ -5,9 +5,9 @@ import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
-import SubNav from "./components/Events";
-import EventRoll from "./components/EventRoll";
+import SubNav from './components/EventsSubNav.js'
 import Events from "./components/Events";
+import EventById from "./components/EventById";
 
 function App() {
   const dispatch = useDispatch();
@@ -22,6 +22,9 @@ function App() {
       <SubNav />
       {isLoaded && (
         <Switch>
+          <Route exact path='/'>
+            <Events />
+          </Route>
           <Route path="/login">
             <LoginFormPage />
           </Route>
@@ -29,7 +32,7 @@ function App() {
             <SignupFormPage />
           </Route>
           <Route path="/events/:id">
-            <EventRoll />
+            <EventById />
           </Route>
           <Route exact path="/events">
             <Events />
