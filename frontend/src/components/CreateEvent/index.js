@@ -9,7 +9,7 @@ function CreateEvent() {
   const sessionUser = useSelector(state => state.session.user);
   const history = useHistory()
 
-  const [venueId, setVenueId] = useState(2);
+  const [venueId, setVenueId] = useState(null);
   const [name, setName] = useState('');
   const [type, setType] = useState('In Person');
   const [capacity, setCapacity] = useState('');
@@ -51,10 +51,9 @@ function CreateEvent() {
       startDate,
       endDate,
       venueId,
+      previewImg,
       user: sessionUser
     }
-
-    console.log('here is your new event', newEvent)
 
     const createdEvent = await dispatch(newEventThunk(newEvent, groupId))
     if(createdEvent.errors) {
@@ -73,10 +72,10 @@ function CreateEvent() {
         onSubmit={handleOnSubmit}
       >
         <div >
-                    {errorValidation.map((error, ind) => (
-                        <div key={ind}>{error}</div>
-                    ))}
-                </div>
+            {errorValidation.map((error, ind) => (
+                <div key={ind}>{error}</div>
+            ))}
+        </div>
         <label>
           Name:
           <input

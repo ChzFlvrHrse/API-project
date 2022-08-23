@@ -14,8 +14,6 @@ function Events() {
 
   if (!events) return null
 
-  console.log('your events', events)
-  // console.log(typeof events[0].Events)
   return (
     <div>
       {events.map(event => (

@@ -281,8 +281,15 @@ router.get('/:groupId/events', async (req, res) => {
 
 router.post('/:groupId/events', async (req, res) => {
   const { groupId } = req.params;
-  const { venueId, name, type, capacity, price, description, startDate, endDate, user } = req.body;
-  const currUserId = user.id;
+  const { venueId, name, type, capacity, price, description, startDate, endDate, previewImg, user } = req.body;
+  let currUserId;
+
+  if (req.user.dataValues) {
+    currUserId = req.user.dataValues.id
+  } else {
+    currUserId = user.id
+  }
+
 
   const byGroupId = await Group.findByPk(groupId);
   const userMember = await User.findAll({
@@ -297,7 +304,7 @@ router.post('/:groupId/events', async (req, res) => {
   }
 
   if (byGroupId && (byGroupId.organizerId === currUserId || coHost)) {
-    await Event.create({ groupId: Number(groupId), venueId, name, type, capacity, price, description, startDate, endDate });
+    await Event.create({ groupId: Number(groupId), venueId, name, type, capacity, price, description, startDate, endDate, previewImg });
 
     const theEvent = await Event.findOne({
       where: { venueId, groupId, name, capacity },

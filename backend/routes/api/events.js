@@ -43,7 +43,7 @@ router.get('/', async (req, res) => {
     where: {...where},
     include: [
       { model: Image, attributes: { exclude: ['groupId', 'imageableType', 'createdAt', 'updatedAt'] } },
-      { model: Group, attributes: ['id', 'name', 'city', 'state'] },
+      { model: Group, attributes: ['id', 'organizerId', 'name', 'city', 'state'] },
       { model: Venue, attributes: ['id', 'city', 'state'] }],
       limit: size,
       offset: size * (page - 1)
@@ -184,43 +184,47 @@ router.put('/:eventId', async (req, res) => {
 
 router.delete('/:eventId', async (req, res) => {
   const { eventId } = req.params;
-  const currUserId = req.user.dataValues.id
+  // const currUserId = req.user.dataValues.id
 
   const deleteEvent = await Event.findByPk(eventId);
-
   if (deleteEvent) {
-    const groupId = deleteEvent.groupId;
-    const byGroupId = await Group.findByPk(groupId);
-
-    const userMember = await User.findOne({
-      include: [{ model: Membership, where: { groupId, memberId: currUserId, status: 'co-host' } }]
-    })
-
-    // let coHost;
-    // for (let co of userMember) {
-    //   if (co.id === currUserId && co.Memberships[0].status === 'co-host') {
-    //     coHost = true;
-    //   }
-    // }
-
-    if (byGroupId.organizerId === currUserId || userMember) {
-      await deleteEvent.destroy();
-      res.json({
-        message: "Successfully deleted"
-      })
-    } else {
-      res.status(400);
-      res.json({
-        message: "Only the organizer or co-host can perform this action"
-      })
-    }
-  } else {
-    res.status(404)
-    res.json({
-      message: "Event couldn't be found",
-      statusCode: 404
-    })
+    await deleteEvent.destroy()
   }
+  return res.json(deleteEvent)
+
+  // if (deleteEvent) {
+  //   const groupId = deleteEvent.groupId;
+  //   const byGroupId = await Group.findByPk(groupId);
+
+  //   const userMember = await User.findOne({
+  //     include: [{ model: Membership, where: { groupId, memberId: currUserId, status: 'co-host' } }]
+  //   })
+
+  //   // let coHost;
+  //   // for (let co of userMember) {
+  //   //   if (co.id === currUserId && co.Memberships[0].status === 'co-host') {
+  //   //     coHost = true;
+  //   //   }
+  //   // }
+
+  //   if (byGroupId.organizerId === currUserId || userMember) {
+  //     await deleteEvent.destroy();
+  //     res.json({
+  //       message: "Successfully deleted"
+  //     })
+  //   } else {
+  //     res.status(400);
+  //     res.json({
+  //       message: "Only the organizer or co-host can perform this action"
+  //     })
+  //   }
+  // } else {
+  //   res.status(404)
+  //   res.json({
+  //     message: "Event couldn't be found",
+  //     statusCode: 404
+  //   })
+  // }
 });
 
 router.get('/:eventId/attendees', async (req, res) => {

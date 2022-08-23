@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import './GroupRoll.css'
 
@@ -17,7 +17,7 @@ function GroupRoll({group}) {
         {group.about}
       </div>
       <div>
-        {user.id === group.organizerId ? <Link to={`/groups/${group.id}/events`}>Create Event for this Group</Link>:<></>}
+        {user?.id === group.organizerId ? <Link to={`/groups/${group.id}/events`}>Create Event for this Group</Link>:<></>}
       </div>
     </div>
   )

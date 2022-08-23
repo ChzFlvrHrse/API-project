@@ -1,17 +1,25 @@
-
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
-import { getEventsThunk } from "../../store/events";
+import { useParams, useHistory } from "react-router-dom";
+import { getEventsThunk, deleteEventThunk } from "../../store/events";
 
 function EventById() {
   const dispatch = useDispatch()
+  const history = useHistory()
   const params = useParams()
   const events = useSelector(state => state.events.Events)
+  const user = useSelector(state => state.session.user)
 
   useEffect(() => {
     dispatch(getEventsThunk())
   }, [dispatch]);
+
+  const handleDelete = async (e) => {
+    e.preventDefault()
+
+    const deleting = await dispatch(deleteEventThunk(params.id, user))
+    history.push('/')
+  }
 
   if (!events) {
     return (
@@ -24,6 +32,7 @@ function EventById() {
   return (
     <>
       <div>{targetEvent?.name}</div>
+      {user?.id === targetEvent?.Group?.organizerId ? <button onClick={handleDelete}>Delete Event</button>:<></>}
     </>
   )
 }
