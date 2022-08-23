@@ -15,10 +15,7 @@ function EventRoll({event}) {
         {event.type}
       </div>
       <div>
-        <Link to={`/events/${event.id}`}>View Event</Link>
-      </div>
-      <div>
-        <Link to={'/events/new'}>Create Event</Link>
+        <Link exact to={`/events/${event.id}`}>View Event</Link>
       </div>
     </div>
   )

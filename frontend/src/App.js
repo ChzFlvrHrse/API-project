@@ -8,6 +8,7 @@ import Navigation from "./components/Navigation";
 import SubNav from './components/EventsSubNav.js'
 import Events from "./components/Events";
 import EventById from "./components/EventById";
+import CreateEvent from "./components/CreateEvent";
 
 function App() {
   const dispatch = useDispatch();
@@ -36,6 +37,9 @@ function App() {
           </Route>
           <Route exact path="/events">
             <Events />
+          </Route>
+          <Route exact path='/events/new'>
+            <CreateEvent />
           </Route>
         </Switch>
       )}

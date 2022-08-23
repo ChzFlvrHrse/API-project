@@ -1,0 +1,136 @@
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
+import { newEventThunk } from "../../store/events";
+
+function CreateEvent() {
+  const { groupId } = useParams();
+  const dispatch = useDispatch();
+  const sessionUser = useSelector(state => state.session.user);
+
+  const [venueId, setVenueId] = useState(2);
+  const [name, setName] = useState('');
+  const [type, setType] = useState('In Person');
+  const [capacity, setCapacity] = useState('');
+  const [price, setPrice] = useState('');
+  const [description, setDescription] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [previewImg, setPreviewImg] = useState('');
+  const [errorValidation, setErrorValidations] = useState([]);
+
+  useEffect(() => {
+    let errors = []
+
+    if (name.length > 60 || name.length === 0) errors.push('Name must be greater than 0 and less than 60 characters');
+    if (type !== 'In person' && type !== 'Online') errors.push('Type must be In person or Online');
+    if (!capacity) errors.push('Capacity is required')
+    if (!price || price < 0) errors.push('Price is required');
+    if (description.length < 0 || description > 1000) errors.push('Description must be more than 0 and less than 1000 characters');
+    if (!startDate) errors.push("Start date is required")
+    if (!endDate) errors.push("End date is required")
+    // if (Date.parse(startDate) < Date.now()) newError.push('The event must start in the future');
+    // if (Date.parse(endDate) < Date.parse(startDate)) newError.push('The event must not end before it starts');
+    if (previewImg.length > 1000) errors.push('Preview image must be less than 1000 charcters');
+
+    setErrorValidations(errors)
+  }, [venueId, name, type, capacity, price, description, startDate, endDate, previewImg]);
+
+  const handleOnSubmit = async (e) => {
+    e.preventDefault();
+
+    const newEvent = {
+      name,
+      type,
+      capacity: Number(capacity),
+      price: Number(price),
+      description,
+      startDate,
+      endDate,
+      venueId
+    }
+
+    await dispatch(newEventThunk(newEvent, groupId))
+  }
+
+  return (
+    <div>
+      <h2>New Event</h2>
+
+      <form
+        onSubmit={handleOnSubmit}
+      >
+        <label>
+          Name:
+          <input
+            type='text'
+            onChange={event => setName(event.target.value)}
+            value={name}
+          ></input>
+        </label>
+        <label>
+          Description:
+          <input
+            type='text'
+            onChange={event => setDescription(event.target.value)}
+            value={description}
+          >
+          </input>
+        </label>
+        <label>
+          Type:
+          <select
+            onChange={event => setType(event.target.value)}
+            value={type}
+          >
+            <options>Online</options>
+            <options>In Person</options>
+          </select>
+        </label>
+        <label>
+          Capacity:
+          <input
+            onChange={event => setCapacity(event.target.value)}
+            value={capacity}
+          >
+          </input>
+        </label>
+        <label>
+          Price:
+          <input
+            onChange={event => setPrice(event.target.value)}
+            value={price}
+          >
+          </input>
+        </label>
+        <label>
+          Start Date:
+          <input
+            onChange={event => setStartDate(event.target.value)}
+            value={startDate}
+          >
+          </input>
+        </label>
+        <label>
+          End Date:
+          <input
+            onChange={event => setEndDate(event.target.value)}
+            value={endDate}
+          >
+          </input>
+        </label>
+        <label>
+          Preview Image
+          <input
+            type='text'
+            onChange={event => setPreviewImg(event.target.value)}
+            value={previewImg}
+          >
+          </input>
+        </label>
+      </form>
+    </div>
+  )
+}
+
+export default CreateEvent;
