@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { updateEventThunk } from "../../store/events";
+import { updateEventThunk, getEventsThunk } from "../../store/events";
 
 function UpdateEvent() {
   const { eventId } = useParams();
@@ -17,7 +17,7 @@ function UpdateEvent() {
       event = e
     }
   })
-  // console.log(event);
+  // console.log(event.description);
 
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
@@ -26,12 +26,12 @@ function UpdateEvent() {
   const [venueId, setVenueId] = useState(event.venueId);
   const [name, setName] = useState(event.name);
   const [type, setType] = useState(event.type)
-  const [capacity, setCapacity] = useState(event.capacity);
+  const [numAttending, setNumAttending] = useState(event.numAttending);
   const [price, setPrice] = useState(event.price);
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState(event.startDate);
   const [endDate, setEndDate] = useState(event.endDate);
-  const [previewImg, setPreviewImg] = useState(event.previewImg);
+  const [previewImg, setPreviewImg] = useState('');
   const [errorValidation, setErrorValidations] = useState([]);
 
   useEffect(() => {
@@ -39,15 +39,15 @@ function UpdateEvent() {
 
     if (name.length > 60 || name.length === 0) errors.push('Name must be greater than 0 and less than 60 characters');
     if (type !== 'In person' && type !== 'Online') errors.push('Type must be In person or Online');
-    if (!capacity) errors.push('Capacity is required')
+    if (!numAttending) errors.push('Capacity is required')
     if (!price || price < 0) errors.push('Price is required');
     if (description.length < 0 || description > 1000) errors.push('Description must be more than 0 and less than 1000 characters');
     if (!startDate) errors.push("Start date is required")
     if (!endDate) errors.push("End date is required")
-    // if (previewImg.length > 1000) errors.push('Preview image must be less than 1000 charcters');
+    if (previewImg.length > 1000) errors.push('Preview image must be less than 1000 charcters');
 
     setErrorValidations(errors)
-  }, [venueId, name, type, capacity, price, description, startDate, endDate, previewImg]);
+  }, [venueId, name, type, numAttending, price, description, startDate, endDate, previewImg]);
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -57,7 +57,7 @@ function UpdateEvent() {
     const updatedEvent = {
       name,
       type,
-      capacity: Number(capacity),
+      capacity: Number(numAttending),
       price: Number(price),
       description,
       startDate,
@@ -118,8 +118,8 @@ function UpdateEvent() {
         <label>
           Capacity:
           <input
-            onChange={event => setCapacity(event.target.value)}
-            value={capacity}
+            onChange={event => setNumAttending(event.target.value)}
+            value={numAttending}
           >
           </input>
         </label>

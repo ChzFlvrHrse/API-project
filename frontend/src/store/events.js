@@ -79,6 +79,7 @@ export const updateEventThunk = (updated, eventId) => async dispatch => {
   if (response.ok) {
     const updatedEvent = response.json();
     dispatch(updateEvent(updatedEvent, eventId))
+    // return updatedEvent
   }
 }
 
@@ -96,7 +97,13 @@ const eventsReducer = (state = initialState, action) => {
       return newState
     case UPDATE_EVENT:
       newState = {...state}
-      newState.events[action.eventId] = action.updated;
+      let index;
+      for (let i = 0; i < newState.events.Events.length; i++) {
+        if (newState.events.Events.id === Number(action.eventId)) {
+          index = i;
+        }
+      }
+      newState.events.Events[index] = action.updated;
       return newState
     case DELETE_EVENT:
       newState = {...state}
