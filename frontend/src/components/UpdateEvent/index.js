@@ -5,59 +5,65 @@ import { updateEventThunk, getEventsThunk } from "../../store/events";
 
 function UpdateEvent() {
   const { eventId } = useParams();
+  const dispatch = useDispatch();
+  const history = useHistory()
 
   const events = useSelector(state => state.events.Events)
-  // console.log(events);
+  const targetedEvent = events?.find(one => one.id === +eventId)
+  const sessionUser = useSelector(state => state.session.user);
 
   // if (!events) return null;
 
-  let event;
-  events.forEach(e => {
-    if (Number(eventId) === e.id) {
-      event = e
-    }
-  })
-  // console.log(event.description);
+  if(targetedEvent) {
+    localStorage.setItem('venueId', targetedEvent.venueId)
+    localStorage.setItem('description', targetedEvent.description)
+    localStorage.setItem('name', targetedEvent.name)
+    localStorage.setItem('type', targetedEvent.type)
+    localStorage.setItem('capacity', targetedEvent.capacity)
+    localStorage.setItem('price', targetedEvent.price)
+    localStorage.setItem('startDate', targetedEvent.startDate)
+    localStorage.setItem('endDate', targetedEvent.endDate)
+    localStorage.setItem('previewImg', targetedEvent.previewImage)
+  }
 
-  const dispatch = useDispatch();
-  const sessionUser = useSelector(state => state.session.user);
-  const history = useHistory()
 
-  const [venueId, setVenueId] = useState(event.venueId);
-  const [name, setName] = useState(event.name);
-  const [type, setType] = useState(event.type)
-  const [numAttending, setNumAttending] = useState(event.numAttending);
-  const [price, setPrice] = useState(event.price);
-  const [description, setDescription] = useState('');
-  const [startDate, setStartDate] = useState(event.startDate);
-  const [endDate, setEndDate] = useState(event.endDate);
-  const [previewImg, setPreviewImg] = useState('');
+  useEffect(() => {
+    dispatch(getEventsThunk())
+  }, [dispatch])
+
+  const [venueId, setVenueId] = useState(localStorage.getItem('venueId'));
+  const [name, setName] = useState(localStorage.getItem('name'));
+  const [type, setType] = useState(localStorage.getItem('type'))
+  const [capacity, setCapacity] = useState(localStorage.getItem('capacity'));
+  const [price, setPrice] = useState(localStorage.getItem('price'));
+  const [description, setDescription] = useState(localStorage.getItem('description'));
+  const [startDate, setStartDate] = useState(localStorage.getItem('startDate'));
+  const [endDate, setEndDate] = useState(localStorage.getItem('endDate'));
+  const [previewImg, setPreviewImg] = useState(localStorage.getItem('previewImg') === 'undefined' ? '' : localStorage.getItem('previewImg'));
   const [errorValidation, setErrorValidations] = useState([]);
 
   useEffect(() => {
     let errors = []
 
-    if (name.length > 60 || name.length === 0) errors.push('Name must be greater than 0 and less than 60 characters');
-    if (type !== 'In person' && type !== 'Online') errors.push('Type must be In person or Online');
-    if (!numAttending) errors.push('Capacity is required')
+    if (name?.length > 60 || name?.length === 0) errors.push('Name must be greater than 0 and less than 60 characters');
+    if (type !== 'In Person' && type !== 'Online') errors.push('Type must be In person or Online');
+    if (!capacity) errors.push('Capacity is required')
     if (!price || price < 0) errors.push('Price is required');
-    if (description.length < 0 || description > 1000) errors.push('Description must be more than 0 and less than 1000 characters');
+    if (description?.length < 0 || description > 1000) errors.push('Description must be more than 0 and less than 1000 characters');
     if (!startDate) errors.push("Start date is required")
     if (!endDate) errors.push("End date is required")
-    if (previewImg.length > 1000) errors.push('Preview image must be less than 1000 charcters');
+    if (previewImg?.length > 1000) errors.push('Preview image must be less than 1000 charcters');
 
     setErrorValidations(errors)
-  }, [venueId, name, type, numAttending, price, description, startDate, endDate, previewImg]);
+  }, [venueId, name, type, capacity, price, description, startDate, endDate, previewImg]);
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
 
-    const errors = [];
-
     const updatedEvent = {
       name,
       type,
-      capacity: Number(numAttending),
+      capacity: Number(capacity),
       price: Number(price),
       description,
       startDate,
@@ -67,13 +73,9 @@ function UpdateEvent() {
       user: sessionUser
     }
 
-    const updateEvent = await dispatch(updateEventThunk(updatedEvent, eventId))
-    if(updateEvent.errors) {
-      const errList = Object.values(updateEvent.errors)
-      const flatten = [...errList]
-      flatten.map(e => errors.push(e.msg))
-      setErrorValidations(errors)
-    } else { history.push(`/events/${updateEvent.id}`)}
+    await dispatch(updateEventThunk(updatedEvent, eventId))
+    // console.log(eventId)
+    history.push(`/events/${eventId}`)
   }
 
   return (
@@ -118,8 +120,8 @@ function UpdateEvent() {
         <label>
           Capacity:
           <input
-            onChange={event => setNumAttending(event.target.value)}
-            value={numAttending}
+            onChange={event => setCapacity(event.target.value)}
+            value={capacity}
           >
           </input>
         </label>
@@ -156,7 +158,10 @@ function UpdateEvent() {
           >
           </input>
         </label>
-        <button type='submit'>Update Event</button>
+        <button
+        type='submit'
+        disabled={errorValidation.length > 0 ? true: false}
+        >Update Event</button>
       </form>
     </div>
   )

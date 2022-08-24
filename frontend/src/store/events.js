@@ -107,6 +107,7 @@ const eventsReducer = (state = initialState, action) => {
       return newState
     case DELETE_EVENT:
       newState = {...state}
+      return newState
     default:
       return state
   }

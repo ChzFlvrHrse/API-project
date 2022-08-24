@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
-import { getEventsThunk, deleteEventThunk, updateEventThunk } from "../../store/events";
+import { getEventsThunk, deleteEventThunk } from "../../store/events";
 
 function EventById() {
   const dispatch = useDispatch()
@@ -16,9 +16,8 @@ function EventById() {
 
   const handleDelete = async (e) => {
     e.preventDefault()
-
-    const deleting = await dispatch(deleteEventThunk(params.id, user))
     history.push('/')
+    const deleting = await dispatch(deleteEventThunk(params.id, user))
   }
 
   const handleUpdate = async (e) => {
