@@ -3,9 +3,10 @@ import { useHistory, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { updateEventThunk } from "../../store/events";
 
-function UpdateEvent({ events }) {
+function UpdateEvent() {
   const { eventId } = useParams();
 
+  const events = useSelector(state => state.events.Events)
   // console.log(events);
 
   // if (!events) return null;
@@ -16,21 +17,21 @@ function UpdateEvent({ events }) {
       event = e
     }
   })
-  console.log(event);
+  // console.log(event);
 
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
   const history = useHistory()
 
-  const [venueId, setVenueId] = useState(null);
-  const [name, setName] = useState('');
-  const [type, setType] = useState('')
-  const [capacity, setCapacity] = useState('');
-  const [price, setPrice] = useState('');
+  const [venueId, setVenueId] = useState(event.venueId);
+  const [name, setName] = useState(event.name);
+  const [type, setType] = useState(event.type)
+  const [capacity, setCapacity] = useState(event.capacity);
+  const [price, setPrice] = useState(event.price);
   const [description, setDescription] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [previewImg, setPreviewImg] = useState('');
+  const [startDate, setStartDate] = useState(event.startDate);
+  const [endDate, setEndDate] = useState(event.endDate);
+  const [previewImg, setPreviewImg] = useState(event.previewImg);
   const [errorValidation, setErrorValidations] = useState([]);
 
   useEffect(() => {
@@ -43,7 +44,7 @@ function UpdateEvent({ events }) {
     if (description.length < 0 || description > 1000) errors.push('Description must be more than 0 and less than 1000 characters');
     if (!startDate) errors.push("Start date is required")
     if (!endDate) errors.push("End date is required")
-    if (previewImg.length > 1000) errors.push('Preview image must be less than 1000 charcters');
+    // if (previewImg.length > 1000) errors.push('Preview image must be less than 1000 charcters');
 
     setErrorValidations(errors)
   }, [venueId, name, type, capacity, price, description, startDate, endDate, previewImg]);

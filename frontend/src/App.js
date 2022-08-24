@@ -54,7 +54,7 @@ function App() {
           <CreateEvent />
         </Route>
         <Route exact path="/events/:eventId/edit">
-          <UpdateEvent events={events}/>
+          <UpdateEvent />
         </Route>
       </Switch>
       )}
