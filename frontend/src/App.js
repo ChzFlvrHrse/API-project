@@ -12,6 +12,7 @@ import CreateEvent from "./components/CreateEvent";
 import Groups from "./components/Groups";
 import { getEventsThunk } from "./store/events";
 import { getGroupsThunk } from "./store/group"
+import UpdateEvent from "./components/UpdateEvent";
 
 function App() {
   const dispatch = useDispatch();
@@ -51,6 +52,9 @@ function App() {
         </Route>
         <Route exact path="/groups/:groupId/events">
           <CreateEvent />
+        </Route>
+        <Route exact path="/events/:eventId/edit">
+          <UpdateEvent events={events}/>
         </Route>
       </Switch>
       )}

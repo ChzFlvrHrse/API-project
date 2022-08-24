@@ -1,17 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { newEventThunk } from "../../store/events";
+import { updateEventThunk } from "../../store/events";
 
-function CreateEvent() {
-  const { groupId } = useParams();
+function UpdateEvent({ events }) {
+  const { eventId } = useParams();
+
+  // console.log(events);
+
+  // if (!events) return null;
+
+  let event;
+  events.forEach(e => {
+    if (Number(eventId) === e.id) {
+      event = e
+    }
+  })
+  console.log(event);
+
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
   const history = useHistory()
 
   const [venueId, setVenueId] = useState(null);
   const [name, setName] = useState('');
-  const [type, setType] = useState('In person');
+  const [type, setType] = useState('')
   const [capacity, setCapacity] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
@@ -38,9 +51,9 @@ function CreateEvent() {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
 
-    let errors = []
+    const errors = [];
 
-    const newEvent = {
+    const updatedEvent = {
       name,
       type,
       capacity: Number(capacity),
@@ -53,18 +66,18 @@ function CreateEvent() {
       user: sessionUser
     }
 
-    const createdEvent = await dispatch(newEventThunk(newEvent, groupId))
-    if(createdEvent.errors) {
-      const errList = Object.values(createdEvent.errors)
+    const updateEvent = await dispatch(updateEventThunk(updatedEvent, eventId))
+    if(updatedEvent.errors) {
+      const errList = Object.values(updatedEvent.errors)
       const flatten = [...errList]
       flatten.map(e => errors.push(e.msg))
       setErrorValidations(errors)
-    } else { history.push(`/events/${createdEvent.id}`)}
+    } else { history.push(`/events/${updatedEvent.id}`)}
   }
 
   return (
     <div>
-      <h2>New Event</h2>
+      <h2>Update Event</h2>
 
       <form
         onSubmit={handleOnSubmit}
@@ -98,7 +111,7 @@ function CreateEvent() {
             value={type}
           >
             <option>Online</option>
-            <option>In person</option>
+            <option>In Person</option>
           </select>
         </label>
         <label>
@@ -142,10 +155,10 @@ function CreateEvent() {
           >
           </input>
         </label>
-        <button type='submit'>Create Event</button>
+        <button type='submit'>Update Event</button>
       </form>
     </div>
   )
 }
 
-export default CreateEvent;
+export default UpdateEvent;

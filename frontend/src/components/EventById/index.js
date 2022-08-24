@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
-import { getEventsThunk, deleteEventThunk } from "../../store/events";
+import { getEventsThunk, deleteEventThunk, updateEventThunk } from "../../store/events";
 
 function EventById() {
   const dispatch = useDispatch()
@@ -21,6 +21,12 @@ function EventById() {
     history.push('/')
   }
 
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+
+    history.push(`/events/${params.id}/edit`)
+  }
+
   if (!events) {
     return (
       <div>Loading</div>
@@ -33,6 +39,7 @@ function EventById() {
     <>
       <div>{targetEvent?.name}</div>
       {user?.id === targetEvent?.Group?.organizerId ? <button onClick={handleDelete}>Delete Event</button>:<></>}
+      {user?.id === targetEvent?.Group?.organizerId ? <button onClick={handleUpdate}>Update Event</button>:<></>}
     </>
   )
 }

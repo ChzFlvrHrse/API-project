@@ -2,7 +2,8 @@ import { csrfFetch } from './csrf';
 
 const GET_EVENT = 'events/getEvents';
 const NEW_EVENT = 'events/newEvent';
-const DELETE_EVENT = 'events/delete'
+const DELETE_EVENT = 'events/delete';
+const UPDATE_EVENT = 'events/update'
 
 const getAllEvents = (events) => {
   return {
@@ -22,6 +23,14 @@ const deleteEvent = (deleted) => {
   return {
     type: DELETE_EVENT,
     deleted
+  }
+}
+
+const updateEvent = (updated, eventId) => {
+  return {
+    type: UPDATE_EVENT,
+    updated,
+    eventId
   }
 }
 
@@ -60,6 +69,19 @@ export const deleteEventThunk = (id) => async dispatch => {
   }
 }
 
+export const updateEventThunk = (updated, eventId) => async dispatch => {
+  const response = await csrfFetch(`/api/events/${eventId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(updated)
+  })
+
+  if (response.ok) {
+    const updatedEvent = response.json();
+    dispatch(updateEvent(updatedEvent, eventId))
+  }
+}
+
 const initialState = {};
 
 const eventsReducer = (state = initialState, action) => {
@@ -71,6 +93,10 @@ const eventsReducer = (state = initialState, action) => {
     case NEW_EVENT:
       let newEvent = {...action.event}
       newState = { ...state, newEvent}
+      return newState
+    case UPDATE_EVENT:
+      newState = {...state}
+      newState.events[action.eventId] = action.updated;
       return newState
     case DELETE_EVENT:
       newState = {...state}
