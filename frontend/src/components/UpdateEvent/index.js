@@ -68,12 +68,12 @@ function UpdateEvent() {
     }
 
     const updateEvent = await dispatch(updateEventThunk(updatedEvent, eventId))
-    if(updatedEvent.errors) {
-      const errList = Object.values(updatedEvent.errors)
+    if(updateEvent.errors) {
+      const errList = Object.values(updateEvent.errors)
       const flatten = [...errList]
       flatten.map(e => errors.push(e.msg))
       setErrorValidations(errors)
-    } else { history.push(`/events/${updatedEvent.id}`)}
+    } else { history.push(`/events/${updateEvent.id}`)}
   }
 
   return (
