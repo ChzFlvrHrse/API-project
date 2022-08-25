@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { createGroupThunk } from "../../store/group";
 
@@ -66,7 +66,7 @@ function CreateGroup() {
 
   return (
     <div>
-      <h2>New Event</h2>
+      <h2>New Group</h2>
 
       <form
         onSubmit={handleOnSubmit}
