@@ -1,0 +1,70 @@
+.whole{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.home {
+  display: grid;
+  justify-content: center;
+  text-align: left;
+  width: 25%;
+  /* margin-right: 5%; */
+  padding-right: 20px;
+  font-family: Graphik Meetup,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+}
+
+.celebrate {
+  font-size: 3rem;
+  line-height: 1;
+  font-weight: 700;
+}
+
+.computer {
+  height: 170%;
+  width: 170%;
+  margin-top: 10%;
+}
+
+.years {
+  line-height: 1.5;
+}
+
+.url {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.images {
+  display: flex;
+  margin-top: 40px;
+}
+
+.photo-1 {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.friends {
+  color: teal;
+  text-decoration: none;
+  font-family: Graphik Meetup,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+  font-weight: bold;
+}
+
+/* .photo-2 {
+  margin: 0 20px 0 20px;
+  height: 20%;
+  width: 20%;
+  border-radius: 10px;
+}
+
+.photo-3 {
+  width: 20%;
+  height: 20%;
+  border-radius: 10px;
+} */

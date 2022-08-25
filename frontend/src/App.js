@@ -14,6 +14,7 @@ import { getEventsThunk } from "./store/events";
 import { getGroupsThunk } from "./store/group"
 import UpdateEvent from "./components/UpdateEvent";
 import CreateGroup from "./components/CreateGroup";
+import Home from "./components/Home";
 
 function App() {
   const dispatch = useDispatch();
@@ -31,11 +32,10 @@ function App() {
     <>
       <div className="app" >
         <Navigation isLoaded={isLoaded} />
-        <SubNav />
         {isLoaded && (
           <Switch>
             <Route exact path='/'>
-              <Events />
+              <Home />
             </Route>
             <Route path="/login">
               <LoginFormPage />
@@ -44,12 +44,14 @@ function App() {
               <SignupFormPage />
             </Route>
             <Route exact path="/events">
+              <SubNav />
               <Events />
             </Route>
             <Route exact path="/events/:id">
               <EventById />
             </Route>
             <Route exact path="/groups">
+              <SubNav />
               <Groups />
             </Route>
             <Route exact path="/groups/:groupId/events">
