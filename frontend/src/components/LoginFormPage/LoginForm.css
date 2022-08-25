@@ -1,0 +1,42 @@
+form {
+  display: grid;
+  justify-content: center;
+  font-family: Graphik Meetup,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+  font-size: 18px;
+}
+
+input {
+  margin: 10px 0px 10px 0px;
+  font-size: 15px;
+  background-color: white;
+  padding: 8px;
+  border-radius: 10px;
+  border-style: solid;
+  width: 180px
+}
+
+input:hover {
+  border-color: black;
+}
+
+.login-button {
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  font-size: 15px;
+  font-weight: bold;
+  color: white;
+  padding: 8px;
+  border-radius: 10px;
+  border: none;
+  background-color: #f65858;
+  width: 198px;
+  height: 38px;
+}
+
+button:hover {
+  background-color: #f65858;
+  opacity: .8;
+}

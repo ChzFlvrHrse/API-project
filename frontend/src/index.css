@@ -1,1 +1,9 @@
 /* TODO Add site wide styles */
+
+.app {
+  align-items: center;
+  background-image: url(https://cdn.discordapp.com/attachments/907279113516122143/1012447672520671232/unknown.png);
+  height: 100vh;
+  justify-content: center;
+  width: 100%;
+}

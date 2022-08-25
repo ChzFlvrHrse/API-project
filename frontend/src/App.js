@@ -18,8 +18,8 @@ import CreateGroup from "./components/CreateGroup";
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
-  const events = useSelector(state=>state.events.Events)
-  const groups = useSelector(state=>state.groups.Groups)
+  const events = useSelector(state => state.events.Events)
+  const groups = useSelector(state => state.groups.Groups)
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
@@ -29,39 +29,41 @@ function App() {
 
   return (
     <>
-      <Navigation isLoaded={isLoaded} />
-      <SubNav />
-      {isLoaded && (
-        <Switch>
-        <Route exact path='/'>
-          <Events />
-        </Route>
-        <Route path="/login">
-          <LoginFormPage />
-        </Route>
-        <Route path="/signup">
-          <SignupFormPage />
-        </Route>
-        <Route exact path="/events">
-          <Events />
-        </Route>
-        <Route exact path="/events/:id">
-          <EventById />
-        </Route>
-        <Route exact path="/groups">
-          <Groups />
-        </Route>
-        <Route exact path="/groups/:groupId/events">
-          <CreateEvent />
-        </Route>
-        <Route exact path="/events/:eventId/edit">
-          <UpdateEvent />
-        </Route>
-        <Route exact path='/groups/create'>
-          <CreateGroup />
-        </Route>
-      </Switch>
-      )}
+      <div className="app" >
+        <Navigation isLoaded={isLoaded} />
+        <SubNav />
+        {isLoaded && (
+          <Switch>
+            <Route exact path='/'>
+              <Events />
+            </Route>
+            <Route path="/login">
+              <LoginFormPage />
+            </Route>
+            <Route path="/signup">
+              <SignupFormPage />
+            </Route>
+            <Route exact path="/events">
+              <Events />
+            </Route>
+            <Route exact path="/events/:id">
+              <EventById />
+            </Route>
+            <Route exact path="/groups">
+              <Groups />
+            </Route>
+            <Route exact path="/groups/:groupId/events">
+              <CreateEvent />
+            </Route>
+            <Route exact path="/events/:eventId/edit">
+              <UpdateEvent />
+            </Route>
+            <Route exact path='/groups/create'>
+              <CreateGroup />
+            </Route>
+          </Switch>
+        )}
+      </div>
     </>
   );
 }
