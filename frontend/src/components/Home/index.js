@@ -30,7 +30,7 @@ function Home() {
         <img className='photo-3' src='https://secure.meetupstatic.com/next/images/indexPage/category3.webp?w=1920' /> */}
         </div>
         <div>
-          <Link className='friends' to='/events'>Make new friends</Link>
+          <Link className='friends' to='/events'>Make new friends<img className='arrow' src='https://secure.meetupstatic.com/next/images/shared/right-arrow.svg?w=32'/></Link>
         </div>
       </div>
 

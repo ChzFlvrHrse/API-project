@@ -32,10 +32,8 @@
 }
 
 .url {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   justify-content: center;
-  align-items: center;
 }
 
 .images {
@@ -54,6 +52,13 @@
   text-decoration: none;
   font-family: Graphik Meetup,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
   font-weight: bold;
+  line-height: 2;
+}
+
+.arrow {
+  height: 20px;
+  width: 20px;
+  margin-left: 5px;
 }
 
 /* .photo-2 {
