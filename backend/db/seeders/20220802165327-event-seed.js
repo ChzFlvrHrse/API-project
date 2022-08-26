@@ -16,11 +16,11 @@ module.exports = {
         startDate: "2021-11-19 20:00:00",
         endDate: "2021-11-19 22:00:00",
         numAttending: 8,
-        previewImage: "image url"
+        previewImage: "https://www.soda.com/wp-content/uploads/2016/12/tennis_live_stream-600x361.jpg"
       },
       {
         groupId: 1,
-        venueId: 1,
+        venueId: null,
         name: "Tennis Singles",
         description: "First Singles Tennis Match!",
         type: "In person",
@@ -29,7 +29,7 @@ module.exports = {
         startDate: "2021-11-20 20:00:00",
         endDate: "2021-11-20 22:00:00",
         numAttending: 4,
-        previewImage: "image url"
+        previewImage: "https://media.istockphoto.com/photos/tennis-players-playing-a-match-on-the-court-picture-id817164728?k=20&m=817164728&s=170667a&w=0&h=fr8QeXfxrdKGLzgFl3QTX9li2QFzbcjTHOW8NsAeDgo="
       },
     ])
   },

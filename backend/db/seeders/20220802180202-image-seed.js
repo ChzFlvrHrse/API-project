@@ -6,7 +6,7 @@ module.exports = {
       {
         groupId: 1,
         imageableType: "Polaroid",
-        url: 'image url'
+        url: 'http://www.tennisnow.com/Files/Doha-Season-Launch-3(up).aspx'
       },
       {
         eventId: 1,
