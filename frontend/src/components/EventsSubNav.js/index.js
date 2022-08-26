@@ -1,11 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import './SubNav.css'
 
 function SubNav() {
-
   return (
     <>
-      <Link to='/events'>Events</Link>
-      <Link to='/groups'>Groups</Link>
+      <div className="roll">
+        <NavLink className='events' to='/events' >Events</NavLink>
+        <NavLink className="groups" to='/groups'>Groups</NavLink>
+      </div>
     </>
   )
 }

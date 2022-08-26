@@ -1,0 +1,28 @@
+.roll {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-right: 52rem;
+  font-family: Graphik Meetup,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+  font-size: 1.25rem;
+  font-weight: bolder;
+  line-height: 1.75rem;
+}
+
+a.active {
+  color: teal;
+  text-decoration: underline;
+  text-underline-position: under;
+  text-decoration-thickness: .25rem;
+}
+
+.events {
+  margin-right: 1rem;
+  text-decoration: none;
+  color: gray;
+}
+
+.groups {
+  text-decoration: none;
+  color: gray;
+}

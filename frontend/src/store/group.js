@@ -43,7 +43,7 @@ export const createGroupThunk = (group) => async dispatch => {
   })
 
   if (response.ok) {
-    const newGroup = response.json();
+    const newGroup = await response.json();
     dispatch(createGroup(newGroup))
     return newGroup
   }
@@ -55,7 +55,7 @@ export const deleteGroupThunk = (groupId) => async dispatch => {
   });
 
   if (response.ok) {
-    const deleted = response.json();
+    const deleted = await response.json();
     dispatch(deleteGroup(deleted))
   }
 }
@@ -69,8 +69,8 @@ const groupsReducer = (state = initialState, action) => {
       newState = {...state, entries: [...action.groups]};
       return newState;
     case CREATE_GROUP:
-      let newGroup = {...action.group};
-      newState = {...state, newGroup}
+      newState = {...state, entries: [...state.entries, {...action.group}]}
+      return newState
     case DELETE:
       newState = {...state};
       return newState;
