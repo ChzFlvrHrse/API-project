@@ -1,3 +1,88 @@
 .group-roll-container {
   padding: 10px;
 }
+
+.events-container {
+  display: flex;
+  width: 40rem;
+  margin-left: 17rem;
+}
+
+.inner-container {
+  display: flex;
+  width: 40rem;
+  /* margin-top: 1rem; */
+  padding: 0 0 1rem 1rem;
+  border: none white;
+  border-radius: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.inner-container:hover {
+  background-color: rgb(235,244,246);
+}
+
+a {
+  text-decoration: none;
+}
+
+.image-container {
+  display: flex;
+  margin-top: 1rem;
+}
+
+h5 {
+  position: absolute;
+  border: none;
+  border-radius: .3rem;
+  background-color: white;
+  margin: .5rem .5rem;
+  padding: .2rem .3rem;
+  color: rgb(117 117 117);
+  font-family: Graphik Meetup,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+  font-size: .8rem;
+}
+
+h5 > i {
+  margin-right: .2rem;
+}
+
+.prevImg {
+  height: 5.5rem;
+  width: 10rem;
+  border-radius: .7rem;
+}
+
+.group-roll-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+  margin-left: 1rem;
+  width: 100%;
+  font-family: Graphik Meetup,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+}
+
+
+.group-name {
+  color: rgb(33, 33, 33);
+  font-weight: bold;
+}
+
+.location {
+  margin-bottom: 1rem;
+  text-decoration: none;
+  color: rgb(135, 116, 87)
+
+}
+
+.about {
+  text-decoration: none;
+  color:rgb(117 117 117);
+  font-size: .9rem;
+}
+
+.members {
+  margin-top: 1rem;
+  color:rgb(117 117 117);
+  font-size: .9rem;
+}
