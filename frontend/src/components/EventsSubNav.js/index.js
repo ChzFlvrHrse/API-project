@@ -4,9 +4,11 @@ import './SubNav.css'
 function SubNav() {
   return (
     <>
-      <div className="roll">
-        <NavLink className='events' to='/events' >Events</NavLink>
-        <NavLink className="groups" to='/groups'>Groups</NavLink>
+      <div className='events-container'>
+        <div className="roll">
+          <NavLink className='events' to='/events' >Events</NavLink>
+          <NavLink className="groups" to='/groups'>Groups</NavLink>
+        </div>
       </div>
     </>
   )
