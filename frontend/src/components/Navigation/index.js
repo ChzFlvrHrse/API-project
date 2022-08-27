@@ -31,7 +31,7 @@ function Navigation({ isLoaded }) {
   return (
     <div className="nav">
       <div>
-        <NavLink id="logo" exact to="/"><img src='https://upload.wikimedia.org/wikipedia/commons/6/6b/Meetup_Logo.png' alt="meetup logo"/></NavLink>
+        <NavLink id="logo" exact to="/">MetUp</NavLink>
       </div>
 
       {/* <div>

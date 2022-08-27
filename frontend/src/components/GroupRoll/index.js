@@ -39,8 +39,6 @@ function GroupRoll({ group }) {
     location = `${group.city}, ${group.state}`
   }
 
-  let main;
-
   return (
     <>
       {/* <div className='events-container'>
@@ -91,6 +89,9 @@ function GroupRoll({ group }) {
             {user?.id === group.organizerId ? <button onClick={handleDelete}>Delete Group</button> : <></>}
           </div>
         </div>
+      </div>
+      <div>
+        <Link to='/groups/create'>Create Group</Link>
       </div>
     </>
   )
