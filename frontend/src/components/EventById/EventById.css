@@ -6,8 +6,13 @@
   font-family: Graphik Meetup,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
 }
 
-.details {
+.h1 {
+  font-weight: bolder;
+}
 
+.h4 {
+  color: rgb(117 117 117);
+  font-weight: normal;
 }
 
 .manipulate {

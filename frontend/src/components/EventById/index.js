@@ -56,10 +56,10 @@ function EventById() {
     <>
       <div className="event-details">
         <div className="details">
-          <h3>{targetEvent.startDate}</h3>
-          <h1>{targetEvent?.name}</h1>
-          <h4>{"Host: "}{targetEvent.Group.name}</h4>
-          <h4>{privacyStatus}{' Group'}</h4>
+          <h4 className="h4">{targetEvent.startDate}</h4>
+          <h1 className="h1">{targetEvent?.name}</h1>
+          <h4 className="h4">{"Host By: "}{targetEvent.Group.name}</h4>
+          <h4 className="h4">{privacyStatus}{' Group'}</h4>
         </div>
         <div className="manipulate">
           <div className="delete-event">
