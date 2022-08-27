@@ -1,13 +1,13 @@
 .entire {
-  display: grid;
-  align-items: left;
+  display: flex;
+  flex-direction: column;
 }
 
 .event-details {
-  display: grid;
+  display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: left;
+  align-items: center;
+
   font-family: Graphik Meetup,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
 }
 

@@ -1,0 +1,18 @@
+h1.new-group {
+  text-align: center;
+}
+
+.errors {
+  margin-bottom: 1rem;
+  color: red;
+}
+
+.create-button {
+  font-size: 15px;
+  font-weight: bold;
+  color: white;
+  padding: 8px;
+  border-radius: 10px;
+  border: none;
+  background-color: #f65858;
+}

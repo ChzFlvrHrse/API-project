@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { createGroupThunk } from "../../store/group";
+import "./CreateGroup.css"
 
 function CreateGroup() {
   const dispatch = useDispatch();
@@ -56,89 +57,91 @@ function CreateGroup() {
     const errors = [];
 
     const createdGroup = await dispatch(createGroupThunk(newGroup));
-    if(createdGroup.errors) {
+    if (createdGroup.errors) {
       const errList = Object.values(createdGroup.errors)
       const flatten = [...errList]
       flatten.map(e => errors.push(e.msg))
       setErrorValidations(errors)
-    } else { history.push(`/groups`)}
+    } else { history.push(`/groups`) }
   }
 
   return (
     <div>
-      <h2>New Group</h2>
+      <h1 className="new-group">Create Your New Group!</h1>
 
       <form
         onSubmit={handleOnSubmit}
       >
-        <div >
-            {errorValidation.map((error, ind) => (
-                <div key={ind}>{error}</div>
-            ))}
+        <div className="errors">
+          {errorValidation.map((error, ind) => (
+            <div key={ind}>{error}</div>
+          ))}
         </div>
         <label>
           Name:
-          <input
-            type='text'
-            onChange={event => setName(event.target.value)}
-            value={name}
-          ></input>
         </label>
+        <input
+          type='text'
+          onChange={event => setName(event.target.value)}
+          value={name}
+        ></input>
         <label>
           About:
-          <input
-            type='text'
-            onChange={event => setAbout(event.target.value)}
-            value={about}
-          >
-          </input>
         </label>
+        <textarea
+          type='text'
+          onChange={event => setAbout(event.target.value)}
+          value={about}
+          placeholder='Must be more than 50 characters'
+        >
+        </textarea>
         <label>
           Type:
-          <select
-            onChange={event => setType(event.target.value)}
-            value={type}
-          >
-            <option>Online</option>
-            <option>In person</option>
-          </select>
         </label>
+        <select
+          onChange={event => setType(event.target.value)}
+          value={type}
+        >
+          <option>Online</option>
+          <option>In person</option>
+        </select>
         <label>
           Private:
-          <input
-            onChange={event => setPrivateStat(event.target.value)}
-            value={privateStat}
-          >
-          </input>
         </label>
+        <input
+          onChange={event => setPrivateStat(event.target.value)}
+          value={privateStat}
+        >
+        </input>
         <label>
           City:
-          <input
-            onChange={event => setCity(event.target.value)}
-            value={city}
-          >
-          </input>
         </label>
+        <input
+          onChange={event => setCity(event.target.value)}
+          value={city}
+        >
+        </input>
         <label>
           State:
-          <input
-            onChange={event => setState(event.target.value)}
-            value={state}
-          >
-          </input>
         </label>
+        <input
+          onChange={event => setState(event.target.value)}
+          value={state}
+        >
+        </input>
         <label>
           Preview Image
-          <input
-            type='text'
-            onChange={event => setPreviewImg(event.target.value)}
-            value={previewImg}
-          >
-          </input>
         </label>
+        <input
+          type='text'
+          onChange={event => setPreviewImg(event.target.value)}
+          value={previewImg}
+        >
+        </input>
         <button
-        type='submit'
-        disabled={errorValidation.length > 0 ? true : false}
+          type='submit'
+          disabled={errorValidation.length > 0 ? true : false}
+          className='create-button'
         >Create Group</button>
       </form>
     </div>
