@@ -35,7 +35,7 @@ function SignupFormPage() {
       </ul>
       <label>
         Email
-        
+
       </label>
       <div>
         <input
@@ -81,7 +81,7 @@ function SignupFormPage() {
           required
         />
       </div>
-      <button type="submit">Sign Up</button>
+      <button className='butt' type="submit">Sign Up</button>
     </form>
   );
 }

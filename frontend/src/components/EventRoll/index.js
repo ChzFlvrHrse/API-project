@@ -32,7 +32,7 @@ function EventRoll({ event }) {
           <Link exact to={`/events/${event.id}`}>
             <div className='image-container'>
               <img className='prevImg' src={image} />
-              <h5>{icon}{event.type}{' Event'}</h5>
+              <h5 className='h5'>{icon}{event.type}{' Event'}</h5>
             </div>
           </Link>
           <Link exact to={`/events/${event.id}`}><div className='event-roll-container'>

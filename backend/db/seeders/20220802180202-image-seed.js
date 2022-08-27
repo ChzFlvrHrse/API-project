@@ -11,7 +11,7 @@ module.exports = {
       {
         eventId: 1,
         imageableType: "Polaroid",
-        url: "image url"
+        url: ''
       }
     ])
   },

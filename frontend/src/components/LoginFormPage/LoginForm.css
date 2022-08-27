@@ -24,7 +24,7 @@ input:hover {
   justify-content: center;
 }
 
-button {
+button.butt {
   font-size: 15px;
   font-weight: bold;
   color: white;

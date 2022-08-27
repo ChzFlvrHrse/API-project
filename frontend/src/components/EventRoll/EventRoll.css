@@ -27,7 +27,13 @@ a {
   margin-top: 1rem;
 }
 
-h5 {
+.prevImg {
+  height: 5.5rem;
+  width: 10rem;
+  border-radius: .7rem;
+}
+
+h5.h5 {
   position: absolute;
   border: none;
   border-radius: .3rem;
@@ -43,11 +49,6 @@ h5 > i {
   margin-right: .2rem;
 }
 
-.prevImg {
-  height: 5.5rem;
-  width: 10rem;
-  border-radius: .7rem;
-}
 
 .event-roll-container {
   display: flex;

@@ -1,0 +1,28 @@
+.user-icon {
+  font-size: 2rem;
+  font-weight: bold;
+  border-radius: 1rem;
+  border: none;
+  color: #f65858;
+}
+
+.user-icon:hover {
+  opacity: .8;
+}
+
+.prof-button  i {
+  display: flex;
+  justify-content: center;
+  padding-left: 1.5rem;
+}
+
+.logout-button {
+  font-size: 15px;
+  font-weight: bold;
+  color: white;
+  border-radius: 1rem;
+  border: none;
+  background-color: #f65858;
+  width: 6rem;
+  height: 1.5rem;
+}

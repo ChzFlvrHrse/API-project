@@ -85,10 +85,10 @@ function EventById() {
           </div>
           <div className="manipulate">
             <div className="delete-event">
-              {user?.id === targetEvent?.Group?.organizerId ? <button onClick={handleDelete}>Delete Event</button> : <></>}
+              {user?.id === targetEvent?.Group?.organizerId ? <button className='butt-2' onClick={handleDelete}>Delete Event</button> : <></>}
             </div>
             <div className="update-event">
-              {user?.id === targetEvent?.Group?.organizerId ? <button onClick={handleUpdate}>Update Event</button> : <></>}
+              {user?.id === targetEvent?.Group?.organizerId ? <button className='butt-2' onClick={handleUpdate}>Update Event</button> : <></>}
             </div>
           </div>
         </div>
