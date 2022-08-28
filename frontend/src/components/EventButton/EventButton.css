@@ -1,0 +1,15 @@
+.events-container#group-button-container {
+  display: flex;
+  justify-content: right;
+}
+
+.group-button {
+  font-size: 15px;
+  font-weight: bold;
+  color: white;
+  border-radius: 1rem;
+  border: none;
+  background-color: #f65858;
+  width: 7rem;
+  height: 3rem;
+}

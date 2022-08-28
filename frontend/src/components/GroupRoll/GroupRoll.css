@@ -6,6 +6,7 @@
   display: flex;
   width: 40rem;
   margin-left: 17rem;
+  margin-top: 1rem;
 }
 
 .inner-container {
@@ -29,22 +30,6 @@ a {
 .image-container {
   display: flex;
   margin-top: 1rem;
-}
-
-h5 {
-  position: absolute;
-  border: none;
-  border-radius: .3rem;
-  background-color: white;
-  margin: .5rem .5rem;
-  padding: .2rem .3rem;
-  color: rgb(117 117 117);
-  font-family: Graphik Meetup,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
-  font-size: .8rem;
-}
-
-h5 > i {
-  margin-right: .2rem;
 }
 
 .prevImg {
@@ -85,4 +70,16 @@ h5 > i {
   margin-top: 1rem;
   color:rgb(117 117 117);
   font-size: .9rem;
+}
+
+.create-event, .delete-group {
+  font-size: 15px;
+  font-weight: bold;
+  color: white;
+  border-radius: 1rem;
+  border: none;
+  background-color: #f65858;
+  width: 5rem;
+  height: 3rem;
+  margin: .5rem .5rem;
 }

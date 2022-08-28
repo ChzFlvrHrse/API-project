@@ -45,9 +45,10 @@ h5.h5 {
   font-size: .8rem;
 }
 
-h5 > i {
+.h5 > i {
   margin-right: .2rem;
 }
+
 
 
 .event-roll-container {

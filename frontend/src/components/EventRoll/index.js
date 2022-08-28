@@ -52,7 +52,6 @@ function EventRoll({ event }) {
           </Link>
         </div>
       </div>
-      <div></div>
     </>
   )
 }

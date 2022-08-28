@@ -15,6 +15,10 @@ function GroupRoll({ group }) {
     await dispatch(deleteGroupThunk(group.id))
   }
 
+  const reroute = () => {
+    history.push(`/groups/${group.id}/events`)
+  }
+
   console.log(group)
 
   let image;
@@ -41,23 +45,6 @@ function GroupRoll({ group }) {
 
   return (
     <>
-      {/* <div className='events-container'>
-        <div>
-          {group.name}
-        </div>
-        <div>
-          {group.about}
-        </div>
-        <div>
-          {user?.id === group.organizerId ? <Link to={`/groups/${group.id}/events`}>Create Event for this Group</Link> : <></>}
-        </div>
-        <div>
-          {user?.id === group.organizerId ? <button onClick={handleDelete}>Delete Group</button> : <></>}
-        </div>
-        <div>
-          <Link to='/groups/create'>Create Group</Link>
-        </div>
-      </div> */}
       <div className='events-container'>
         <div className='inner-container'>
           <Link exact to={`/groups/${group.id}`}>
@@ -82,17 +69,18 @@ function GroupRoll({ group }) {
             </div>
           </div>
           </Link>
-          <div className='create-event'>
-            {user?.id === group.organizerId ? <Link to={`/groups/${group.id}/events`}>Create Event for this Group</Link> : <></>}
+          <div>
+            {/* {user?.id === group.organizerId ? <Link to={`/groups/${group.id}/events`}>Create Event for this Group</Link> : <></>} */}
+            {user?.id === group.organizerId ? <button className='create-event' onClick={reroute}>Create Event</button> : <></>}
           </div>
-          <div className='delete-group'>
-            {user?.id === group.organizerId ? <button onClick={handleDelete}>Delete Group</button> : <></>}
+          <div>
+            {user?.id === group.organizerId ? <button className='delete-group' onClick={handleDelete}>Delete Group</button> : <></>}
           </div>
         </div>
       </div>
-      <div>
+      {/* <div>
         <Link to='/groups/create'>Create Group</Link>
-      </div>
+      </div> */}
     </>
   )
 }
