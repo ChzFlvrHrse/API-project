@@ -56,7 +56,7 @@ function EventById() {
 
   const targetEvent = events.find(event => event.id.toString() === params.id)
 
-  console.log(targetEvent)
+  // console.log(targetEvent)
 
   let image;
   let privacyStatus;
@@ -139,7 +139,6 @@ function EventById() {
           </div>
         </div>
       </div>
-
     </>
   )
 }

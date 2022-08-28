@@ -19,7 +19,7 @@ function GroupRoll({ group }) {
     history.push(`/groups/${group.id}/events`)
   }
 
-  console.log(group)
+  // console.log(group)
 
   let image;
   let privateStatus;
@@ -70,7 +70,6 @@ function GroupRoll({ group }) {
           </div>
           </Link>
           <div>
-            {/* {user?.id === group.organizerId ? <Link to={`/groups/${group.id}/events`}>Create Event for this Group</Link> : <></>} */}
             {user?.id === group.organizerId ? <button className='create-event' onClick={reroute}>Create Event</button> : <></>}
           </div>
           <div>
@@ -78,9 +77,6 @@ function GroupRoll({ group }) {
           </div>
         </div>
       </div>
-      {/* <div>
-        <Link to='/groups/create'>Create Group</Link>
-      </div> */}
     </>
   )
 }

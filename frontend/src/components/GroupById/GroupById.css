@@ -1,0 +1,42 @@
+.top-container {
+  display: flex;
+  justify-content: center;
+  margin-right: 5rem;
+}
+
+.group-img {
+  height: 10rem;
+  width: 17rem;
+  border-radius: 1rem;
+}
+
+.group-info {
+  margin-left: 5rem;
+  font-family: Graphik Meetup, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;;
+}
+
+.group-tag {
+  margin: 0;
+  font-family: Graphik Meetup, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+}
+
+.group-tag > i{
+  margin: 0;
+}
+
+.bottom-container {
+  display: flex;
+  justify-content: center;
+  background-color: #f5f6f7;
+  font-family: Graphik Meetup, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+  height: 100%;
+}
+
+.what-about {
+  margin-right: 15rem;
+}
+
+p#about {
+  inline-size: 25rem;
+  overflow-wrap: break-word;
+}

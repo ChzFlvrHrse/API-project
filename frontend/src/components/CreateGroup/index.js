@@ -18,16 +18,10 @@ function CreateGroup() {
   const [previewImg, setPreviewImg] = useState('');
   const [errorValidation, setErrorValidations] = useState([])
 
-
-  // if (!sessionUser) {
-  //   window.alert("Login to create event")
-  //   history.push('/login')
-  // }
-
   useEffect((e) => {
     let errors = []
 
-    if (name.length === 0) errors.push('Name must be greater than 0 characters');
+    if (name.length < 3) errors.push('Name must be greater than 3 characters');
     if (name.length > 60) errors.push('Name must be less than 60 characters')
 
     if (about.length > 1000) errors.push('About must be less than 1000 characters');
@@ -147,7 +141,7 @@ function CreateGroup() {
           <option value="CO">Colorado</option>
           <option value="CT">Connecticut</option>
           <option value="DE">Delaware</option>
-          <option value="DC">District Of Columbia</option>
+          <option value="DC">DC</option>
           <option value="FL">Florida</option>
           <option value="GA">Georgia</option>
           <option value="HI">Hawaii</option>

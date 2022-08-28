@@ -16,6 +16,7 @@ import UpdateEvent from "./components/UpdateEvent";
 import CreateGroup from "./components/CreateGroup";
 import Home from "./components/Home";
 import GroupButton from "./components/EventButton";
+import GroupById from "./components/GroupById";
 
 function App() {
   const dispatch = useDispatch();
@@ -64,6 +65,9 @@ function App() {
             </Route>
             <Route exact path='/groups/create'>
               <CreateGroup />
+            </Route>
+            <Route exact path="/groups/:id">
+              <GroupById />
             </Route>
           </Switch>
         )}
