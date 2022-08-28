@@ -98,12 +98,12 @@ const eventsReducer = (state = initialState, action) => {
     case UPDATE_EVENT:
       newState = {...state}
       let index;
-      for (let i = 0; i < newState.events.Events.length; i++) {
-        if (newState.events.Events.id === Number(action.eventId)) {
+      for (let i = 0; i < newState.Events.length; i++) {
+        if (newState.Events.id === Number(action.eventId)) {
           index = i;
         }
       }
-      newState.events.Events[index] = action.updated;
+      newState.Events[index] = action.updated;
       return newState
     case DELETE_EVENT:
       newState = {...state}

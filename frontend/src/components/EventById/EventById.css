@@ -7,8 +7,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
   font-family: Graphik Meetup, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+  margin-right: 43rem;
 }
 
 .h1 {
@@ -56,6 +56,11 @@
   height: 20rem;
   width: 35rem;
   border-radius: 1rem;
+}
+
+p.details {
+  inline-size: 25rem;
+  overflow-wrap: break-word;
 }
 
 .visuals-2 {

@@ -43,7 +43,7 @@ router.get('/', async (req, res) => {
     where: {...where},
     include: [
       { model: Image, attributes: { exclude: ['groupId', 'imageableType', 'createdAt', 'updatedAt'] } },
-      { model: Group, attributes: ['id', 'organizerId', 'name', 'city', 'state'] },
+      { model: Group, attributes: ['id', 'organizerId', 'name', 'city', 'state', 'private'] },
       { model: Venue, attributes: ['id', 'city', 'state'] }],
       limit: size,
       offset: size * (page - 1)

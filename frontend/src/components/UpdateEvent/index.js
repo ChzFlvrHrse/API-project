@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { updateEventThunk, getEventsThunk } from "../../store/events";
 
@@ -86,7 +86,7 @@ function UpdateEvent() {
   }
 
   if(!sessionUser) {
-    history.push('/')
+    {<div>You are not authorized to access this page. <Link to='/login'>Click here to login</Link></div>}
   }
 
   return (
@@ -125,7 +125,7 @@ function UpdateEvent() {
             value={type}
           >
             <option>Online</option>
-            <option>In Person</option>
+            <option>In person</option>
           </select>
         </label>
         <label>

@@ -23,10 +23,6 @@ function Navigation({ isLoaded }) {
           <div >
             <NavLink className='signup' to="/signup">Sign up</NavLink>
           </div>
-
-          <div>
-            <button className='demo' to="/login">Demo</button>
-          </div>
         </div>
       </>
     );

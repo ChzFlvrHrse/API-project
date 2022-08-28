@@ -304,7 +304,7 @@ router.post('/:groupId/events', async (req, res) => {
   }
 
   if (byGroupId && (byGroupId.organizerId === currUserId || coHost)) {
-    await Event.create({ groupId: Number(groupId), venueId, name, type, capacity, price, description, startDate, endDate, previewImg });
+    await Event.create({ groupId: Number(groupId), venueId, name, type, capacity, price, description, startDate, endDate, previewImage: previewImg });
 
     const theEvent = await Event.findOne({
       where: { venueId, groupId, name, capacity },

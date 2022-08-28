@@ -57,15 +57,14 @@ function GroupById() {
           </div>
         </div>
       </div>
-      <div class="bottom-container">
+      <div className="bottom-container">
         <div className="what-about">
           <h3>What we're about</h3>
           <p id='about'>{targetEvent.about}</p>
         </div>
-        <div>
+        <div id='organizer'>
           <h3>Organizer</h3>
           <h5>{user.username}</h5>
-          <h3>Members</h3>
         </div>
       </div>
     </>

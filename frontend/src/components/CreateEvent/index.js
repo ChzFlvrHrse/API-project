@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { newEventThunk } from "../../store/events";
+import { Link } from "react-router-dom";
 import "./CreateEvent.css"
 
 function CreateEvent() {
@@ -21,26 +22,26 @@ function CreateEvent() {
   const [previewImg, setPreviewImg] = useState('');
   const [errorValidation, setErrorValidations] = useState([]);
 
+  const numberValidation = new RegExp('^[0-9]*$')
+  const priceValidation = new RegExp(/\d+(?:[.,]\d{0,2})?/)
+
   useEffect(() => {
     let errors = []
 
-    if (name.length === 0) errors.push('Name must be greater than 0 characters');
+    if (name.length <= 4) errors.push('Name must be greater than 4 characters');
     if (name.length > 60) errors.push('Name must be less than 60 characters');
-
     if (type !== 'In person' && type !== 'Online') errors.push('Type must be In person or Online');
-
-    if (!numAttending) errors.push('Capacity is required');
-    if (isNaN(numAttending)) errors.push('Capacity must be a number')
-
+    if (!numAttending) errors.push('Capacity is required')
+    if (!numberValidation.test(numAttending)) errors.push('Capacity must be a number')
     if (!price || price < 0) errors.push('Price is required');
-    if (isNaN(price)) errors.push('Price must be a number')
-
+    if (!priceValidation.test(price)) errors.push('Price must be a number')
     if (description.length < 0) errors.push('Description must be more than 0 characters');
     if (description.length > 1000) errors.push('Description must less than 1000 characters')
-    
     if (!startDate) errors.push("Start date is required")
     if (!endDate) errors.push("End date is required")
     if (previewImg.length > 1000) errors.push('Preview image must be less than 1000 charcters');
+    if ((new Date().getTime() >= new Date(startDate))) errors.push('Event must occur in the future')
+    if ((new Date(endDate) - new Date(startDate)) < 0) errors.push('End date must occur after the start date')
 
     setErrorValidations(errors)
   }, [venueId, name, type, numAttending, price, description, startDate, endDate, previewImg]);
@@ -70,6 +71,10 @@ function CreateEvent() {
       flatten.map(e => errors.push(e.msg))
       setErrorValidations(errors)
     } else { history.push(`/events/${createdEvent.id}`)}
+  }
+
+  if(!sessionUser) {
+    {<div>You are not authorized to access this page. <Link to='/login'>Click here to login</Link></div>}
   }
 
   return (
@@ -134,18 +139,18 @@ function CreateEvent() {
           Start Date:
         </label>
           <input
+            type='date'
             onChange={event => setStartDate(event.target.value)}
             value={startDate}
-            type='date'
           >
           </input>
         <label>
           End Date:
         </label>
           <input
+            type='date'
             onChange={event => setEndDate(event.target.value)}
             value={endDate}
-            type='date'
           >
           </input>
         <label>
@@ -157,7 +162,11 @@ function CreateEvent() {
             value={previewImg}
           >
           </input>
-        <button type='submit' className="create-button">Create Event</button>
+        <button
+        type='submit'
+        className="create-button"
+        disabled={errorValidation.length > 0}
+        >Create Event</button>
       </form>
     </div>
   )

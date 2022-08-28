@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { createGroupThunk } from "../../store/group";
+import { Link } from "react-router-dom";
 import "./CreateGroup.css"
 
 function CreateGroup() {
   const dispatch = useDispatch();
   const history = useHistory();
   const sessionUser = useSelector(state => state.session.user);
+  console.log(sessionUser)
 
   const [name, setName] = useState('');
   const [about, setAbout] = useState('');
@@ -35,8 +37,6 @@ function CreateGroup() {
 
     if (state.length === 0) errors.push('State must be more than 0 characters');
     if (state.length > 1000) errors.push('State must be less than 1000 characters')
-
-    if (previewImg.length > 1000) errors.push('Preview image must be less than 1000 charcters');
 
     setErrorValidations(errors)
   }, [name, about, type, privateStat, city, state, previewImg]);
@@ -69,7 +69,7 @@ function CreateGroup() {
   }
 
   if(!sessionUser) {
-    history.push('/')
+    {<div>You are not authorized to access this page. <Link to='/login'>Click here to login</Link></div>}
   }
 
   return (
@@ -189,7 +189,7 @@ function CreateGroup() {
           <option value="WI">Wisconsin</option>
           <option value="WY">Wyoming</option>
         </select>
-        <label>
+        {/* <label>
           Preview Image
         </label>
         <input
@@ -197,7 +197,7 @@ function CreateGroup() {
           onChange={event => setPreviewImg(event.target.value)}
           value={previewImg}
         >
-        </input>
+        </input> */}
         <button
           type='submit'
           disabled={errorValidation.length > 0 ? true : false}

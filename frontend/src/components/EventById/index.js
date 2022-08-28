@@ -12,26 +12,6 @@ function EventById() {
   const events = useSelector(state => state.events.Events)
   const user = useSelector(state => state.session.user)
 
-  // let attendees = [];
-
-  // csrfFetch(`/api/events/${params.id}/attendees`)
-  //   .then((response) => response.json())
-  //   .then((attendee) => {
-  //     for (let i = 0; i < attendee.Attendees.length; i++) {
-  //       attendees.push(`${attendee.Attendees[i].firstName} ${attendee.Attendees[i].lastName} - ${attendee.Attendees[i].Attendances[0].status}`)
-  //     }
-  //   })
-
-  // let att = () => {
-  //   for (let i = 0; i < attendees.length; i++) {
-  //     <div>attendees[i]</div>
-  //   }
-  // }
-
-
-  // console.log(attendees[0]);
-
-
   useEffect(() => {
     dispatch(getEventsThunk())
   }, [dispatch]);
@@ -61,13 +41,13 @@ function EventById() {
   let image;
   let privacyStatus;
 
-  if (targetEvent.Images[0] && targetEvent.Images[0].url !== '') {
-    image = targetEvent.Images[0].url
+  if (targetEvent?.previewImage) {
+    image = targetEvent.previewImage
   } else {
     image = 'https://www.travelandleisure.com/thmb/lZeCZo1hq_41edFv-hEop-VtQ-w=/1600x1200/smart/filters:no_upscale()/red-pink-orange-purple-sunset-WHYCOLORS1220-7684b47c858b4e1e9d73018e213c7ff3.jpg'
   }
 
-  if (targetEvent.private) {
+  if (targetEvent?.Group.private) {
     privacyStatus = 'Private'
   } else {
     privacyStatus = 'Public'
@@ -78,9 +58,9 @@ function EventById() {
       <div className="entire">
         <div className="event-details">
           <div className="details">
-            <h4 className="h4">{targetEvent.startDate}</h4>
+            <h4 className="h4">{targetEvent?.startDate}</h4>
             <h1 className="h1">{targetEvent?.name}</h1>
-            <h4 className="h4">{"Host By: "}{targetEvent.Group.name}</h4>
+            <h4 className="h4">{"Host By: "}{targetEvent?.Group.name}</h4>
             <h4 className="h4">{privacyStatus}{' Group'}</h4>
           </div>
           <div className="manipulate">
@@ -96,7 +76,7 @@ function EventById() {
           <div className="visuals">
             <img className='event-pic' src={image} />
             <h3>Details</h3>
-            <p>{targetEvent.description}</p>
+            <p className="details">{targetEvent?.description}</p>
             <h3>Attendees</h3>
             {/* <div>{att()}</div> */}
           </div>
@@ -105,7 +85,7 @@ function EventById() {
               <img src={image} />
               <div id='name-group'>
                 <div className="group-name">
-                  {targetEvent.Group.name}
+                  {targetEvent?.Group.name}
                 </div>
                 <div className="privacy">
                   {privacyStatus}{' Group'}
@@ -116,11 +96,11 @@ function EventById() {
               <div id='name-group'>
                 <div className="group-name">
                   <i class="fa-solid fa-clock"></i>
-                  {targetEvent.startDate}{' to '}{targetEvent.endDate}
+                  {targetEvent?.startDate}{' to '}{targetEvent.endDate}
                 </div>
                 <div className="privacy-2">
                   <i class="fa-solid fa-location-dot"></i>
-                  {targetEvent.Group.city}{', '}{targetEvent.Group.state}
+                  {targetEvent?.Group.city}{', '}{targetEvent.Group.state}
                 </div>
               </div>
             </div>

@@ -23,6 +23,7 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   const events = useSelector(state => state.events.Events)
   const groups = useSelector(state => state.groups.Groups)
+  const user = useSelector(state => state.session.user)
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
@@ -55,7 +56,7 @@ function App() {
             <Route exact path="/groups">
               <SubNav />
               <Groups />
-              <GroupButton />
+              {user? <GroupButton />:''}
             </Route>
             <Route exact path="/groups/:groupId/events">
               <CreateEvent />
