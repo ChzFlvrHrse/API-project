@@ -23,6 +23,10 @@ function Navigation({ isLoaded }) {
           <div >
             <NavLink className='signup' to="/signup">Sign up</NavLink>
           </div>
+
+          <div>
+            <button className='demo' to="/login">Demo</button>
+          </div>
         </div>
       </>
     );
@@ -33,11 +37,6 @@ function Navigation({ isLoaded }) {
       <div>
         <NavLink id="logo" exact to="/">MetUp</NavLink>
       </div>
-
-      {/* <div>
-      <img src='https://upload.wikimedia.org/wikipedia/commons/6/6b/Meetup_Logo.png' alt="meetup logo"/>
-      </div> */}
-
       <div className='user'>
         {isLoaded && sessionLinks}
       </div>

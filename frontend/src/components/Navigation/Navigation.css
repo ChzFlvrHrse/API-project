@@ -31,11 +31,24 @@
   text-decoration: none;
 }
 
+.demo {
+  font-family: Graphik Meetup,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  margin-left: 20px;
+  color: rgba(33, 33, 33, .8);
+  text-decoration: none;
+}
+
 .login:hover {
   color: teal;
 }
 
 .signup:hover {
+  color: teal;
+}
+
+.demo:hover {
   color: teal;
 }
 

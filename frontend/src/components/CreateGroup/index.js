@@ -21,7 +21,7 @@ function CreateGroup() {
   useEffect((e) => {
     let errors = []
 
-    if (name.length < 3) errors.push('Name must be greater than 3 characters');
+    if (name.length <= 2) errors.push('Name must be greater than 3 characters');
     if (name.length > 60) errors.push('Name must be less than 60 characters')
 
     if (about.length > 1000) errors.push('About must be less than 1000 characters');
@@ -66,6 +66,10 @@ function CreateGroup() {
       flatten.map(e => errors.push(e.msg))
       setErrorValidations(errors)
     } else { history.push(`/groups`) }
+  }
+
+  if(!sessionUser) {
+    history.push('/')
   }
 
   return (

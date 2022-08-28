@@ -12,7 +12,8 @@ function UpdateEvent() {
   const targetedEvent = events?.find(one => one.id === +eventId)
   const sessionUser = useSelector(state => state.session.user);
 
-  // if (!events) return null;
+  const numberValidation = new RegExp('^[0-9]*$');
+  const priceValidation = new RegExp(/\d+(?:[.,]\d{0,2})?/);
 
   if(targetedEvent) {
     localStorage.setItem('venueId', targetedEvent.venueId)
@@ -45,14 +46,20 @@ function UpdateEvent() {
   useEffect(() => {
     let errors = []
 
-    if (name?.length > 60 || name?.length === 0) errors.push('Name must be greater than 0 and less than 60 characters');
-    if (type !== 'In Person' && type !== 'Online') errors.push('Type must be In person or Online');
+    if (name.length <= 4) errors.push('Name must be greater than 4 characters');
+    if (name.length > 60) errors.push('Name must be less than 60 characters');
+    if (type !== 'In person' && type !== 'Online') errors.push('Type must be In person or Online');
     if (!capacity) errors.push('Capacity is required')
+    if (!numberValidation.test(capacity)) errors.push('Capacity must be a number')
     if (!price || price < 0) errors.push('Price is required');
-    if (description?.length < 0 || description > 1000) errors.push('Description must be more than 0 and less than 1000 characters');
+    if (!priceValidation.test(price)) errors.push('Price must be a number')
+    if (description.length < 0) errors.push('Description must be more than 0 characters');
+    if (description.length > 1000) errors.push('Description must less than 1000 characters')
     if (!startDate) errors.push("Start date is required")
     if (!endDate) errors.push("End date is required")
-    if (previewImg?.length > 1000) errors.push('Preview image must be less than 1000 charcters');
+    if (previewImg.length > 1000) errors.push('Preview image must be less than 1000 charcters');
+    if ((new Date().getTime() >= new Date(startDate))) errors.push('Event must occur in the future')
+    if ((new Date(endDate) - new Date(startDate)) < 0) errors.push('End date must occur after the start date')
 
     setErrorValidations(errors)
   }, [venueId, name, type, capacity, price, description, startDate, endDate, previewImg]);
@@ -76,6 +83,10 @@ function UpdateEvent() {
     await dispatch(updateEventThunk(updatedEvent, eventId))
     // console.log(eventId)
     history.push(`/events/${eventId}`)
+  }
+
+  if(!sessionUser) {
+    history.push('/')
   }
 
   return (
@@ -136,6 +147,7 @@ function UpdateEvent() {
         <label>
           Start Date:
           <input
+            type='date'
             onChange={event => setStartDate(event.target.value)}
             value={startDate}
           >
@@ -144,6 +156,7 @@ function UpdateEvent() {
         <label>
           End Date:
           <input
+            type='date'
             onChange={event => setEndDate(event.target.value)}
             value={endDate}
           >
