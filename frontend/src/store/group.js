@@ -56,7 +56,8 @@ export const deleteGroupThunk = (groupId) => async dispatch => {
 
   if (response.ok) {
     const deleted = await response.json();
-    dispatch(deleteGroup(deleted))
+    dispatch(deleteGroup(groupId));
+    return deleted;
   }
 }
 
@@ -72,7 +73,16 @@ const groupsReducer = (state = initialState, action) => {
       newState = {...state, entries: [...state.entries, {...action.group}]}
       return newState
     case DELETE:
-      newState = {...state};
+      newState = {...state, entries: [...state.entries]};
+      let target;
+
+      newState.entries.forEach((one, idx) => {
+        if (one.id === +action.deleted) {
+          target = idx
+        }
+      });
+
+      newState.entries.splice(target, 1);
       return newState;
     default:
       return state
