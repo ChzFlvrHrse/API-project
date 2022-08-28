@@ -129,6 +129,7 @@ function CreateEvent() {
           <input
             onChange={event => setStartDate(event.target.value)}
             value={startDate}
+            type='date'
           >
           </input>
         <label>
@@ -137,6 +138,7 @@ function CreateEvent() {
           <input
             onChange={event => setEndDate(event.target.value)}
             value={endDate}
+            type='date'
           >
           </input>
         <label>

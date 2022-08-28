@@ -1,8 +1,10 @@
 import { useHistory } from 'react-router-dom';
-import './EventButton.css'
+import { useSelector } from 'react-redux'
+import './GroupButton.css'
 
 function EventButton() {
   const history = useHistory();
+  const sessionUser = useSelector(state => state.session.user);
 
   const reroute = () => {
     history.push('/groups/create')
@@ -10,7 +12,7 @@ function EventButton() {
 
   return (
     <div className='events-container' id='group-button-container'>
-      <button onClick={reroute} className="group-button">Create Group</button>
+      {sessionUser ? <button onClick={reroute} className="group-button">Create Group</button> : <></>}
     </div>
   )
 }

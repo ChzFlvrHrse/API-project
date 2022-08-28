@@ -15,7 +15,7 @@ import { getGroupsThunk } from "./store/group"
 import UpdateEvent from "./components/UpdateEvent";
 import CreateGroup from "./components/CreateGroup";
 import Home from "./components/Home";
-import EventButton from "./components/EventButton";
+import GroupButton from "./components/EventButton";
 
 function App() {
   const dispatch = useDispatch();
@@ -54,7 +54,7 @@ function App() {
             <Route exact path="/groups">
               <SubNav />
               <Groups />
-              <EventButton />
+              <GroupButton />
             </Route>
             <Route exact path="/groups/:groupId/events">
               <CreateEvent />
