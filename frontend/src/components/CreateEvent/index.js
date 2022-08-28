@@ -24,7 +24,8 @@ function CreateEvent() {
   useEffect(() => {
     let errors = []
 
-    if (name.length > 60 || name.length === 0) errors.push('Name must be greater than 0 and less than 60 characters');
+    if (name.length === 0) errors.push('Name must be greater than 0 characters');
+    if (name.length > 60) errors.push('Name must be less than 60 characters');
     if (type !== 'In person' && type !== 'Online') errors.push('Type must be In person or Online');
     if (!numAttending) errors.push('Capacity is required')
     if (!price || price < 0) errors.push('Price is required');
@@ -92,6 +93,8 @@ function CreateEvent() {
             onChange={event => setDescription(event.target.value)}
             value={description}
             placeholder='Describe your event here!'
+            rows='5'
+            cols='40'
           >
           </textarea>
         <label>

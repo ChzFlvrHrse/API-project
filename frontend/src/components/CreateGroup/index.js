@@ -27,13 +27,22 @@ function CreateGroup() {
   useEffect((e) => {
     let errors = []
 
-    if (name.length > 60 || name.length === 0) errors.push('Name must be greater than 0 and less than 60 characters');
-    if (about.length < 50 || about.length > 1000) errors.push('About must be more than 50 characters and less than 1000');
+    if (name.length === 0) errors.push('Name must be greater than 0 characters');
+    if (name.length > 60) errors.push('Name must be less than 60 characters')
+
+    if (about.length > 1000) errors.push('About must be less than 1000 characters');
+    if (about.length < 50) errors.push('About must be more than 50 characters')
+
     if (type !== 'In person' && type !== 'Online') errors.push('Type must be In person or Online');
     if (privateStat.toLowerCase() !== 'private' && privateStat.toLowerCase() !== 'public') errors.push('Group status must be either Private Group or Public Group');
-    if (city.length === 0 || city.length > 1000) errors.push('City must be greater than 0 but less than 1000 characters');
-    if (state.length === 0 || state.length > 1000) errors.push('State must be more than 0 characters and less than 1000');
-    if (previewImg.length > 500) errors.push('Preview image must be less than 1000 charcters');
+
+    if (city.length === 0) errors.push('City must be greater than 0 characters');
+    if (city.length > 1000) errors.push('City must be less than 1000 characters')
+
+    if (state.length === 0) errors.push('State must be more than 0 characters');
+    if (state.length > 1000) errors.push('State must be less than 1000 characters')
+
+    if (previewImg.length > 1000) errors.push('Preview image must be less than 1000 charcters');
 
     setErrorValidations(errors)
   }, [name, about, type, privateStat, city, state, previewImg]);
@@ -93,6 +102,8 @@ function CreateGroup() {
           onChange={event => setAbout(event.target.value)}
           value={about}
           placeholder='Must be more than 50 characters'
+          rows='5'
+          cols='40'
         >
         </textarea>
         <label>
