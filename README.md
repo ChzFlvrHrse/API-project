@@ -26,7 +26,6 @@
 ### Events Page
    ![Events Page](https://user-images.githubusercontent.com/87671074/187112011-c291a4fa-e324-43e2-ab2e-0525391e4700.png)
 
-
-### Events Page
+### Event Details
   ![Events Details](https://user-images.githubusercontent.com/87671074/187111946-101b37b1-de35-46ff-9e42-ec4e9fdb196c.png)
 
