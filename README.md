@@ -42,3 +42,5 @@
 ### Create Event
   ![Create Event](https://user-images.githubusercontent.com/87671074/187113036-f2013f1c-0c55-442f-a0f6-582dec1de129.png)
 
+### Database Schema
+  ![meetup_dbdiagram](https://user-images.githubusercontent.com/87671074/187113115-6eb9a70c-afce-4f68-8972-71cbae96a505.png)
