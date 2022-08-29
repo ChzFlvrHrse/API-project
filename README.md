@@ -36,5 +36,7 @@
 ### Group Details
    ![Group Details](https://user-images.githubusercontent.com/87671074/187112441-e7594465-7f47-4375-96e4-23a12e07b53d.png)
 
-   
+### Create Group
+  ![Create Group](https://user-images.githubusercontent.com/87671074/187112885-bcc92b4e-e6a1-4589-b106-137264805865.png)
+
    
