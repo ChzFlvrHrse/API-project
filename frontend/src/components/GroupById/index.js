@@ -26,7 +26,7 @@ function GroupById() {
   let image;
   let privacyStatus;
 
-  if (targetEvent?.Images?.length >= 1) {
+  if (targetEvent?.Images?.length > 1) {
     image = targetEvent.Images[0].url
   } else {
     image = 'https://www.travelandleisure.com/thmb/lZeCZo1hq_41edFv-hEop-VtQ-w=/1600x1200/smart/filters:no_upscale()/red-pink-orange-purple-sunset-WHYCOLORS1220-7684b47c858b4e1e9d73018e213c7ff3.jpg'
