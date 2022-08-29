@@ -23,3 +23,9 @@
 ### Home/Landing Page
    ![Landing Page](https://user-images.githubusercontent.com/87671074/187111702-5dead7cf-cd17-49ff-b7bb-b2a178877e8c.png)
 
+### Events Page
+   ![Events Details](https://user-images.githubusercontent.com/87671074/187111854-9c5f1e7a-6324-4f40-9380-7def8efe7675.png)
+
+### Events Page
+  ![Events Details](https://user-images.githubusercontent.com/87671074/187111946-101b37b1-de35-46ff-9e42-ec4e9fdb196c.png)
+
