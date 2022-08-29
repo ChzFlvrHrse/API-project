@@ -45,23 +45,23 @@ function GroupById() {
           <img className="group-img" src={image}/>
         </div>
         <div className="group-info">
-          <h2>{targetEvent.name}</h2>
+          <h2>{targetEvent?.name}</h2>
           <div>
 
             <h5 className="group-tag"><i class="fa-solid fa-users"></i>{`${privacyStatus} Group`}</h5>
-            <h5 className="group-tag"><i class="fa-solid fa-location-dot"></i>{`${targetEvent.numMembers} members · ${targetEvent.city}`}</h5>
-            <h5 className="group-tag"><i class="fa-solid fa-user"></i>{`Organized by ${user.username}`}</h5>
+            <h5 className="group-tag"><i class="fa-solid fa-location-dot"></i>{`${targetEvent?.numMembers} members · ${targetEvent.city}`}</h5>
+            {/* <h5 className="group-tag"><i class="fa-solid fa-user"></i>{`Organized by ${user?.username}`}</h5> */}
           </div>
         </div>
       </div>
       <div className="bottom-container">
         <div className="what-about">
           <h3>What we're about</h3>
-          <p id='about'>{targetEvent.about}</p>
+          <p id='about'>{targetEvent?.about}</p>
         </div>
         <div id='organizer'>
-          <h3>Organizer</h3>
-          <h5>{user.username}</h5>
+          {/* <h3>Organizer</h3> */}
+          {/* <h5>{user?.username}</h5> */}
         </div>
       </div>
     </>
