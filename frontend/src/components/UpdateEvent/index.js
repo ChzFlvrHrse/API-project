@@ -174,6 +174,7 @@ function UpdateEvent() {
         <button
         type='submit'
         disabled={errorValidation.length > 0 ? true: false}
+        className='create-button'
         >Update Event</button>
       </form>
     </div>
