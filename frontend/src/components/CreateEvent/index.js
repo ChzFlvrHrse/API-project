@@ -28,7 +28,7 @@ function CreateEvent() {
   useEffect(() => {
     let errors = []
 
-    if (name.length <= 3) errors.push('Name must be greater than 4 characters');
+    if (name.length <= 4) errors.push('Name must be greater than 4 characters');
     if (name.length > 60) errors.push('Name must be less than 60 characters');
 
     if (type !== 'In person' && type !== 'Online') errors.push('Type must be In person or Online');
