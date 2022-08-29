@@ -45,6 +45,9 @@
 ### Database Schema
   ![meetup_dbdiagram](https://user-images.githubusercontent.com/87671074/187113115-6eb9a70c-afce-4f68-8972-71cbae96a505.png)
 
-## Directions For Running Locally
+## Run On Local Machine
+  -Clone/download the repo
+  -Open two terminals, in one cd into the backend and the other cd into the frontend
+  -In the backend run npm install and run npm start
 
   
