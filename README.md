@@ -82,7 +82,7 @@
 ## Challenges
  - The biggest challenge on the backend was getting the table relationships properly associated with one another
 
- - The biggest challenge on the backend was getting the creates and updates to properly behave in tandem with one another
+ - The biggest challenge on the frontend was getting the creates and updates to properly behave in tandem with one another
 
 ## Things To Improve
  - Optimize some of the backend code
