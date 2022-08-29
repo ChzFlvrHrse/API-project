@@ -9,7 +9,7 @@ module.exports = {
         about: "Enjoy rounds of tennis with a tight-nit group of people on the water facing the Brooklyn Bridge. Singles or doubles.",
         type: "In Person",
         private: true,
-        city: "New York",
+        city: "New York City",
         state: "NY",
         numMembers: 10
       },

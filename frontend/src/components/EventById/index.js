@@ -18,7 +18,7 @@ function EventById() {
 
   const handleDelete = async (e) => {
     e.preventDefault()
-    history.push('/')
+    history.push('/events')
     const deleting = await dispatch(deleteEventThunk(params.id, user))
   }
 
@@ -35,8 +35,6 @@ function EventById() {
   }
 
   const targetEvent = events.find(event => event.id.toString() === params.id)
-
-  // console.log(targetEvent)
 
   let image;
   let privacyStatus;

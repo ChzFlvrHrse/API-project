@@ -23,11 +23,6 @@ function Home() {
       <div className='url'>
         <div className="images">
           <Link to='/events'><img className='photo-1' src='https://secure.meetupstatic.com/next/images/indexPage/category1.webp?w=1920' alt='Make new friends' /></Link>
-          {/* <Link><img className='photo-2' src='https://secure.meetupstatic.com/next/images/indexPage/category2.webp?w=1920' /></Link>
-          <Link><img className='photo-3' src='https://secure.meetupstatic.com/next/images/indexPage/category3.webp?w=1920' /></Link> */}
-          {/* <img className='photo-1'  src='https://secure.meetupstatic.com/next/images/indexPage/category1.webp?w=1920' />
-        <img className='photo-2' src='https://secure.meetupstatic.com/next/images/indexPage/category2.webp?w=1920' />
-        <img className='photo-3' src='https://secure.meetupstatic.com/next/images/indexPage/category3.webp?w=1920' /> */}
         </div>
         <div className='new'>
           <div >

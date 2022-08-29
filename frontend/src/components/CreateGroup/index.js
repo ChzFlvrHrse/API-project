@@ -9,7 +9,6 @@ function CreateGroup() {
   const dispatch = useDispatch();
   const history = useHistory();
   const sessionUser = useSelector(state => state.session.user);
-  console.log(sessionUser)
 
   const [name, setName] = useState('');
   const [about, setAbout] = useState('');
@@ -191,15 +190,6 @@ function CreateGroup() {
           <option value="WI">Wisconsin</option>
           <option value="WY">Wyoming</option>
         </select>
-        {/* <label>
-          Preview Image
-        </label>
-        <input
-          type='text'
-          onChange={event => setPreviewImg(event.target.value)}
-          value={previewImg}
-        >
-        </input> */}
         <button
           type='submit'
           disabled={errorValidation.length > 0 ? true : false}

@@ -7,7 +7,6 @@
 .inner-container {
   display: flex;
   width: 40rem;
-  /* margin-top: 1rem; */
   padding: 0 0 1rem 1rem;
   border: none white;
   border-radius: 1rem;

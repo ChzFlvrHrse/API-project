@@ -19,8 +19,6 @@ function GroupRoll({ group }) {
     history.push(`/groups/${group.id}/events`)
   }
 
-  // console.log(group)
-
   let image;
   let privateStatus;
 

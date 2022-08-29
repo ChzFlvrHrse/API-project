@@ -81,7 +81,7 @@ function UpdateEvent() {
     }
 
     await dispatch(updateEventThunk(updatedEvent, eventId))
-    // console.log(eventId)
+    
     history.push(`/events/${eventId}`)
   }
 
