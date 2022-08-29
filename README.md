@@ -57,7 +57,10 @@
 ## Environment Info
 <code>
   PORT=8000
+  
   DB_FILE=db/dev.db
+  
   JWT_SECRET=«generate_strong_secret_here»
+  
   JWT_EXPIRES_IN=604800
 </code>
