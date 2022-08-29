@@ -68,7 +68,7 @@
    npx dotenv sequelize db:seed:all
   ```
   
-### Features To Add
+## Features To Add
  - View Images
  
  - Get Event Attendees
@@ -78,3 +78,8 @@
  - Search For Group/Events
  
  - Venues Feature
+
+## Challenges
+ - The biggest challenge on the backend was getting the table relationships properly associated with one another
+
+ - The biggest challenge on the backend was getting the creates and updates to properly behave in tandem with one another
