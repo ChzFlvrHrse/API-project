@@ -69,7 +69,9 @@ function CreateGroup() {
   }
 
   if(!sessionUser) {
-    {<div>You are not authorized to access this page. <Link to='/login'>Click here to login</Link></div>}
+    return (
+      <div>You are not authorized to access this page. <Link to='/login'>Click here to login</Link></div>
+    )
   }
 
   return (

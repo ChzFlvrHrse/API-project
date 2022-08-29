@@ -40,7 +40,7 @@ function CreateEvent() {
 
     if (!priceValidation.test(price)) errors.push('Price must be a number')
 
-    if (description.length < 0) errors.push('Description must be more than 0 characters');
+    if (!description.length) errors.push('Description must be more than 0 characters');
     if (description.length > 1000) errors.push('Description must less than 1000 characters')
 
     if (!startDate) errors.push("Start date is required")
@@ -82,7 +82,9 @@ function CreateEvent() {
   }
 
   if(!sessionUser) {
-    {<div>You are not authorized to access this page. <Link to='/login'>Click here to login</Link></div>}
+    return (
+      <div>You are not authorized to access this page. <Link to='/login'>Click here to login</Link></div>
+    )
   }
 
   return (
