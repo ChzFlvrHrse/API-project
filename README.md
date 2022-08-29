@@ -24,10 +24,11 @@
    ![Landing Page](https://user-images.githubusercontent.com/87671074/187111702-5dead7cf-cd17-49ff-b7bb-b2a178877e8c.png)
 
 ### Events Page
-   ![Event Details](https://user-images.githubusercontent.com/87671074/187112226-3c791582-b9f4-478d-a77e-550be2b59b95.png)
+  ![Events Page](https://user-images.githubusercontent.com/87671074/187112579-0d4c2413-5646-4be1-a874-801a1050badb.png)
 
 ### Event Details
-  ![Events Details](https://user-images.githubusercontent.com/87671074/187111946-101b37b1-de35-46ff-9e42-ec4e9fdb196c.png)
+  ![Event Details](https://user-images.githubusercontent.com/87671074/187112549-1f742195-710b-479f-a262-8bb82853604f.png)
+
 
 ### Groups Page
   ![Groups Page](https://user-images.githubusercontent.com/87671074/187112383-29e15fe4-6121-4021-8215-943f66b24e6d.png)
