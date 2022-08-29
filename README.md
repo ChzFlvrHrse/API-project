@@ -61,3 +61,20 @@
   JWT_SECRET=«generate_strong_secret_here»  
   JWT_EXPIRES_IN=604800
   ```
+  
+### Database Setup
+  ```
+   npx dotenv sequelize db:migrate
+   npx dotenv sequelize db:seed:all
+  ```
+  
+### Features To Add
+ - View Images
+ 
+ - Get Event Attendees
+ 
+ - Get Group Members
+ 
+ - Search For Group/Events
+ 
+ - Venues Feature
