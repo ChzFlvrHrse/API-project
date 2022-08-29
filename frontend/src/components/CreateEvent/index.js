@@ -28,18 +28,26 @@ function CreateEvent() {
   useEffect(() => {
     let errors = []
 
-    if (name.length <= 4) errors.push('Name must be greater than 4 characters');
+    if (name.length <= 3) errors.push('Name must be greater than 4 characters');
     if (name.length > 60) errors.push('Name must be less than 60 characters');
+
     if (type !== 'In person' && type !== 'Online') errors.push('Type must be In person or Online');
+
     if (!numAttending) errors.push('Capacity is required')
     if (!numberValidation.test(numAttending)) errors.push('Capacity must be a number')
+
     if (!price || price < 0) errors.push('Price is required');
+
     if (!priceValidation.test(price)) errors.push('Price must be a number')
+
     if (description.length < 0) errors.push('Description must be more than 0 characters');
     if (description.length > 1000) errors.push('Description must less than 1000 characters')
+
     if (!startDate) errors.push("Start date is required")
     if (!endDate) errors.push("End date is required")
+
     if (previewImg.length > 1000) errors.push('Preview image must be less than 1000 charcters');
+
     if ((new Date().getTime() >= new Date(startDate))) errors.push('Event must occur in the future')
     if ((new Date(endDate) - new Date(startDate)) < 0) errors.push('End date must occur after the start date')
 

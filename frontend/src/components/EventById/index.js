@@ -77,8 +77,6 @@ function EventById() {
             <img className='event-pic' src={image} />
             <h3>Details</h3>
             <p className="details">{targetEvent?.description}</p>
-            <h3>Attendees</h3>
-            {/* <div>{att()}</div> */}
           </div>
           <div className="visuals-2">
             <div className="small-image">
