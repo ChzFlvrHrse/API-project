@@ -47,7 +47,9 @@
 
 ## Run On Local Machine
   -Clone/download the repo
+  
   -Open two terminals, in one cd into the backend and the other cd into the frontend
-  -In the backend run npm install and run npm start
+  
+  -In the backend <code>run npm</code> install and run npm start
 
   
