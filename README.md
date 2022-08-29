@@ -1,4 +1,4 @@
-# This is MetUp a Meetup knockoff
+# This is MetUp a Meetup clone
 
 ## Introduction
   This webisite is intended to replicate a few key fetures and general look and feel of the website Meetup
