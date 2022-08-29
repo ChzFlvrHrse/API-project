@@ -39,4 +39,6 @@
 ### Create Group
   ![Create Group](https://user-images.githubusercontent.com/87671074/187112885-bcc92b4e-e6a1-4589-b106-137264805865.png)
 
-   
+### Create Event
+  ![Create Event](https://user-images.githubusercontent.com/87671074/187113036-f2013f1c-0c55-442f-a0f6-582dec1de129.png)
+
