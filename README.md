@@ -45,11 +45,17 @@
 ### Database Schema
   ![meetup_dbdiagram](https://user-images.githubusercontent.com/87671074/187113115-6eb9a70c-afce-4f68-8972-71cbae96a505.png)
 
-## Run On Local Machine
-  -Clone/download the repo
+### Run On Local Machine
+  - Clone/download the repo
   
-  -Open two terminals, in one <code>cd</code> into the backend and the other <code>cd</code> into the frontend
+  - Open two terminals, in one <code>cd</code> into the backend and the other <code>cd</code> into the frontend
   
-  -In the backend run <code>npm install</code> and run <code>npm start</code>
+  - In the backend run <code>npm install</code> and run <code>npm start</code>
 
-  -In the frontend run <code>npm install</code> and run <code>npm start</code>
+  - In the frontend run <code>npm install</code> and run <code>npm start</code>
+
+## Environment Info
+  PORT=8000
+  DB_FILE=db/dev.db
+  JWT_SECRET=«generate_strong_secret_here»
+  JWT_EXPIRES_IN=604800
