@@ -94,11 +94,11 @@ function EventById() {
               <div id='name-group'>
                 <div className="group-name">
                   <i class="fa-solid fa-clock"></i>
-                  {targetEvent?.startDate}{' to '}{targetEvent.endDate}
+                  {targetEvent?.startDate}{' to '}{targetEvent?.endDate}
                 </div>
                 <div className="privacy-2">
                   <i class="fa-solid fa-location-dot"></i>
-                  {targetEvent?.Group.city}{', '}{targetEvent.Group.state}
+                  {targetEvent?.Group.city}{', '}{targetEvent?.Group.state}
                 </div>
               </div>
             </div>
