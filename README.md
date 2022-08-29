@@ -55,8 +55,9 @@
   - In the frontend run <code>npm install</code> and run <code>npm start</code>
 
 ### Environment Info
-```
+  ```
   PORT=8000
   DB_FILE=db/dev.db
   JWT_SECRET=«generate_strong_secret_here»  
-  JWT_EXPIRES_IN=604800```
+  JWT_EXPIRES_IN=604800
+  ```
