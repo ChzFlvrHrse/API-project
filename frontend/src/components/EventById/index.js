@@ -18,8 +18,8 @@ function EventById() {
 
   const handleDelete = async (e) => {
     e.preventDefault()
-    history.push('/events')
     const deleting = await dispatch(deleteEventThunk(params.id, user))
+    history.push('/events')
   }
 
   const handleUpdate = async (e) => {
