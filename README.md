@@ -52,4 +52,4 @@
   
   -In the backend run <code>npm install</code> and run <code>npm start</code>
 
-  
+  -In the frontend run <code>npm install</code> and run <code>npm start</code>
