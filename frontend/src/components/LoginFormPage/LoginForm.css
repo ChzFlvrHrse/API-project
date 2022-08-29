@@ -1,7 +1,7 @@
 form {
   display: grid;
   justify-content: center;
-  justify-items: center;
+  /* justify-items: center; */
   font-family: Graphik Meetup,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
   font-size: 18px;
 }
