@@ -12,7 +12,7 @@ function CreateGroup() {
 
   const [name, setName] = useState('');
   const [about, setAbout] = useState('');
-  const [type, setType] = useState('In person');
+  const [type, setType] = useState('');
   const [privateStat, setPrivateStat] = useState('private');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
@@ -112,6 +112,7 @@ function CreateGroup() {
           onChange={event => setType(event.target.value)}
           value={type}
         >
+          <option value="">Choose Type</option>
           <option>Online</option>
           <option>In person</option>
         </select>
@@ -138,6 +139,7 @@ function CreateGroup() {
           onChange={event => setState(event.target.value)}
           value={state}
         >
+          <option value="">Choose State</option>
           <option value="AL">Alabama</option>
           <option value="AK">Alaska</option>
           <option value="AZ">Arizona</option>

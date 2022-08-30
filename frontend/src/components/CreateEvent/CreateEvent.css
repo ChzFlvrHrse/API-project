@@ -7,6 +7,10 @@ h1.new-event {
   color: red;
 }
 
+textarea, select {
+  border-radius: .5rem;
+}
+
 .create-button {
   font-size: 15px;
   font-weight: bold;
