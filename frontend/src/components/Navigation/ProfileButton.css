@@ -32,6 +32,8 @@
 
 .user-text {
   margin: .3rem;
+  font-family: Graphik Meetup,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+  /* text-align: center; */
 }
 
 .logout-button {
