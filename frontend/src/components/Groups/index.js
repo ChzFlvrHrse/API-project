@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import GroupRoll from '../GroupRoll';
+import "./Groups.css"
 
 function Groups() {
   const groups = useSelector(state => state.groups.entries)
@@ -7,7 +8,7 @@ function Groups() {
   if (!groups) return null
 
   return (
-    <div>
+    <div id="groups">
       {groups.map(group => (
         <GroupRoll group={group} key={group.id} />
       ))}

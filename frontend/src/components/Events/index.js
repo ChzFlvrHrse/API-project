@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { getEventsThunk } from '../../store/events';
 import EventRoll from '../EventRoll';
+import './Events.css'
 
 function Events() {
   const dispatch = useDispatch();
@@ -15,7 +16,7 @@ function Events() {
   if (!events) return null
 
   return (
-    <div>
+    <div id='events'>
       {events.map(event => (
         <EventRoll event={event} key={event.id}/>
       ))}
