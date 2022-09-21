@@ -13,7 +13,7 @@ function CreateEvent() {
 
   const [venueId, setVenueId] = useState(null);
   const [name, setName] = useState('');
-  const [type, setType] = useState('In person');
+  const [type, setType] = useState('');
   const [numAttending, setNumAttending] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
@@ -126,6 +126,7 @@ function CreateEvent() {
             onChange={event => setType(event.target.value)}
             value={type}
           >
+            <option>Event Type</option>
             <option>Online</option>
             <option>In person</option>
           </select>

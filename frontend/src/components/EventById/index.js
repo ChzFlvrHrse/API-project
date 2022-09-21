@@ -73,7 +73,7 @@ function EventById() {
         <div className="more-details">
           <div className="visuals">
             <img className='event-pic' src={image} />
-            <h3>Details</h3>
+            <h3 id="detes">Details</h3>
             <p className="details">{targetEvent?.description}</p>
           </div>
           <div className="visuals-2">

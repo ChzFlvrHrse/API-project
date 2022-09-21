@@ -34,20 +34,21 @@ function EventRoll({ event }) {
               <h5 className='h5'>{icon}{event.type}{' Event'}</h5>
             </div>
           </Link>
-          <Link exact to={`/events/${event.id}`}><div className='event-roll-container'>
-            <div className='date'>
-              {event.startDate}
+          <Link exact to={`/events/${event.id}`}>
+            <div className='event-roll-container'>
+              <div className='date'>
+                {event.startDate}
+              </div>
+              <div className='event-name'>
+                {event.name}
+              </div>
+              <div className='location'>
+                {location}
+              </div>
+              <div className='attendees'>
+                {event.numAttending}{' attendees'}
+              </div>
             </div>
-            <div className='event-name'>
-              {event.name}
-            </div>
-            <div className='location'>
-              {location}
-            </div>
-            <div className='attendees'>
-              {event.numAttending}{' attendees'}
-            </div>
-          </div>
           </Link>
         </div>
       </div>

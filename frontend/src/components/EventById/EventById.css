@@ -58,6 +58,10 @@
   border-radius: 1rem;
 }
 
+#detes {
+  font-family: Graphik Meetup,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+}
+
 p.details {
   inline-size: 25rem;
   overflow-wrap: break-word;
@@ -99,7 +103,6 @@ p.details {
   display: grid;
   margin-left: 1rem;
   font-family: Graphik Meetup, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
-  ;
 }
 
 .privacy {

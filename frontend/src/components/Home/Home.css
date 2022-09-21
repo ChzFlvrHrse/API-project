@@ -33,6 +33,7 @@
 .url {
   display: grid;
   justify-content: center;
+  margin: 0 25rem;
 }
 
 .url:hover {
@@ -43,7 +44,7 @@
 
 .images {
   display: flex;
-  margin-top: 40px;
+  margin-top: 2.5rem;
 }
 
 .photo-1 {
