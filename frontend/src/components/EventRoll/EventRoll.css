@@ -68,7 +68,8 @@ h5.h5 {
 }
 
 .event-name {
-  /* overflow-wrap: break-word; */
+  inline-size: 25rem;
+  overflow-wrap: break-word;
   color: rgb(33, 33, 33);
   font-weight: bold;
 }

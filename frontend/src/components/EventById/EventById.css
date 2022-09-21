@@ -13,6 +13,8 @@
 
 .h1 {
   font-weight: bolder;
+  inline-size: 25rem;
+  overflow-wrap: break-word;
 }
 
 .h4 {
