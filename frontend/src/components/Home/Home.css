@@ -36,14 +36,26 @@
   margin: 0 25rem;
 }
 
-.url:hover {
+/* .url:hover {
+  opacity: .8;
+  text-decoration: underline;
+  color: teal;
+} */
+
+/* .images:hover, .friends:hover {
+  opacity: .8;
+  text-decoration: underline;
+  color: teal;
+} */
+
+a:hover {
   opacity: .8;
   text-decoration: underline;
   color: teal;
 }
 
 .images {
-  display: flex;
+  display: grid;
   margin-top: 2.5rem;
 }
 
@@ -73,6 +85,12 @@
   margin-left: 5px;
   height: 20px;
   width: 20px;
+}
+
+#splash-page-url:hover {
+  opacity: .8;
+  text-decoration: underline;
+  color: teal;
 }
 
 /* .photo-2 {

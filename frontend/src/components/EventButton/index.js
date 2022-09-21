@@ -11,7 +11,7 @@ function EventButton() {
   }
 
   return (
-    <div className='events-container' id='group-button-container'>
+    <div id='group-button-container'>
       {sessionUser ? <button onClick={reroute} className="group-button">Create Group</button> : <></>}
     </div>
   )

@@ -21,15 +21,15 @@ function Home() {
       </div>
 
       <div className='url'>
-        <div className="images">
+        <div className="images" id="splash-page-url">
           <Link to='/events'><img className='photo-1' src='https://secure.meetupstatic.com/next/images/indexPage/category1.webp?w=1920' alt='Make new friends' /></Link>
-        </div>
-        <div className='new'>
-          <div >
-            <Link className='friends' to='/events'>Make new friends</Link>
-          </div>
-          <div className='arrow-div'>
-            <img className='arrow' src='https://secure.meetupstatic.com/next/images/shared/right-arrow.svg?w=32' />
+          <div className='new'>
+            <div id="splash-page-url">
+              <Link className='friends' to='/events'>Make new friends</Link>
+            </div>
+            <div className='arrow-div'>
+              <img className='arrow' src='https://secure.meetupstatic.com/next/images/shared/right-arrow.svg?w=32' />
+            </div>
           </div>
         </div>
       </div>
