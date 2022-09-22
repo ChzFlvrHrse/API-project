@@ -48,8 +48,6 @@ h5.h5 {
   margin-right: .2rem;
 }
 
-
-
 .event-roll-container {
   display: flex;
   flex-direction: column;
@@ -68,7 +66,7 @@ h5.h5 {
 }
 
 .event-name {
-  inline-size: 25rem;
+  inline-size: 15rem;
   overflow-wrap: break-word;
   color: rgb(33, 33, 33);
   font-weight: bold;

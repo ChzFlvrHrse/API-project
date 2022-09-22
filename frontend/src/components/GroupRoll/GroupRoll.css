@@ -60,10 +60,12 @@ a {
 
 }
 
-.about {
+p {
   text-decoration: none;
   color:rgb(117 117 117);
   font-size: .9rem;
+  inline-size: 15rem;
+  word-wrap: break-word;
 }
 
 .members {
