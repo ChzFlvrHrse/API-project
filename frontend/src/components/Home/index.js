@@ -28,7 +28,7 @@ function Home() {
               <Link className='friends' to='/events'>Make new friends</Link>
             </div>
             <div className='arrow-div'>
-              <img className='arrow' src='https://secure.meetupstatic.com/next/images/shared/right-arrow.svg?w=32' />
+              <img className='arrow' src='https://secure.meetupstatic.com/next/images/shared/right-arrow.svg?w=32' alt=""/>
             </div>
           </div>
         </div>

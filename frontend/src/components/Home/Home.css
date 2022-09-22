@@ -36,19 +36,7 @@
   margin: 0 25rem;
 }
 
-/* .url:hover {
-  opacity: .8;
-  text-decoration: underline;
-  color: teal;
-} */
-
-/* .images:hover, .friends:hover {
-  opacity: .8;
-  text-decoration: underline;
-  color: teal;
-} */
-
-a:hover {
+images:hover {
   opacity: .8;
   text-decoration: underline;
   color: teal;
