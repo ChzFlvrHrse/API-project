@@ -2,10 +2,10 @@ h1.new-event {
   text-align: center;
 }
 
-.errors {
+/* .errors {
   margin-bottom: 1rem;
   color: red;
-}
+} */
 
 textarea, select {
   border-radius: .5rem;

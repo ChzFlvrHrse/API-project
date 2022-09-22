@@ -1,6 +1,10 @@
-/* form {
-  display: grid;
+.sign-up-errors {
+  display: flex;
   justify-content: center;
   font-family: Graphik Meetup,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
   font-size: 18px;
-} */
+  margin-bottom: 1rem;
+  color: red;
+  writing-mode: horizontal-tb;
+  text-align: center;
+}

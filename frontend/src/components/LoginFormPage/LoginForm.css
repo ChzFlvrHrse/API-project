@@ -10,6 +10,13 @@ form.login-form {
   justify-items: center;
 }
 
+.errors {
+  color: red;
+  inline-size: 25rem;
+  overflow-wrap: break-word;
+  text-align: center;
+}
+
 input {
   margin: 10px 0px 10px 0px;
   font-size: 15px;
