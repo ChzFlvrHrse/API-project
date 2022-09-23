@@ -73,43 +73,47 @@ function CreateEvent() {
     }
 
     const createdEvent = await dispatch(newEventThunk(newEvent, groupId))
-    if(createdEvent.errors) {
+    if (createdEvent.errors) {
       const errList = Object.values(createdEvent.errors)
       const flatten = [...errList]
       flatten.map(e => errors.push(e.msg))
       setErrorValidations(errors)
-    } else { history.push(`/events/${createdEvent.id}`)}
+    } else { history.push(`/events/${createdEvent.id}`) }
   }
 
-  if(!sessionUser) {
+  if (!sessionUser) {
     return (
       <div>You are not authorized to access this page. <Link to='/login'>Click here to login</Link></div>
     )
   }
 
   return (
-    <div>
-      <h1 className="new-event">Create Your New Event!</h1>
+    <>
+      <div>
+        <h1 className="new-event">Create Your New Event!</h1>
+      </div>
 
-      <form
-        onSubmit={handleOnSubmit}
-      >
-        <div className="errors">
-            {errorValidation.map((error, ind) => (
-                <div key={ind}>{error}</div>
-            ))}
-        </div>
-        <label>
-          Name:
-        </label>
+      <div className="event-errors">
+        {errorValidation.map((error, ind) => (
+          <div key={ind}>{error}</div>
+        ))}
+      </div>
+      <div id="event-form">
+
+        <form
+          onSubmit={handleOnSubmit}
+        >
+          <label>
+            Name:
+          </label>
           <input
             type='text'
             onChange={event => setName(event.target.value)}
             value={name}
           ></input>
-        <label>
-          Description:
-        </label>
+          <label>
+            Description:
+          </label>
           <textarea
             type='text'
             onChange={event => setDescription(event.target.value)}
@@ -119,9 +123,9 @@ function CreateEvent() {
             cols='40'
           >
           </textarea>
-        <label>
-          Type:
-        </label>
+          <label>
+            Type:
+          </label>
           <select
             onChange={event => setType(event.target.value)}
             value={type}
@@ -130,56 +134,58 @@ function CreateEvent() {
             <option>Online</option>
             <option>In person</option>
           </select>
-        <label>
-          Capacity:
-        </label>
+          <label>
+            Capacity:
+          </label>
           <input
             onChange={event => setNumAttending(event.target.value)}
             value={numAttending}
           >
           </input>
-        <label>
-          Price:
-        </label>
+          <label>
+            Price:
+          </label>
           <input
             onChange={event => setPrice(event.target.value)}
             value={price}
           >
           </input>
-        <label>
-          Start Date:
-        </label>
+          <label>
+            Start Date:
+          </label>
           <input
             type='date'
             onChange={event => setStartDate(event.target.value)}
             value={startDate}
           >
           </input>
-        <label>
-          End Date:
-        </label>
+          <label>
+            End Date:
+          </label>
           <input
             type='date'
             onChange={event => setEndDate(event.target.value)}
             value={endDate}
           >
           </input>
-        <label>
-          Preview Image
-        </label>
+          <label>
+            Preview Image
+          </label>
           <input
             type='text'
             onChange={event => setPreviewImg(event.target.value)}
             value={previewImg}
           >
           </input>
-        <button
-        type='submit'
-        className="create-button"
-        disabled={errorValidation.length > 0}
-        >Create Event</button>
-      </form>
-    </div>
+          <button
+            type='submit'
+            className="create-button"
+            disabled={errorValidation.length > 0}
+          >Create Event</button>
+        </form>
+      </div>
+    </>
+
   )
 }
 

@@ -67,138 +67,144 @@ function CreateGroup() {
     } else { history.push(`/groups`) }
   }
 
-  if(!sessionUser) {
+  if (!sessionUser) {
     return (
       <div>You are not authorized to access this page. <Link to='/login'>Click here to login</Link></div>
     )
   }
 
   return (
-    <div>
-      <h1 className="new-group">Create Your New Group!</h1>
+    <>
+      <div>
+        <h1 className="new-event">Create Your New Group!</h1>
+      </div>
+      <div className="event-errors">
+        {errorValidation.map((error, ind) => (
+          <div key={ind}>{error}</div>
+        ))}
+      </div>
 
-      <form
-        onSubmit={handleOnSubmit}
-      >
-        <div className="errors">
-          {errorValidation.map((error, ind) => (
-            <div key={ind}>{error}</div>
-          ))}
-        </div>
-        <label>
-          Name:
-        </label>
-        <input
-          type='text'
-          onChange={event => setName(event.target.value)}
-          value={name}
-        ></input>
-        <label>
-          About:
-        </label>
-        <textarea
-          type='text'
-          onChange={event => setAbout(event.target.value)}
-          value={about}
-          placeholder='Must be more than 50 characters'
-          rows='5'
-          cols='40'
+      <div>
+
+        <form
+          onSubmit={handleOnSubmit}
         >
-        </textarea>
-        <label>
-          Type:
-        </label>
-        <select
-          onChange={event => setType(event.target.value)}
-          value={type}
-        >
-          <option value="">Choose Type</option>
-          <option>Online</option>
-          <option>In person</option>
-        </select>
-        <label>
-          Private:
-        </label>
-        <input
-          onChange={event => setPrivateStat(event.target.value)}
-          value={privateStat}
-        >
-        </input>
-        <label>
-          City:
-        </label>
-        <input
-          onChange={event => setCity(event.target.value)}
-          value={city}
-        >
-        </input>
-        <label>
-          State:
-        </label>
-        <select
-          onChange={event => setState(event.target.value)}
-          value={state}
-        >
-          <option value="">Choose State</option>
-          <option value="AL">Alabama</option>
-          <option value="AK">Alaska</option>
-          <option value="AZ">Arizona</option>
-          <option value="AR">Arkansas</option>
-          <option value="CA">California</option>
-          <option value="CO">Colorado</option>
-          <option value="CT">Connecticut</option>
-          <option value="DE">Delaware</option>
-          <option value="DC">DC</option>
-          <option value="FL">Florida</option>
-          <option value="GA">Georgia</option>
-          <option value="HI">Hawaii</option>
-          <option value="ID">Idaho</option>
-          <option value="IL">Illinois</option>
-          <option value="IN">Indiana</option>
-          <option value="IA">Iowa</option>
-          <option value="KS">Kansas</option>
-          <option value="KY">Kentucky</option>
-          <option value="LA">Louisiana</option>
-          <option value="ME">Maine</option>
-          <option value="MD">Maryland</option>
-          <option value="MA">Massachusetts</option>
-          <option value="MI">Michigan</option>
-          <option value="MN">Minnesota</option>
-          <option value="MS">Mississippi</option>
-          <option value="MO">Missouri</option>
-          <option value="MT">Montana</option>
-          <option value="NE">Nebraska</option>
-          <option value="NV">Nevada</option>
-          <option value="NH">New Hampshire</option>
-          <option value="NJ">New Jersey</option>
-          <option value="NM">New Mexico</option>
-          <option value="NY">New York</option>
-          <option value="NC">North Carolina</option>
-          <option value="ND">North Dakota</option>
-          <option value="OH">Ohio</option>
-          <option value="OK">Oklahoma</option>
-          <option value="OR">Oregon</option>
-          <option value="PA">Pennsylvania</option>
-          <option value="RI">Rhode Island</option>
-          <option value="SC">South Carolina</option>
-          <option value="SD">South Dakota</option>
-          <option value="TN">Tennessee</option>
-          <option value="TX">Texas</option>
-          <option value="UT">Utah</option>
-          <option value="VT">Vermont</option>
-          <option value="VA">Virginia</option>
-          <option value="WA">Washington</option>
-          <option value="WV">West Virginia</option>
-          <option value="WI">Wisconsin</option>
-          <option value="WY">Wyoming</option>
-        </select>
-        <button
-          type='submit'
-          disabled={errorValidation.length > 0 ? true : false}
-          className='create-button'
-        >Create Group</button>
-      </form>
-    </div>
+          <label>
+            Name:
+          </label>
+          <input
+            type='text'
+            onChange={event => setName(event.target.value)}
+            value={name}
+          ></input>
+          <label>
+            About:
+          </label>
+          <textarea
+            type='text'
+            onChange={event => setAbout(event.target.value)}
+            value={about}
+            placeholder='Must be more than 50 characters'
+            rows='5'
+            cols='40'
+          >
+          </textarea>
+          <label>
+            Type:
+          </label>
+          <select
+            onChange={event => setType(event.target.value)}
+            value={type}
+          >
+            <option value="">Choose Type</option>
+            <option>Online</option>
+            <option>In person</option>
+          </select>
+          <label>
+            Private:
+          </label>
+          <input
+            onChange={event => setPrivateStat(event.target.value)}
+            value={privateStat}
+          >
+          </input>
+          <label>
+            City:
+          </label>
+          <input
+            onChange={event => setCity(event.target.value)}
+            value={city}
+          >
+          </input>
+          <label>
+            State:
+          </label>
+          <select
+            onChange={event => setState(event.target.value)}
+            value={state}
+          >
+            <option value="">Choose State</option>
+            <option value="AL">Alabama</option>
+            <option value="AK">Alaska</option>
+            <option value="AZ">Arizona</option>
+            <option value="AR">Arkansas</option>
+            <option value="CA">California</option>
+            <option value="CO">Colorado</option>
+            <option value="CT">Connecticut</option>
+            <option value="DE">Delaware</option>
+            <option value="DC">DC</option>
+            <option value="FL">Florida</option>
+            <option value="GA">Georgia</option>
+            <option value="HI">Hawaii</option>
+            <option value="ID">Idaho</option>
+            <option value="IL">Illinois</option>
+            <option value="IN">Indiana</option>
+            <option value="IA">Iowa</option>
+            <option value="KS">Kansas</option>
+            <option value="KY">Kentucky</option>
+            <option value="LA">Louisiana</option>
+            <option value="ME">Maine</option>
+            <option value="MD">Maryland</option>
+            <option value="MA">Massachusetts</option>
+            <option value="MI">Michigan</option>
+            <option value="MN">Minnesota</option>
+            <option value="MS">Mississippi</option>
+            <option value="MO">Missouri</option>
+            <option value="MT">Montana</option>
+            <option value="NE">Nebraska</option>
+            <option value="NV">Nevada</option>
+            <option value="NH">New Hampshire</option>
+            <option value="NJ">New Jersey</option>
+            <option value="NM">New Mexico</option>
+            <option value="NY">New York</option>
+            <option value="NC">North Carolina</option>
+            <option value="ND">North Dakota</option>
+            <option value="OH">Ohio</option>
+            <option value="OK">Oklahoma</option>
+            <option value="OR">Oregon</option>
+            <option value="PA">Pennsylvania</option>
+            <option value="RI">Rhode Island</option>
+            <option value="SC">South Carolina</option>
+            <option value="SD">South Dakota</option>
+            <option value="TN">Tennessee</option>
+            <option value="TX">Texas</option>
+            <option value="UT">Utah</option>
+            <option value="VT">Vermont</option>
+            <option value="VA">Virginia</option>
+            <option value="WA">Washington</option>
+            <option value="WV">West Virginia</option>
+            <option value="WI">Wisconsin</option>
+            <option value="WY">Wyoming</option>
+          </select>
+          <button
+            type='submit'
+            disabled={errorValidation.length > 0 ? true : false}
+            className='create-button'
+          >Create Group</button>
+        </form>
+      </div>
+    </>
+
   )
 }
 

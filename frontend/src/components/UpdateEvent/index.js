@@ -15,7 +15,7 @@ function UpdateEvent() {
   const numberValidation = new RegExp('^[0-9]*$');
   const priceValidation = new RegExp(/\d+(?:[.,]\d{0,2})?/);
 
-  if(targetedEvent) {
+  if (targetedEvent) {
     localStorage.setItem('venueId', targetedEvent.venueId)
     localStorage.setItem('description', targetedEvent.description)
     localStorage.setItem('name', targetedEvent.name)
@@ -81,47 +81,51 @@ function UpdateEvent() {
     }
 
     await dispatch(updateEventThunk(updatedEvent, eventId))
-    
+
     history.push(`/events/${eventId}`)
   }
 
-  if(!sessionUser) {
+  if (!sessionUser) {
     return (
       <div>You are not authorized to access this page. <Link to='/login'>Click here to login</Link></div>
     )
   }
 
   return (
-    <div>
-      <h2>Update Event</h2>
+    <>
+      <div>
+        <h1 className="new-event">Update Event</h1>
+      </div>
 
-      <form
-        onSubmit={handleOnSubmit}
-      >
-        <div >
-            {errorValidation.map((error, ind) => (
-                <div key={ind}>{error}</div>
-            ))}
-        </div>
-        <label>
-          Name:
+      <div className="event-errors">
+        {errorValidation.map((error, ind) => (
+          <div key={ind}>{error}</div>
+        ))}
+      </div>
+      <div>
+        <form
+          onSubmit={handleOnSubmit}
+        >
+          <label>
+            Name:
+          </label>
           <input
             type='text'
             onChange={event => setName(event.target.value)}
             value={name}
           ></input>
-        </label>
-        <label>
-          Description:
+          <label>
+            Description:
+          </label>
           <input
             type='text'
             onChange={event => setDescription(event.target.value)}
             value={description}
           >
           </input>
-        </label>
-        <label>
-          Type:
+          <label>
+            Type:
+          </label>
           <select
             onChange={event => setType(event.target.value)}
             value={type}
@@ -129,57 +133,58 @@ function UpdateEvent() {
             <option>Online</option>
             <option>In person</option>
           </select>
-        </label>
-        <label>
-          Capacity:
+          <label>
+            Capacity:
+          </label>
           <input
             onChange={event => setCapacity(event.target.value)}
             value={capacity}
           >
           </input>
-        </label>
-        <label>
-          Price:
+          <label>
+            Price:
+          </label>
           <input
             onChange={event => setPrice(event.target.value)}
             value={price}
           >
           </input>
-        </label>
-        <label>
-          Start Date:
+          <label>
+            Start Date:
+          </label>
           <input
             type='date'
             onChange={event => setStartDate(event.target.value)}
             value={startDate}
           >
           </input>
-        </label>
-        <label>
-          End Date:
+          <label>
+            End Date:
+          </label>
           <input
             type='date'
             onChange={event => setEndDate(event.target.value)}
             value={endDate}
           >
           </input>
-        </label>
-        <label>
-          Preview Image
+          <label>
+            Preview Image
+          </label>
           <input
             type='text'
             onChange={event => setPreviewImg(event.target.value)}
             value={previewImg}
           >
           </input>
-        </label>
-        <button
-        type='submit'
-        disabled={errorValidation.length > 0 ? true: false}
-        className='create-button'
-        >Update Event</button>
-      </form>
-    </div>
+          <button
+            type='submit'
+            disabled={errorValidation.length > 0 ? true : false}
+            className='create-button'
+          >Update Event</button>
+        </form>
+      </div>
+    </>
+
   )
 }
 

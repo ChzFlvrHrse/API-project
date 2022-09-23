@@ -2,11 +2,6 @@ h1.new-group {
   text-align: center;
 }
 
-.errors {
-  margin-bottom: 1rem;
-  color: red;
-}
-
 .create-button {
   font-size: 15px;
   font-weight: bold;

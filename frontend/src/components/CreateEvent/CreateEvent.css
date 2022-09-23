@@ -1,14 +1,23 @@
 h1.new-event {
+  font-family: Graphik Meetup,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+  font-weight: bolder;
   text-align: center;
 }
 
-/* .errors {
-  margin-bottom: 1rem;
+.event-errors {
   color: red;
-} */
+  display: grid;
+  justify-content: center;
+  font-family: Graphik Meetup,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+  font-size: 18px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
 
 textarea, select {
   border-radius: .5rem;
+  width: 195px;
+  margin: 1rem 0;
 }
 
 .create-button {
@@ -20,4 +29,5 @@ textarea, select {
   border: none;
   background-color: #f65858;
   margin-bottom: 1rem;
+  width: 200px;
 }
