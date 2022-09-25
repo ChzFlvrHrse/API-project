@@ -63,7 +63,7 @@ function GroupRoll({ group }) {
               </p>
             </div>
             <div className='members'>
-              {group.numMembers}{' members · '}{privateStatus}
+              {group.numMembers ? group.numMembers : 0}{' members · '}{privateStatus}
             </div>
           </div>
           </Link>

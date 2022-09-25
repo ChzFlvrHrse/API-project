@@ -24,10 +24,6 @@ function EventRoll({ event }) {
     image = 'https://www.travelandleisure.com/thmb/lZeCZo1hq_41edFv-hEop-VtQ-w=/1600x1200/smart/filters:no_upscale()/red-pink-orange-purple-sunset-WHYCOLORS1220-7684b47c858b4e1e9d73018e213c7ff3.jpg'
   }
 
-  if (event.numAttending === '') {
-    
-  }
-
   return (
     <>
       <div className='events-container'>
@@ -50,7 +46,7 @@ function EventRoll({ event }) {
                 {location}
               </div>
               <div className='attendees'>
-                {event.numAttending}{' attendees'}
+                {event.numAttending >= 1 ? event.numAttending : 0}{' attendees'}
               </div>
             </div>
           </Link>
