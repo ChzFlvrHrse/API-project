@@ -51,12 +51,17 @@ function EventById() {
     privacyStatus = 'Public'
   }
 
+  const convertDate = (date) => {
+    const dateInfo = { year: "numeric", month: "long", day: "numeric"};
+    return new Date(date).toLocaleDateString(undefined, dateInfo)
+  }
+
   return (
     <>
       <div className="entire">
         <div className="event-details">
           <div className="details">
-            <h4 className="h4">{targetEvent?.startDate}</h4>
+            <h4 className="h4">{convertDate(targetEvent?.startDate)}</h4>
             <h1 className="h1">{targetEvent?.name}</h1>
             <h4 className="h4">{"Host By: "}{targetEvent?.Group.name}</h4>
             <h4 className="h4">{privacyStatus}{' Group'}</h4>
@@ -92,7 +97,7 @@ function EventById() {
               <div id='name-group'>
                 <div className="group-name">
                   <i class="fa-solid fa-clock"></i>
-                  {targetEvent?.startDate}{' to '}{targetEvent?.endDate}
+                  {convertDate(targetEvent?.startDate)}{' to '}{convertDate(targetEvent?.endDate)}
                 </div>
                 <div className="privacy-2">
                   <i class="fa-solid fa-location-dot"></i>

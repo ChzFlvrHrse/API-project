@@ -24,6 +24,13 @@ function EventRoll({ event }) {
     image = 'https://www.travelandleisure.com/thmb/lZeCZo1hq_41edFv-hEop-VtQ-w=/1600x1200/smart/filters:no_upscale()/red-pink-orange-purple-sunset-WHYCOLORS1220-7684b47c858b4e1e9d73018e213c7ff3.jpg'
   }
 
+  let date = event.startDate
+
+  const convertDate = (date) => {
+    const dateInfo = { year: "numeric", month: "long", day: "numeric"};
+    return new Date(date).toLocaleDateString(undefined, dateInfo)
+  }
+
   return (
     <>
       <div className='events-container'>
@@ -37,7 +44,7 @@ function EventRoll({ event }) {
           <Link exact to={`/events/${event.id}`}>
             <div className='event-roll-container'>
               <div className='date'>
-                {event.startDate}
+                {convertDate(date)}
               </div>
               <div className='event-name'>
                 {event.name}
