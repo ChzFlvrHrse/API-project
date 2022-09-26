@@ -37,10 +37,10 @@
    ![Group Details](https://user-images.githubusercontent.com/87671074/187112441-e7594465-7f47-4375-96e4-23a12e07b53d.png)
 
 ### Create Group
-  ![Create Group](https://user-images.githubusercontent.com/87671074/187112885-bcc92b4e-e6a1-4589-b106-137264805865.png)
+  ![Create-Group-Page](https://user-images.githubusercontent.com/87671074/192171719-dea953d2-520e-4b28-abdb-3ab45cf26c8c.png)
 
 ### Create Event
-  ![Create Event](https://user-images.githubusercontent.com/87671074/187113036-f2013f1c-0c55-442f-a0f6-582dec1de129.png)
+  ![Create-Event-Page](https://user-images.githubusercontent.com/87671074/192171723-047d11ae-a17b-4b4c-b841-388c33ee8f4b.png)
 
 ### Database Schema
   ![meetup_dbdiagram](https://user-images.githubusercontent.com/87671074/187113115-6eb9a70c-afce-4f68-8972-71cbae96a505.png)
