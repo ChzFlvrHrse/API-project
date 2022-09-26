@@ -49,7 +49,7 @@ function GroupById() {
           <div>
 
             <h5 className="group-tag"><i class="fa-solid fa-users"></i>{`${privacyStatus} Group`}</h5>
-            <h5 className="group-tag"><i class="fa-solid fa-location-dot"></i>{`${targetEvent?.numMembers} members · ${targetEvent.city}`}</h5>
+            <h5 className="group-tag"><i class="fa-solid fa-location-dot"></i>{`${targetEvent?.numMembers ? targetEvent.numMembers : 0} members · ${targetEvent.city}`}</h5>
             {/* <h5 className="group-tag"><i class="fa-solid fa-user"></i>{`Organized by ${user?.username}`}</h5> */}
           </div>
         </div>
