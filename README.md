@@ -1,7 +1,7 @@
 # This is MetUp a Meetup clone
 
 ## Introduction
-  This webisite is intended to replicate a few key fetures and general look and feel of the website Meetup
+  This webisite is intended to replicate a few key features and general look and feel of the website Meetup
   
   Site Link: https://meetup-project-aa.herokuapp.com/
   
