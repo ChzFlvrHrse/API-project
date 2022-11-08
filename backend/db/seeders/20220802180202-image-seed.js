@@ -23,6 +23,7 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
+    options.tableName='Images'
     await queryInterface.bulkDelete(options)
   }
 };
