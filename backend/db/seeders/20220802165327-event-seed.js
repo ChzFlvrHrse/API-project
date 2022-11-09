@@ -2,15 +2,9 @@
 
 const { query } = require("express");
 
-let options = {};
-if (process.env.NODE_ENV === 'production') {
-  options.schema = process.env.SCHEMA;  // define your schema in options object
-}
-
 module.exports = {
   async up (queryInterface, Sequelize) {
-    options.tableName='Events'
-    await queryInterface.bulkInsert(options, [
+    await queryInterface.bulkInsert('Events', [
       {
         groupId: 1,
         venueId: null,
@@ -41,7 +35,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    options.tableName='Events'
-    await queryInterface.bulkDelete(options)
+    await queryInterface.bulkDelete("Events")
   }
 };
