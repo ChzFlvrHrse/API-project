@@ -3,7 +3,7 @@
 ## Introduction
   This website is intended to replicate a few key features and general look and feel of the website Meetup
 
-  Site Link: [Metup](https://metup-app.onrender.com)
+  Site Link: https://meetup-project-aa.herokuapp.com/
 
 ## Tech Stack
   Frameworks, Libraries, and Platform:
