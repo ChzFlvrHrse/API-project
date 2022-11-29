@@ -47,7 +47,7 @@ function LoginFormPage() {
         <div>
           <input
             type="text"
-            value={username}
+            value={credential}
             onChange={(e) => setCredential(e.target.value)}
             required
           />

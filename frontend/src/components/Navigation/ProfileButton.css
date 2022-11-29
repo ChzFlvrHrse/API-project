@@ -9,6 +9,7 @@
 
 .user-icon i:hover {
   opacity: .8;
+  cursor: pointer;
 }
 
 .profile-dropdown {
