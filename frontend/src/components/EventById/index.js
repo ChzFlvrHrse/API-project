@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory, Link } from "react-router-dom";
 import { getEventsThunk, deleteEventThunk } from "../../store/events";
 import { csrfFetch } from "../../store/csrf";
 import "./EventById.css";
@@ -52,7 +52,7 @@ function EventById() {
   }
 
   const convertDate = (date) => {
-    const dateInfo = { year: "numeric", month: "long", day: "numeric"};
+    const dateInfo = { year: "numeric", month: "long", day: "numeric" };
     return new Date(date).toLocaleDateString(undefined, dateInfo)
   }
 
@@ -63,7 +63,7 @@ function EventById() {
           <div className="details">
             <h4 className="h4">{convertDate(targetEvent?.startDate)}</h4>
             <h1 className="h1">{targetEvent?.name}</h1>
-            <h4 className="h4">{"Host By: "}{targetEvent?.Group.name}</h4>
+            <h4 className="h4">{"Group: "}{targetEvent?.Group.name}</h4>
             <h4 className="h4">{privacyStatus}{' Group'}</h4>
           </div>
           <div className="manipulate">
@@ -82,17 +82,19 @@ function EventById() {
             <p className="details">{targetEvent?.description}</p>
           </div>
           <div className="visuals-2">
-            <div className="small-image">
-              <img src={image} />
-              <div id='name-group'>
-                <div className="group-name">
-                  {targetEvent?.Group.name}
-                </div>
-                <div className="privacy">
-                  {privacyStatus}{' Group'}
+            <Link to={`/groups/${targetEvent?.Group?.id}`}>
+              <div className="small-image">
+                <img src={image} />
+                <div id='name-group'>
+                  <div className="group-name">
+                    {targetEvent?.Group.name}
+                  </div>
+                  <div className="privacy">
+                    {privacyStatus}{' Group'}
+                  </div>
                 </div>
               </div>
-            </div>
+            </Link>
             <div className="small-info">
               <div id='name-group'>
                 <div className="group-name">
