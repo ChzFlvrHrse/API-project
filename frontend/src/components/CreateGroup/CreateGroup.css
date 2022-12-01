@@ -2,6 +2,10 @@ h1.new-group {
   text-align: center;
 }
 
+.about-group {
+  resize: vertical;
+}
+
 .create-button {
   font-size: 15px;
   font-weight: bold;
@@ -12,4 +16,5 @@ h1.new-group {
   background-color: #f65858;
   margin-bottom: 2rem;
   margin-top: 1rem;
+  cursor: pointer;
 }

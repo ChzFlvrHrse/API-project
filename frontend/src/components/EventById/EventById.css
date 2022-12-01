@@ -40,6 +40,7 @@
   background-color: #f65858;
   width: 6rem;
   height: 3rem;
+  cursor: pointer;
 }
 
 .more-details {

@@ -107,6 +107,7 @@ function CreateGroup() {
             placeholder='Must be more than 50 characters'
             rows='5'
             cols='40'
+            className="about-group"
           >
           </textarea>
           <label>
@@ -121,13 +122,21 @@ function CreateGroup() {
             <option>In person</option>
           </select>
           <label>
-            Private:
+            Privacy Status:
           </label>
-          <input
+          {/* <input
             onChange={event => setPrivateStat(event.target.value)}
             value={privateStat}
           >
-          </input>
+          </input> */}
+          <select
+            onChange={event => setPrivateStat(event.target.value)}
+            value={privateStat}
+          >
+            <option>Status</option>
+            <option value="private">Private</option>
+            <option value="public">Public</option>
+          </select>
           <label>
             City:
           </label>
@@ -196,6 +205,15 @@ function CreateGroup() {
             <option value="WI">Wisconsin</option>
             <option value="WY">Wyoming</option>
           </select>
+          {/* <label>
+            Preview Image
+          </label>
+          <input
+            type='text'
+            onChange={event => setPreviewImg(event.target.value)}
+            value={previewImg}
+          >
+          </input> */}
           <button
             type='submit'
             disabled={errorValidation.length > 0 ? true : false}

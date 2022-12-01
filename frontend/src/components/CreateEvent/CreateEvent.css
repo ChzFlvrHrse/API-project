@@ -30,4 +30,5 @@ textarea, select {
   background-color: #f65858;
   margin-bottom: 1rem;
   width: 200px;
+  cursor: pointer;
 }
