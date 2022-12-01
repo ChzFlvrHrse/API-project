@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { getEventsThunk, deleteEventThunk } from "../../store/events";
-import { csrfFetch } from "../../store/csrf";
 import "./EventById.css";
 
 function EventById() {
