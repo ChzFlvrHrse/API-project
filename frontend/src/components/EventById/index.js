@@ -4,6 +4,7 @@ import { useParams, useHistory, Link } from "react-router-dom";
 import { getEventsThunk, deleteEventThunk } from "../../store/events";
 import "./EventById.css";
 
+
 function EventById() {
   const dispatch = useDispatch()
   const history = useHistory()
