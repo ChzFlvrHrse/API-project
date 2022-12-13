@@ -91,3 +91,7 @@
 .toggleResultsSearch:hover {
     cursor: pointer;
 }
+
+.fa-xmark:hover {
+    cursor: pointer;
+}

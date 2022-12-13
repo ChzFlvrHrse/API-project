@@ -36,7 +36,6 @@ export function SearchBar() {
     const allEvents = useSelector(state => state.events.Events);
     const allGroups = useSelector(state => state.groups.entries);
 
-    // console.log(allGroups)
 
     if (allEvents !== undefined) {
         allEventsArr = Object.values(allEvents);
@@ -74,7 +73,7 @@ export function SearchBar() {
                         onChange={handleSubmit}
                         value={search}
                     ></input>
-                    {search.length > 0 ? <i class="fa-solid fa-xmark"></i> : <></>}
+                    {search.length > 0 ? <i class="fa-solid fa-xmark" onClick={() => setSearch("")}></i> : <></>}
                 </div>
                 <div className="results-parent">
                     <div className={search?.length ? "SearchBarContainer" : "HiddenResult"}>
