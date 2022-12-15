@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { createUser } from "../../store/session";
 import * as sessionActions from "../../store/session";
 import './SignupForm.css';
 
@@ -9,23 +10,48 @@ function SignupFormPage() {
   const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
+  const [image, setImage] = useState(null);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
 
   if (sessionUser) return <Redirect to="/" />;
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (password === confirmPassword) {
+  //     setErrors([]);
+  //     return dispatch(sessionActions.signup({ email, username, password, profileImg }))
+  //       .catch(async (res) => {
+  //         const data = await res.json();
+  //         if (data && data.errors) setErrors(data.errors);
+  //       });
+  //   }
+  //   return setErrors(['Confirm Password field must be the same as the Password field']);
+  // };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (password === confirmPassword) {
-      setErrors([]);
-      return dispatch(sessionActions.signup({ email, username, password }))
-        .catch(async (res) => {
-          const data = await res.json();
-          if (data && data.errors) setErrors(data.errors);
-        });
-    }
-    return setErrors(['Confirm Password field must be the same as the Password field']);
+    let newErrors = [];
+    dispatch(createUser({ username, email, password, image }))
+      .then(() => {
+        setUsername("");
+        setEmail("");
+        setPassword("");
+        setImage(null);
+      })
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) {
+          newErrors = data.errors;
+          setErrors(newErrors);
+        }
+      });
+  };
+
+  const updateFile = (e) => {
+    const file = e.target.files[0];
+    if (file) setImage(file);
   };
 
   const demo = (e) => {
@@ -67,6 +93,13 @@ function SignupFormPage() {
             onChange={(e) => setUsername(e.target.value)}
             required
           />
+        </div>
+        <label>
+          Profile Image (Optional)
+
+        </label>
+        <div>
+          <input className='aws' type="file" onChange={updateFile} />
         </div>
         <label>
           Password
