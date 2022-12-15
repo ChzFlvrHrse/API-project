@@ -1,4 +1,7 @@
 'use strict';
+
+const { STRING } = require("sequelize");
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Users', {
@@ -27,6 +30,9 @@ module.exports = {
       hashedPassword: {
         type: Sequelize.STRING.BINARY,
         allowNull: false
+      },
+      profileImg: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

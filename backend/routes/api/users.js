@@ -1,5 +1,4 @@
-// import { singlePublicFileUpload, singleMulterUpload } from '../../awsS3.js'
-
+const { singleMulterUpload, singlePublicFileUpload } = require('../../awsS3')
 const express = require('express')
 const router = express.Router();
 
@@ -7,6 +6,7 @@ const { setTokenCookie, requireAuth } = require('../../utils/auth')
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { User } = require('../../db/models')
+const asyncHandler = require('express-async-handler');
 
 const validateSignup = [
   check('email')
@@ -28,37 +28,39 @@ const validateSignup = [
   handleValidationErrors
 ];
 
-router.post('/', validateSignup, async (req, res) => {
-    const { email, password, username } = req.body;
-    const user = await User.signup({ username, email, password });
+// router.post('/', validateSignup, singleMulterUpload("image"), async (req, res) => {
+//     const { email, password, username, profileImg } = req.body;
+//     const awsS3Func = singlePublicFileUpload(profileImg)
+//     const user = await User.signup({ username, email, password, profileImg: awsS3Func });
 
-    await setTokenCookie(res, user);
-
-    return res.json({
-      user
-    });
-});
-
-// router.post(
-//   "/",
-//   singleMulterUpload("image"),
-//   validateSignup,
-//   asyncHandler(async (req, res) => {
-//     const { email, password, username } = req.body;
-//     const profileImageUrl = await singlePublicFileUpload(req.file);
-//     const user = await User.signup({
-//       username,
-//       email,
-//       password,
-//       profileImageUrl,
-//     });
-
-//     setTokenCookie(res, user);
+//     await setTokenCookie(res, user);
 
 //     return res.json({
-//       user,
+//       user
 //     });
-//   })
-// );
+// });
+
+router.post(
+  "/",
+  singleMulterUpload("image"),
+  validateSignup,
+  asyncHandler(async (req, res) => {
+    const { email, password, username } = req.body;
+    console.log('multer', singleMulterUpload('image'))
+    const profileImg = await singlePublicFileUpload(req.file);
+    const user = await User.signup({
+      username,
+      email,
+      password,
+      profileImg,
+    });
+
+    setTokenCookie(res, user);
+
+    return res.json({
+      user,
+    });
+  })
+);
 
 module.exports = router;
