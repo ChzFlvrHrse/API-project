@@ -46,7 +46,6 @@ router.post(
   validateSignup,
   asyncHandler(async (req, res) => {
     const { email, password, username } = req.body;
-    console.log('multer', singleMulterUpload('image'))
     const profileImg = await singlePublicFileUpload(req.file);
     const user = await User.signup({
       username,
