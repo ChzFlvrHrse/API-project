@@ -47,3 +47,10 @@
   width: 6rem;
   height: 1.5rem;
 }
+
+.prof-pic img {
+  object-fit: cover;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 1.5rem;
+}
