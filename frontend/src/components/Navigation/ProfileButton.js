@@ -32,6 +32,8 @@ function ProfileButton({ user }) {
     history.push('/')
   };
 
+  console.log(user)
+
   return (
     <>
       <div className="user-icon" onClick={openMenu}>
