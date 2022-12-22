@@ -17,11 +17,12 @@ module.exports = {
         }
       },
       venueId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Venues',
-        },
-        onDelete: 'CASCADE'
+        type: Sequelize.STRING,
+        // references: {
+        //   model: 'Venues',
+        // },
+        // onDelete: 'CASCADE',
+        allowNull: true
       },
       name: {
         type: Sequelize.STRING,

@@ -21,10 +21,10 @@ module.exports = (sequelize, DataTypes) => {
         models.Group,
         { foreignKey: 'groupId' }
       ),
-      Event.belongsTo(
-        models.Venue,
-        { foreignKey: 'venueId', onDelete: 'CASCADE', hooks: true }
-      ),
+      // Event.belongsTo(
+      //   models.Venue,
+      //   { foreignKey: 'venueId', onDelete: 'CASCADE', hooks: true }
+      // ),
       Event.hasMany(
         models.Attendance,
         { foreignKey: 'eventId', onDelete: 'CASCADE', hooks: true }
@@ -47,11 +47,12 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: "CASCADE"
     },
     venueId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'Venues'
-      },
-      onDelete: 'CASCADE'
+      type: DataTypes.STRING,
+      // references: {
+      //   model: 'Venues'
+      // },
+      // onDelete: 'CASCADE',
+      allowNull: true
     },
     name: {
       type: DataTypes.STRING,

@@ -11,7 +11,7 @@ function CreateEvent() {
   const sessionUser = useSelector(state => state.session.user);
   const history = useHistory()
 
-  const [venueId, setVenueId] = useState(1);
+  const [venueId, setVenueId] = useState(null);
   const [name, setName] = useState('');
   const [type, setType] = useState('');
   const [numAttending, setNumAttending] = useState('');
