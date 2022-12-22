@@ -1,5 +1,7 @@
+const { singleMulterUpload, singlePublicFileUpload } = require('../../awsS3')
 const express = require('express');
 const router = express.Router();
+const asyncHandler = require('express-async-handler');
 
 const { User, Group, Image, Venue, Event, Membership } = require('../../db/models');
 
@@ -279,9 +281,11 @@ router.get('/:groupId/events', async (req, res) => {
   }
 });
 
-router.post('/:groupId/events', async (req, res) => {
+router.post('/:groupId/events', singleMulterUpload("image"), asyncHandler(async (req, res) => {
   const { groupId } = req.params;
-  const { venueId, name, type, capacity, price, description, startDate, endDate, previewImg, user } = req.body;
+  const { venueId, name, type, capacity, price, description, startDate, endDate, user } = req.body;
+  const previewImage = await singlePublicFileUpload(req.file);
+  console.log(previewImage)
   let currUserId;
 
   if (req.user.dataValues) {
@@ -304,7 +308,7 @@ router.post('/:groupId/events', async (req, res) => {
   }
 
   if (byGroupId && (byGroupId.organizerId === currUserId || coHost)) {
-    await Event.create({ groupId: Number(groupId), venueId, name, type, capacity, price, description, startDate, endDate, previewImage: previewImg });
+    await Event.create({ groupId: Number(groupId), venueId, name, type, capacity, price, description, startDate, endDate, previewImage });
 
     const theEvent = await Event.findOne({
       where: { venueId, groupId, name, capacity },
@@ -334,7 +338,8 @@ router.post('/:groupId/events', async (req, res) => {
       }
     })
   }
-});
+})
+);
 
 router.get('/:groupId/members', async (req, res) => {
   const { groupId } = req.params;
@@ -484,15 +489,15 @@ router.put('/:groupId/members', async (req, res) => {
       res.json(updated)
     }
   } else {
-      res.status(404);
-      res.json({
-        message: "Validation Error",
-        statusCode: 404,
-        error: {
-          userId: "Membership between the user and the group does not exists"
-        }
-      })
-    }
+    res.status(404);
+    res.json({
+      message: "Validation Error",
+      statusCode: 404,
+      error: {
+        userId: "Membership between the user and the group does not exists"
+      }
+    })
+  }
 })
 
 router.delete('/:groupId/members', async (req, res) => {

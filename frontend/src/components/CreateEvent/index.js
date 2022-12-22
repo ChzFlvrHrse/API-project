@@ -11,7 +11,7 @@ function CreateEvent() {
   const sessionUser = useSelector(state => state.session.user);
   const history = useHistory()
 
-  const [venueId, setVenueId] = useState(null);
+  const [venueId, setVenueId] = useState(1);
   const [name, setName] = useState('');
   const [type, setType] = useState('');
   const [numAttending, setNumAttending] = useState('');
@@ -19,7 +19,7 @@ function CreateEvent() {
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [previewImg, setPreviewImg] = useState('');
+  const [image, setImage] = useState(null);
   const [errorValidation, setErrorValidations] = useState([]);
 
   const numberValidation = new RegExp('^[0-9]*$')
@@ -46,13 +46,13 @@ function CreateEvent() {
     if (!startDate) errors.push("Start date is required")
     if (!endDate) errors.push("End date is required")
 
-    if (previewImg.length > 1000) errors.push('Preview image must be less than 1000 charcters');
+    // if (image.length > 1000) errors.push('Preview image must be less than 1000 charcters');
 
-    if ((new Date().getTime() >= new Date(startDate))) errors.push('Event must occur in the future')
+    if (new Date().getTime() >= new Date(startDate)) errors.push('Event must occur in the future')
     if ((new Date(endDate) - new Date(startDate)) < 0) errors.push('End date must occur after the start date')
 
     setErrorValidations(errors)
-  }, [venueId, name, type, numAttending, price, description, startDate, endDate, previewImg]);
+  }, [venueId, name, type, numAttending, price, description, startDate, endDate, image]);
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -68,11 +68,12 @@ function CreateEvent() {
       startDate,
       endDate,
       venueId,
-      previewImg,
+      image,
       user: sessionUser
     }
 
     const createdEvent = await dispatch(newEventThunk(newEvent, groupId))
+    console.log(createdEvent)
     if (createdEvent.errors) {
       const errList = Object.values(createdEvent.errors)
       const flatten = [...errList]
@@ -80,6 +81,11 @@ function CreateEvent() {
       setErrorValidations(errors)
     } else { history.push(`/events/${createdEvent.id}`) }
   }
+
+  const updateFile = (e) => {
+    const file = e.target.files[0];
+    if (file) setImage(file);
+  };
 
   if (!sessionUser) {
     return (
@@ -169,12 +175,13 @@ function CreateEvent() {
           >
           </input>
           <label>
-            Preview Image
+            Preview Image (Optional):
           </label>
           <input
-            type='text'
-            onChange={event => setPreviewImg(event.target.value)}
-            value={previewImg}
+            type='file'
+            className="aws"
+            onChange={updateFile}
+            // value={image}
           >
           </input>
           <button

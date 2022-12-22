@@ -73,14 +73,13 @@ export const createUser = (user) => async (dispatch) => {
 
   // for single file
   if (image) formData.append("image", image);
-  // console.log('image', image)
 
   const res = await csrfFetch(`/api/users/`, {
     method: "POST",
     headers: {
       "Content-Type": "multipart/form-data",
     },
-    body: formData,
+    body: formData
   });
 
   const data = await res.json();

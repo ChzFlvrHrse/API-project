@@ -45,17 +45,33 @@ export const getEventsThunk = () => async dispatch => {
 };
 
 export const newEventThunk = (event, groupId) => async dispatch => {
-  const response = await csrfFetch(`/api/groups/${groupId}/events`, {
+  const { name, type, capacity, price, description, startDate, endDate, venueId, image, user} = event
+  const formData = new FormData();
+  formData.append('name', name);
+  formData.append('type', type);
+  formData.append('capacity', capacity);
+  formData.append('price', price);
+  formData.append('description', description);
+  formData.append('startDate', startDate);
+  formData.append('endDate', endDate);
+  formData.append('venueId', venueId);
+  formData.append('user', user);
+
+  if (image) formData.append("image", image);
+
+  const res = await csrfFetch(`/api/groups/${groupId}/events`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json'},
-    body: JSON.stringify(event)
+    headers: { 'Content-Type': 'multipart/form-data'},
+    body: formData
   });
 
-  if (response.ok) {
-    const createdEvent = await response.json();
-    dispatch(newEvent(createdEvent))
-    return createdEvent
-  }
+  // if (response.ok) {
+  //   const createdEvent = await response.json();
+  //   dispatch(newEvent(createdEvent))
+  //   return createdEvent
+  // }
+  const data = await res.json();
+  dispatch(newEvent(data.event));
 }
 
 export const deleteEventThunk = (id) => async dispatch => {

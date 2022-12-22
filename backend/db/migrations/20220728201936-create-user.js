@@ -1,7 +1,5 @@
 'use strict';
 
-const { STRING } = require("sequelize");
-
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Users', {

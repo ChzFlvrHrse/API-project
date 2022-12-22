@@ -28,18 +28,6 @@ const validateSignup = [
   handleValidationErrors
 ];
 
-// router.post('/', validateSignup, singleMulterUpload("image"), async (req, res) => {
-//     const { email, password, username, profileImg } = req.body;
-//     const awsS3Func = singlePublicFileUpload(profileImg)
-//     const user = await User.signup({ username, email, password, profileImg: awsS3Func });
-
-//     await setTokenCookie(res, user);
-
-//     return res.json({
-//       user
-//     });
-// });
-
 router.post(
   "/",
   singleMulterUpload("image"),
