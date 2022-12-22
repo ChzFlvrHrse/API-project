@@ -285,7 +285,7 @@ router.post('/:groupId/events', singleMulterUpload("image"), asyncHandler(async 
   const { groupId } = req.params;
   const { venueId, name, type, capacity, price, description, startDate, endDate, user } = req.body;
   const previewImage = await singlePublicFileUpload(req.file);
-  console.log(previewImage)
+  
   let currUserId;
 
   if (req.user.dataValues) {

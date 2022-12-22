@@ -73,13 +73,8 @@ function CreateEvent() {
     }
 
     const createdEvent = await dispatch(newEventThunk(newEvent, groupId))
-    console.log(createdEvent)
-    if (createdEvent.errors) {
-      const errList = Object.values(createdEvent.errors)
-      const flatten = [...errList]
-      flatten.map(e => errors.push(e.msg))
-      setErrorValidations(errors)
-    } else { history.push(`/events/${createdEvent.id}`) }
+
+    history.push(`/events`)
   }
 
   const updateFile = (e) => {
