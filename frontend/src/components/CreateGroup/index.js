@@ -13,7 +13,7 @@ function CreateGroup() {
   const [name, setName] = useState('');
   const [about, setAbout] = useState('');
   const [type, setType] = useState('');
-  const [privateStat, setPrivateStat] = useState('private');
+  const [privateStat, setPrivateStat] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [previewImg, setPreviewImg] = useState('');
@@ -64,7 +64,9 @@ function CreateGroup() {
       const flatten = [...errList]
       flatten.map(e => errors.push(e.msg))
       setErrorValidations(errors)
-    } else { history.push(`/groups`) }
+    } else {
+      history.push('/groups')
+    }
   }
 
   if (!sessionUser) {

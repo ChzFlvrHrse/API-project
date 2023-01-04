@@ -172,7 +172,7 @@ export function SearchBar() {
                                                 <Link to={`/groups/${group.id}`}>
                                                     <img
                                                         className="SearchRecipeIndividual"
-                                                        src={group.Images[0]?.url || "https://www.travelandleisure.com/thmb/lZeCZo1hq_41edFv-hEop-VtQ-w=/1600x1200/smart/filters:no_upscale()/red-pink-orange-purple-sunset-WHYCOLORS1220-7684b47c858b4e1e9d73018e213c7ff3.jpg"}
+                                                        src={"https://www.travelandleisure.com/thmb/lZeCZo1hq_41edFv-hEop-VtQ-w=/1600x1200/smart/filters:no_upscale()/red-pink-orange-purple-sunset-WHYCOLORS1220-7684b47c858b4e1e9d73018e213c7ff3.jpg"}
                                                     />
                                                 </Link>
                                                 <Link

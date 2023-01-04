@@ -55,8 +55,8 @@ function App() {
             </Route>
             <Route exact path="/groups">
               <SubNav />
-              <Groups />
               {user? <GroupButton />:''}
+              <Groups />
             </Route>
             <Route exact path="/groups/:groupId/events">
               <CreateEvent />

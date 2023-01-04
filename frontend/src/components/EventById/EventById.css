@@ -59,6 +59,7 @@
   height: 20rem;
   width: 35rem;
   border-radius: 1rem;
+  object-fit: cover;
 }
 
 #detes {
@@ -90,6 +91,7 @@ p.details {
   height: 60px;
   width: 60px;
   border-radius: 1rem;
+  object-fit: cover;
 }
 
 .small-info {
